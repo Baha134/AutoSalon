@@ -24,7 +24,13 @@ public class Car
     public bool IsActive { get; set; } = true;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+    // Навигационные свойства
     public List<CarPhoto> Photos { get; set; } = new();
     public CarBadge? Badge { get; set; }
     public List<Lead> Leads { get; set; } = new();
+
+    // Вспомогательные свойства (не в БД)
+    public CarPhoto? MainPhoto => Photos.FirstOrDefault(p => p.IsMain) ?? Photos.FirstOrDefault();
+    public string DisplayPrice => Price.ToString("N0") + " ₸";
+    public string DisplayMileage => Mileage == 0 ? "Новый" : Mileage.ToString("N0") + " км";
 }

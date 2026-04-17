@@ -10,39 +10,103 @@ public class CarService : ICarService
     private readonly AppDbContext _db;
     public CarService(AppDbContext db) => _db = db;
 
-    public async Task<List<Car>> GetAllAsync(CatalogFilterViewModel? filter = null)
+    public async Task<(List<Car> Items, int Total)> GetFilteredAsync(CarFilterViewModel filter)
     {
-        var q = _db.Cars.Include(c => c.Photos).Include(c => c.Badge)
-                        .Where(c => c.IsActive).AsQueryable();
+        var q = _db.Cars
+            .Include(c => c.Photos)
+            .Include(c => c.Badge)
+            .Where(c => c.IsActive)
+            .AsQueryable();
 
-        if (filter != null)
+        // Фильтры
+        if (!string.IsNullOrEmpty(filter.Brand))
+            q = q.Where(c => c.Brand == filter.Brand);
+        if (!string.IsNullOrEmpty(filter.BodyType))
+            q = q.Where(c => c.BodyType == filter.BodyType);
+        if (!string.IsNullOrEmpty(filter.Transmission))
+            q = q.Where(c => c.Transmission == filter.Transmission);
+        if (!string.IsNullOrEmpty(filter.FuelType))
+            q = q.Where(c => c.FuelType == filter.FuelType);
+        if (filter.PriceMin.HasValue)
+            q = q.Where(c => c.Price >= filter.PriceMin.Value);
+        if (filter.PriceMax.HasValue)
+            q = q.Where(c => c.Price <= filter.PriceMax.Value);
+        if (filter.YearMin.HasValue)
+            q = q.Where(c => c.Year >= filter.YearMin.Value);
+        if (filter.YearMax.HasValue)
+            q = q.Where(c => c.Year <= filter.YearMax.Value);
+        if (filter.MileageMax.HasValue)
+            q = q.Where(c => c.Mileage <= filter.MileageMax.Value);
+        if (!string.IsNullOrEmpty(filter.Search))
         {
-            if (!string.IsNullOrEmpty(filter.Brand))
-                q = q.Where(c => c.Brand == filter.Brand);
-            if (filter.MinPrice.HasValue)
-                q = q.Where(c => c.Price >= filter.MinPrice.Value);
-            if (filter.MaxPrice.HasValue)
-                q = q.Where(c => c.Price <= filter.MaxPrice.Value);
-            if (!string.IsNullOrEmpty(filter.BodyType))
-                q = q.Where(c => c.BodyType == filter.BodyType);
-            if (!string.IsNullOrEmpty(filter.Transmission))
-                q = q.Where(c => c.Transmission == filter.Transmission);
+            var s = filter.Search.ToLower();
+            q = q.Where(c => c.Brand.ToLower().Contains(s) || c.Model.ToLower().Contains(s));
         }
 
-        return await q.OrderByDescending(c => c.CreatedAt).ToListAsync();
+        // Статус
+        if (filter.Status.HasValue)
+            q = q.Where(c => c.Status == filter.Status.Value);
+        else
+            q = q.Where(c => c.Status != CarStatus.Sold);
+
+        // Сортировка
+        q = filter.Sort switch
+        {
+            "price_asc" => q.OrderBy(c => c.Price),
+            "price_desc" => q.OrderByDescending(c => c.Price),
+            "year_desc" => q.OrderByDescending(c => c.Year),
+            "popular" => q.OrderByDescending(c => c.ViewCount),
+            _ => q.OrderByDescending(c => c.CreatedAt) // "new" — по умолчанию
+        };
+
+        var total = await q.CountAsync();
+        var items = await q
+            .Skip((filter.Page - 1) * filter.PageSize)
+            .Take(filter.PageSize)
+            .ToListAsync();
+
+        return (items, total);
     }
 
+    public async Task<List<string>> GetBrandsAsync() =>
+        await _db.Cars
+            .Where(c => c.IsActive)
+            .Select(c => c.Brand)
+            .Distinct()
+            .OrderBy(b => b)
+            .ToListAsync();
+
     public async Task<Car?> GetBySlugAsync(string slug) =>
-        await _db.Cars.Include(c => c.Photos).Include(c => c.Badge)
-                      .FirstOrDefaultAsync(c => c.Slug == slug);
+        await _db.Cars
+            .Include(c => c.Photos.OrderBy(p => p.SortOrder))
+            .Include(c => c.Badge)
+            .FirstOrDefaultAsync(c => c.Slug == slug);
 
     public async Task<Car?> GetByIdAsync(int id) =>
-        await _db.Cars.Include(c => c.Photos).Include(c => c.Badge)
-                      .FirstOrDefaultAsync(c => c.Id == id);
+        await _db.Cars
+            .Include(c => c.Photos.OrderBy(p => p.SortOrder))
+            .Include(c => c.Badge)
+            .FirstOrDefaultAsync(c => c.Id == id);
+
+    public async Task<List<Car>> GetByIdsAsync(IEnumerable<int> ids) =>
+        await _db.Cars
+            .Include(c => c.Photos)
+            .Include(c => c.Badge)
+            .Where(c => ids.Contains(c.Id) && c.IsActive)
+            .ToListAsync();
+
+    public async Task<List<Car>> GetSimilarAsync(int carId, string brand, int count = 4) =>
+        await _db.Cars
+            .Include(c => c.Photos)
+            .Where(c => c.Id != carId && c.Brand == brand && c.IsActive && c.Status == CarStatus.Active)
+            .OrderByDescending(c => c.CreatedAt)
+            .Take(count)
+            .ToListAsync();
 
     public async Task<int> CreateAsync(Car car)
     {
         car.Slug = await GenerateSlugAsync(car);
+        car.CreatedAt = DateTime.UtcNow;
         _db.Cars.Add(car);
         await _db.SaveChangesAsync();
         return car.Id;
@@ -57,23 +121,36 @@ public class CarService : ICarService
     public async Task DeleteAsync(int id)
     {
         var car = await _db.Cars.FindAsync(id);
-        if (car != null) { _db.Cars.Remove(car); await _db.SaveChangesAsync(); }
+        if (car != null)
+        {
+            car.IsActive = false; // Мягкое удаление
+            await _db.SaveChangesAsync();
+        }
     }
 
     public async Task IncrementViewAsync(int id)
     {
-        var car = await _db.Cars.FindAsync(id);
-        if (car != null) { car.ViewCount++; await _db.SaveChangesAsync(); }
+        await _db.Cars
+            .Where(c => c.Id == id)
+            .ExecuteUpdateAsync(s => s.SetProperty(c => c.ViewCount, c => c.ViewCount + 1));
     }
+
+    public async Task<int> GetTotalCountAsync() =>
+        await _db.Cars.CountAsync(c => c.IsActive && c.Status == CarStatus.Active);
 
     private async Task<string> GenerateSlugAsync(Car car)
     {
-        var base_slug = $"{car.Brand}-{car.Model}-{car.Year}-{car.City}"
-            .ToLower().Replace(" ", "-");
-        var slug = base_slug;
+        var baseSlug = $"{car.Brand}-{car.Model}-{car.Year}"
+            .ToLower()
+            .Replace(" ", "-")
+            .Replace("'", "")
+            .Replace("\"", "");
+
+        var slug = baseSlug;
         var i = 1;
         while (await _db.Cars.AnyAsync(c => c.Slug == slug))
-            slug = $"{base_slug}-{i++}";
+            slug = $"{baseSlug}-{i++}";
+
         return slug;
     }
 }

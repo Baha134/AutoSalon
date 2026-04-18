@@ -118,7 +118,6 @@ img {
             background: #e09c00;
         }
 
-/* Бюджет-кнопки */
 .budget-btns {
     display: flex;
     flex-wrap: wrap;
@@ -141,7 +140,6 @@ img {
         background: rgba(255,255,255,.2);
     }
 
-/* Бренды */
 .brand-grid {
     display: flex;
     flex-wrap: wrap;
@@ -171,7 +169,7 @@ img {
         color: rgba(255,255,255,.5);
     }
 
-/* ===== СЕКЦИИ ===== */
+/* ===== SECTIONS ===== */
 .section-title {
     font-size: 22px;
     font-weight: 700;
@@ -185,14 +183,14 @@ img {
     margin-bottom: 20px;
 }
 
-/* ===== СЕТКА КАТАЛОГА ===== */
+/* ===== CAR GRID ===== */
 .car-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
 }
 
-/* ===== КАРТОЧКА АВТО ===== */
+/* ===== CAR CARD ===== */
 .car-card {
     background: #fff;
     border-radius: 12px;
@@ -235,7 +233,6 @@ img {
     font-size: 13px;
 }
 
-/* Статус-бейдж */
 .status-badge {
     position: absolute;
     top: 10px;
@@ -261,7 +258,6 @@ img {
     color: #721c24;
 }
 
-/* Избранное кнопка */
 .fav-btn {
     position: absolute;
     top: 10px;
@@ -284,11 +280,6 @@ img {
         color: #e53935;
     }
 
-    .fav-btn.active {
-        color: #e53935;
-    }
-
-/* Кнопка сравнить */
 .compare-btn {
     position: absolute;
     bottom: 10px;
@@ -307,7 +298,6 @@ img {
         background: #185FA5;
     }
 
-/* Тело карточки */
 .car-card-body {
     padding: 14px 16px;
     flex: 1;
@@ -372,7 +362,6 @@ img {
         flex: 1;
     }
 
-/* Бейджи на карточке */
 .car-badges {
     display: flex;
     flex-wrap: wrap;
@@ -405,7 +394,7 @@ img {
     color: #8a6100;
 }
 
-/* ===== ФИЛЬТРЫ ===== */
+/* ===== FILTERS ===== */
 .catalog-wrap {
     display: grid;
     grid-template-columns: 260px 1fr;
@@ -487,7 +476,6 @@ img {
         background: #0f4a8f;
     }
 
-/* Мобильные фильтры */
 .filters-drawer-btn {
     display: none;
 }
@@ -496,7 +484,6 @@ img {
     display: none;
 }
 
-/* Результаты каталога */
 .catalog-header {
     display: flex;
     align-items: center;
@@ -519,7 +506,7 @@ img {
     background: #fff;
 }
 
-/* ===== ПАГИНАЦИЯ ===== */
+/* ===== PAGINATION ===== */
 .pagination {
     display: flex;
     gap: 6px;
@@ -554,7 +541,7 @@ img {
     color: #185FA5;
 }
 
-/* ===== СТРАНИЦА АВТО ===== */
+/* ===== CAR DETAIL ===== */
 .car-detail-layout {
     display: grid;
     grid-template-columns: 1fr 380px;
@@ -563,7 +550,6 @@ img {
     margin-top: 24px;
 }
 
-/* Галерея */
 .gallery-wrap {
     border-radius: 12px;
     overflow: hidden;
@@ -651,7 +637,6 @@ img {
             border-color: #f0ad00;
         }
 
-/* CTA-блок */
 .car-cta-box {
     background: #fff;
     border-radius: 12px;
@@ -753,7 +738,6 @@ img {
         color: #e53935;
     }
 
-/* Характеристики */
 .car-specs-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -780,7 +764,6 @@ img {
         font-weight: 600;
     }
 
-/* Предупреждение о мошенниках */
 .fraud-warning {
     background: #fff8e1;
     border: 1px solid #f0c040;
@@ -796,7 +779,6 @@ img {
         margin-bottom: 4px;
     }
 
-/* Кредитный калькулятор */
 .calculator-box {
     background: #fff;
     border-radius: 12px;
@@ -854,7 +836,7 @@ img {
         color: #185FA5;
     }
 
-/* ===== СРАВНЕНИЕ ===== */
+/* ===== COMPARE ===== */
 .compare-table-wrap {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -912,7 +894,7 @@ img {
     margin: 0 auto 8px;
 }
 
-/* ===== ИЗБРАННОЕ ===== */
+/* ===== FAVORITES ===== */
 .empty-state {
     text-align: center;
     padding: 60px 20px;
@@ -989,7 +971,7 @@ footer {
     margin-top: 16px;
 }
 
-/* ===== STICKY CTA (мобайл) ===== */
+/* ===== STICKY CTA ===== */
 .sticky-cta {
     display: none;
     position: fixed;
@@ -1059,7 +1041,6 @@ footer {
         font-weight: 700;
     }
 
-/* Stat cards */
 .stat-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -1085,7 +1066,6 @@ footer {
         color: #888;
     }
 
-/* Admin table */
 .admin-table {
     background: #fff;
     border-radius: 12px;
@@ -1123,7 +1103,6 @@ footer {
         background: #fafafa;
     }
 
-/* Status badges */
 .badge-new {
     background: #e3f2fd;
     color: #0c5ea8;
@@ -1154,7 +1133,6 @@ footer {
     color: #1a7a3c;
 }
 
-/* Form styles */
 .form-card {
     background: #fff;
     border-radius: 12px;
@@ -1181,7 +1159,6 @@ footer {
             box-shadow: 0 0 0 3px rgba(24,95,165,.12);
         }
 
-/* Photo upload */
 .photo-grid {
     display: flex;
     flex-wrap: wrap;
@@ -1225,13 +1202,11 @@ footer {
         border-color: #f0ad00;
     }
 
-/* ===== АЛЁРТЫ ===== */
 .alert {
     border-radius: 10px;
     font-size: 14px;
 }
 
-/* ===== СТРАНИЦА О САЛОНЕ ===== */
 .about-info-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -1263,7 +1238,6 @@ footer {
         font-weight: 600;
     }
 
-/* ===== СТРАНИЦА ОШИБОК ===== */
 .error-page {
     text-align: center;
     padding: 80px 20px;
@@ -1287,7 +1261,7 @@ footer {
         margin-bottom: 28px;
     }
 
-/* ===== МОБАЙЛ ===== */
+/* ===== MOBILE ===== */
 @media (max-width: 991px) {
     .catalog-wrap {
         grid-template-columns: 1fr;
@@ -1399,7 +1373,7 @@ footer {
     }
 }
 
-/* ===== УТИЛИТЫ ===== */
+/* ===== UTILITIES ===== */
 .text-price {
     font-weight: 800;
     color: #111;

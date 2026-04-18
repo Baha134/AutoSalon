@@ -12,7 +12,6 @@ public class PhotoService : IPhotoService
     private readonly AppDbContext _db;
     private readonly IWebHostEnvironment _env;
     private const int MaxWidth = 1200;
-    private const int ThumbWidth = 400;
 
     public PhotoService(AppDbContext db, IWebHostEnvironment env)
     {
@@ -29,32 +28,51 @@ public class PhotoService : IPhotoService
         var result = new List<CarPhoto>();
         var sortOrder = existingCount;
 
+        var allowedTypes = new[] { "image/jpeg", "image/jpg", "image/png", "image/webp", "image/gif" };
+
         foreach (var file in files)
         {
             if (file.Length == 0) continue;
 
-            var fileName = $"{Guid.NewGuid():N}.webp";
-            var filePath = Path.Combine(uploadsPath, fileName);
+            // Проверяем MIME-тип
+            if (!allowedTypes.Contains(file.ContentType.ToLower())) continue;
 
-            using var stream = file.OpenReadStream();
-            using var image = await Image.LoadAsync(stream);
-
-            // Изменяем размер если нужно
-            if (image.Width > MaxWidth)
-                image.Mutate(x => x.Resize(new ResizeOptions { Size = new Size(MaxWidth, 0) }));
-
-            await image.SaveAsync(filePath, new WebpEncoder { Quality = 82 });
-
-            var photo = new CarPhoto
+            try
             {
-                CarId = carId,
-                FilePath = $"/uploads/{carId}/{fileName}",
-                IsMain = sortOrder == 0,
-                SortOrder = sortOrder++
-            };
+                var fileName = $"{Guid.NewGuid():N}.webp";
+                var filePath = Path.Combine(uploadsPath, fileName);
 
-            _db.CarPhotos.Add(photo);
-            result.Add(photo);
+                using var stream = file.OpenReadStream();
+                using var image = await Image.LoadAsync(stream);
+
+                if (image.Width > MaxWidth)
+                    image.Mutate(x => x.Resize(new ResizeOptions
+                    {
+                        Size = new Size(MaxWidth, 0),
+                        Mode = ResizeMode.Max
+                    }));
+
+                await image.SaveAsync(filePath, new WebpEncoder { Quality = 82 });
+
+                var photo = new CarPhoto
+                {
+                    CarId = carId,
+                    FilePath = $"/uploads/{carId}/{fileName}",
+                    IsMain = sortOrder == 0,
+                    SortOrder = sortOrder++
+                };
+
+                _db.CarPhotos.Add(photo);
+                result.Add(photo);
+            }
+            catch (UnknownImageFormatException)
+            {
+                continue;
+            }
+            catch (Exception)
+            {
+                continue;
+            }
         }
 
         await _db.SaveChangesAsync();
@@ -66,14 +84,12 @@ public class PhotoService : IPhotoService
         var photo = await _db.CarPhotos.FindAsync(photoId);
         if (photo == null) return;
 
-        // Удаляем файл с диска
         var fullPath = Path.Combine(_env.WebRootPath, photo.FilePath.TrimStart('/'));
         if (File.Exists(fullPath)) File.Delete(fullPath);
 
         _db.CarPhotos.Remove(photo);
         await _db.SaveChangesAsync();
 
-        // Если удалили главное фото — назначаем следующее
         if (photo.IsMain)
         {
             var next = await _db.CarPhotos

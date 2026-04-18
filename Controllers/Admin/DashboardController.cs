@@ -31,6 +31,6 @@ public class DashboardController : Controller
         ViewBag.FailedNotifications = leads.Count(l => l.NotifyFailed);
         ViewBag.RecentLeads = leads.Take(10).ToList();
 
-        return View();
+        return View("~/Areas/Admin/Views/Dashboard/Index.cshtml");
     }
 }

@@ -25,26 +25,26 @@ public class CarsAdminController : Controller
     {
         var filter = new CarFilterViewModel { PageSize = 50 };
         var (items, total) = await _cars.GetFilteredAsync(filter);
-        return View(new CarListViewModel { Cars = items, TotalCount = total, Filter = filter });
+        return View("~/Areas/Admin/Views/CarsAdmin/Index.cshtml",
+            new CarListViewModel { Cars = items, TotalCount = total, Filter = filter });
     }
 
     [HttpGet("create")]
-    public IActionResult Create() => View(new AdminCarViewModel());
+    public IActionResult Create() =>
+        View("~/Areas/Admin/Views/CarsAdmin/Create.cshtml", new AdminCarViewModel());
 
     [HttpPost("create")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(AdminCarViewModel vm)
     {
-        if (!ModelState.IsValid) return View(vm);
+        if (!ModelState.IsValid)
+            return View("~/Areas/Admin/Views/CarsAdmin/Create.cshtml", vm);
 
         var car = MapToModel(vm);
         car.Slug = GenerateSlug(car.Brand, car.Model, car.Year);
         car.CreatedAt = DateTime.UtcNow;
 
         var id = await _cars.CreateAsync(car);
-
-        // Бейдж
-        // (создаётся через SeedData или отдельно)
 
         if (vm.Photos.Count > 0)
             await _photos.SavePhotosAsync(vm.Photos, id);
@@ -61,14 +61,15 @@ public class CarsAdminController : Controller
 
         var vm = MapToViewModel(car);
         vm.ExistingPhotos = car.Photos.OrderBy(p => p.SortOrder).ToList();
-        return View(vm);
+        return View("~/Areas/Admin/Views/CarsAdmin/Edit.cshtml", vm);
     }
 
     [HttpPost("{id:int}/edit")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, AdminCarViewModel vm)
     {
-        if (!ModelState.IsValid) return View(vm);
+        if (!ModelState.IsValid)
+            return View("~/Areas/Admin/Views/CarsAdmin/Edit.cshtml", vm);
 
         var car = await _cars.GetByIdAsync(id);
         if (car == null) return NotFound();

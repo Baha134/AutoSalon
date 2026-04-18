@@ -18,7 +18,7 @@ public class LeadsAdminController : Controller
     public async Task<IActionResult> Index()
     {
         var items = await _leads.GetAllAsync();
-        return View(items);
+        return View("~/Areas/Admin/Views/Leads/Index.cshtml", items);
     }
 
     [HttpGet("{id:int}")]
@@ -26,7 +26,7 @@ public class LeadsAdminController : Controller
     {
         var lead = await _leads.GetByIdAsync(id);
         if (lead == null) return NotFound();
-        return View(lead);
+        return View("~/Areas/Admin/Views/Leads/Detail.cshtml", lead);
     }
 
     [HttpPost("{id:int}/status")]

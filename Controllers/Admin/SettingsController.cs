@@ -18,14 +18,15 @@ public class SettingsController : Controller
     public async Task<IActionResult> Index()
     {
         var s = await _settings.GetAsync();
-        return View(s);
+        return View("~/Areas/Admin/Views/Settings/Index.cshtml", s);
     }
 
     [HttpPost("")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Index(SalonSettings model)
     {
-        if (!ModelState.IsValid) return View(model);
+        if (!ModelState.IsValid)
+            return View("~/Areas/Admin/Views/Settings/Index.cshtml", model);
         await _settings.UpdateAsync(model);
         TempData["Success"] = "Настройки сохранены";
         return RedirectToAction("Index");

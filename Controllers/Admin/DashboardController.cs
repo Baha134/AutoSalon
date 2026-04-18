@@ -22,14 +22,20 @@ public class DashboardController : Controller
     [HttpGet("dashboard")]
     public async Task<IActionResult> Index()
     {
+        // Три лёгких COUNT-запроса вместо загрузки всей таблицы
         var totalCars = await _cars.GetTotalCountAsync();
-        var leads = await _leads.GetAllAsync();
+        var totalLeads = await _leads.GetCountAsync();
+        var newLeads = await _leads.GetNewCountAsync();
+        var failedCount = await _leads.GetFailedNotifyCountAsync();
+
+        // Только 10 последних заявок
+        var recentLeads = await _leads.GetRecentAsync(10);
 
         ViewBag.TotalCars = totalCars;
-        ViewBag.TotalLeads = leads.Count;
-        ViewBag.NewLeads = leads.Count(l => l.Status == AutoSalon.Models.LeadStatus.New);
-        ViewBag.FailedNotifications = leads.Count(l => l.NotifyFailed);
-        ViewBag.RecentLeads = leads.Take(10).ToList();
+        ViewBag.TotalLeads = totalLeads;
+        ViewBag.NewLeads = newLeads;
+        ViewBag.FailedNotifications = failedCount;
+        ViewBag.RecentLeads = recentLeads;
 
         return View("~/Areas/Admin/Views/Dashboard/Index.cshtml");
     }

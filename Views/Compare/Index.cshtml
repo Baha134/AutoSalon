@@ -5,16 +5,7 @@
 }
 
 <div class="container mt-4">
-    <div class="d-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 fw-bold mb-0">Сравнение автомобилей</h1>
-        @if (cars.Any())
-        {
-            <form method="post" action="/compare/clear">
-                @Html.AntiForgeryToken()
-                <button type="submit" class="btn btn-outline-secondary btn-sm">Очистить список</button>
-            </form>
-        }
-    </div>
+    <h1 class="h3 fw-bold mb-4">Сравнение автомобилей</h1>
 
     @if (!cars.Any())
     {
@@ -27,7 +18,7 @@
     }
     else
     {
-        <!-- Фото / заголовки -->
+        @* Заголовки с фото *@
         <div class="table-responsive">
             <table class="table table-bordered align-middle compare-table">
                 <thead>
@@ -38,7 +29,10 @@
                             <th class="text-center">
                                 @if (car.MainPhoto != null)
                                 {
-                                    <img src="@car.MainPhoto.FilePath" alt="@car.Brand @car.Model" style="width:100%;height:120px;object-fit:cover;border-radius:8px;margin-bottom:8px" />
+                                    <img src="@car.MainPhoto.FilePath"
+                                         alt="@car.Brand @car.Model"
+                                         style="width:100%;height:120px;object-fit:cover;border-radius:8px;margin-bottom:8px"
+                                         loading="lazy" />
                                 }
                                 <div class="fw-bold">@car.Brand @car.Model</div>
                                 <div class="fw-bold text-primary">@car.DisplayPrice</div>
@@ -55,27 +49,65 @@
                 </thead>
                 <tbody>
                     @{
-                        var rows = new[] {
-                            ("Год", cars.Select(c => c.Year.ToString()).ToArray()),
-                            ("Пробег", cars.Select(c => c.DisplayMileage).ToArray()),
+                        // Вычисляем лучшие значения заранее
+                        var minPrice = cars.Min(c => c.Price);
+                        var minMileage = cars.Min(c => c.Mileage);
+                        var maxYear = cars.Max(c => c.Year);
+                    }
+
+                    @* Цена — зелёным самую низкую *@
+                    <tr>
+                        <td class="text-muted small fw-semibold">Цена</td>
+                        @foreach (var car in cars)
+                        {
+                            <td class="text-center @(car.Price == minPrice ? "table-success" : "")">
+                                @car.DisplayPrice
+                            </td>
+                        }
+                    </tr>
+
+                    @* Год — зелёным самый новый *@
+                    <tr>
+                        <td class="text-muted small fw-semibold">Год</td>
+                        @foreach (var car in cars)
+                        {
+                            <td class="text-center @(car.Year == maxYear ? "table-success" : "")">
+                                @car.Year
+                            </td>
+                        }
+                    </tr>
+
+                    @* Пробег — зелёным самый маленький *@
+                    <tr>
+                        <td class="text-muted small fw-semibold">Пробег</td>
+                        @foreach (var car in cars)
+                        {
+                            <td class="text-center @(car.Mileage == minMileage ? "table-success" : "")">
+                                @car.DisplayMileage
+                            </td>
+                        }
+                    </tr>
+
+                    @* Остальные строки — без подсветки *@
+                    @{
+                        var plainRows = new[]
+                        {
                             ("Двигатель", cars.Select(c => $"{c.EngineVolume} л").ToArray()),
-                            ("Топливо", cars.Select(c => c.FuelType).ToArray()),
-                            ("Коробка", cars.Select(c => c.Transmission).ToArray()),
-                            ("Привод", cars.Select(c => c.DriveType).ToArray()),
-                            ("Кузов", cars.Select(c => c.BodyType).ToArray()),
-                            ("Цвет", cars.Select(c => c.Color).ToArray()),
-                            ("Город", cars.Select(c => c.City).ToArray()),
+                            ("Топливо",   cars.Select(c => c.FuelType).ToArray()),
+                            ("Коробка",   cars.Select(c => c.Transmission).ToArray()),
+                            ("Привод",    cars.Select(c => c.DriveType).ToArray()),
+                            ("Кузов",     cars.Select(c => c.BodyType).ToArray()),
+                            ("Цвет",      cars.Select(c => c.Color).ToArray()),
+                            ("Город",     cars.Select(c => c.City).ToArray()),
                         };
                     }
-                    @foreach (var (label, values) in rows)
+                    @foreach (var (label, values) in plainRows)
                     {
                         <tr>
                             <td class="text-muted small fw-semibold">@label</td>
                             @for (var i = 0; i < cars.Count; i++)
                             {
-                                var allSame = values.Distinct().Count() == 1;
-                                var highlight = !allSame && i == 0; // подсветка лучшего
-                                <td class="text-center @(highlight ? "table-success" : "")">@(i < values.Length ? values[i] : "—")</td>
+                                <td class="text-center">@(i < values.Length ? values[i] : "—")</td>
                             }
                         </tr>
                     }
@@ -90,5 +122,12 @@
                 <a href="/catalog" class="alert-link">Перейти в каталог</a>
             </div>
         }
+
+        <div class="mt-3">
+            <form method="post" action="/compare/clear">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-outline-danger btn-sm">🗑 Очистить список</button>
+            </form>
+        </div>
     }
 </div>

@@ -27,8 +27,24 @@ public class CarsAdminController : Controller
     [HttpGet("")]
     public async Task<IActionResult> Index()
     {
-        var filter = new CarFilterViewModel { PageSize = 50 };
-        var (items, total) = await _cars.GetFilteredAsync(filter);
+        // Показываем все авто включая проданные — это админка
+        var filter = new CarFilterViewModel
+        {
+            PageSize = 50,
+            Status = null   // без фильтра по статусу — видим всё
+        };
+
+        // Напрямую запрашиваем все IsActive авто без фильтра Status
+        var items = await _db.Cars
+            .Include(c => c.Photos)
+            .Include(c => c.Badge)
+            .Where(c => c.IsActive)
+            .OrderByDescending(c => c.CreatedAt)
+            .Take(50)
+            .ToListAsync();
+
+        var total = await _db.Cars.CountAsync(c => c.IsActive);
+
         return View("~/Areas/Admin/Views/CarsAdmin/Index.cshtml",
             new CarListViewModel { Cars = items, TotalCount = total, Filter = filter });
     }
@@ -99,6 +115,7 @@ public class CarsAdminController : Controller
     }
 
     [HttpPost("{id:int}/photos/{photoId:int}/delete")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeletePhoto(int id, int photoId)
     {
         await _photos.DeletePhotoAsync(photoId);
@@ -106,6 +123,7 @@ public class CarsAdminController : Controller
     }
 
     [HttpPost("{id:int}/photos/{photoId:int}/setmain")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> SetMain(int id, int photoId)
     {
         await _photos.SetMainPhotoAsync(photoId, id);
@@ -115,11 +133,13 @@ public class CarsAdminController : Controller
     [HttpPatch("{id:int}/photos/reorder")]
     public async Task<IActionResult> Reorder(int id, [FromBody] List<int> orderedIds)
     {
+        if (orderedIds == null || orderedIds.Count == 0)
+            return BadRequest();
         await _photos.ReorderAsync(id, orderedIds);
         return Ok();
     }
 
-    // --- helpers ---
+    // ─── helpers ────────────────────────────────────────────────────────────
 
     private async Task SaveBadgeAsync(int carId, AdminCarViewModel vm)
     {
@@ -135,6 +155,9 @@ public class CarsAdminController : Controller
         badge.HasWarranty = vm.HasWarranty;
         badge.HasExchange = vm.HasExchange;
         badge.WarrantyDays = vm.HasWarranty ? vm.WarrantyDays : null;
+        badge.HistoryReportUrl = string.IsNullOrWhiteSpace(vm.HistoryReportUrl)
+                                     ? null
+                                     : vm.HistoryReportUrl.Trim();
 
         await _db.SaveChangesAsync();
     }
@@ -198,6 +221,7 @@ public class CarsAdminController : Controller
         IsVerified = car.Badge?.IsVerified ?? false,
         HasWarranty = car.Badge?.HasWarranty ?? false,
         HasExchange = car.Badge?.HasExchange ?? false,
-        WarrantyDays = car.Badge?.WarrantyDays
+        WarrantyDays = car.Badge?.WarrantyDays,
+        HistoryReportUrl = car.Badge?.HistoryReportUrl
     };
 }

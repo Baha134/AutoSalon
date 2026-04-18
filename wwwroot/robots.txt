@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /Admin/
+Disallow: /admin/
+Disallow: /Account/
+Disallow: /Identity/
+Disallow: /api/
+Disallow: /favorites/count
+Disallow: /compare/count
+
+Sitemap: https://ВАШ_ДОМЕН/sitemap.xml

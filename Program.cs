@@ -26,6 +26,9 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
+// --- Кеш (используется в CarService и SettingsService) ---
+builder.Services.AddMemoryCache();
+
 // --- HttpClient для Telegram ---
 builder.Services.AddHttpClient();
 
@@ -38,7 +41,7 @@ builder.Services.AddScoped<ICalculatorService, CalculatorService>();
 builder.Services.AddScoped<IFavoriteService, CookieFavoriteService>();
 builder.Services.AddScoped<INotifyService, TelegramNotifyService>();
 
-// --- Session для Compare (сравнение авто) ---
+// --- Session для Compare ---
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(o =>
 {
@@ -49,27 +52,32 @@ builder.Services.AddSession(o =>
 
 var app = builder.Build();
 
-// --- Seed данных ---
+// --- Seed ---
 using (var scope = app.Services.CreateScope())
 {
     await SeedData.InitAsync(scope.ServiceProvider);
 }
 
-// --- Middleware pipeline ---
+// --- Middleware pipeline (порядок важен!) ---
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error/500");
     app.UseHsts();
 }
 
+// Кастомные страницы ошибок (404, 500 и т.д.)
 app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
+// Rate limit ПЕРЕД авторизацией — защищаем до аутентификации
+app.UseMiddleware<RateLimitMiddleware>();
+
 app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseMiddleware<RateLimitMiddleware>();
 
 // --- Маршруты ---
 app.MapControllerRoute(

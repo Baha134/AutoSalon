@@ -1,27 +1,26 @@
 @model AutoSalon.ViewModels.CarListViewModel
-@{
-    ViewData["Title"] = "Каталог автомобилей";
-    ViewData["Description"] = "Каталог автомобилей. " + Model.TotalCount + " авто в наличии.";
-}
-
 @functions {
     string PageUrl(AutoSalon.ViewModels.CarFilterViewModel f, int page)
     {
         var parts = new System.Collections.Generic.List<string>();
         parts.Add("Page=" + page);
-        if (!string.IsNullOrEmpty(f.Brand))        parts.Add("Brand="        + Uri.EscapeDataString(f.Brand));
-        if (!string.IsNullOrEmpty(f.BodyType))     parts.Add("BodyType="     + Uri.EscapeDataString(f.BodyType));
+        if (!string.IsNullOrEmpty(f.Brand)) parts.Add("Brand=" + Uri.EscapeDataString(f.Brand));
+        if (!string.IsNullOrEmpty(f.BodyType)) parts.Add("BodyType=" + Uri.EscapeDataString(f.BodyType));
         if (!string.IsNullOrEmpty(f.Transmission)) parts.Add("Transmission=" + Uri.EscapeDataString(f.Transmission));
-        if (!string.IsNullOrEmpty(f.FuelType))     parts.Add("FuelType="     + Uri.EscapeDataString(f.FuelType));
-        if (!string.IsNullOrEmpty(f.Search))       parts.Add("Search="       + Uri.EscapeDataString(f.Search));
-        if (!string.IsNullOrEmpty(f.Sort))         parts.Add("Sort="         + Uri.EscapeDataString(f.Sort!));
-        if (f.PriceMin.HasValue)   parts.Add("PriceMin="   + f.PriceMin.Value);
-        if (f.PriceMax.HasValue)   parts.Add("PriceMax="   + f.PriceMax.Value);
-        if (f.YearMin.HasValue)    parts.Add("YearMin="    + f.YearMin.Value);
-        if (f.YearMax.HasValue)    parts.Add("YearMax="    + f.YearMax.Value);
+        if (!string.IsNullOrEmpty(f.FuelType)) parts.Add("FuelType=" + Uri.EscapeDataString(f.FuelType));
+        if (!string.IsNullOrEmpty(f.Search)) parts.Add("Search=" + Uri.EscapeDataString(f.Search));
+        if (!string.IsNullOrEmpty(f.Sort)) parts.Add("Sort=" + Uri.EscapeDataString(f.Sort!));
+        if (f.PriceMin.HasValue) parts.Add("PriceMin=" + f.PriceMin.Value);
+        if (f.PriceMax.HasValue) parts.Add("PriceMax=" + f.PriceMax.Value);
+        if (f.YearMin.HasValue) parts.Add("YearMin=" + f.YearMin.Value);
+        if (f.YearMax.HasValue) parts.Add("YearMax=" + f.YearMax.Value);
         if (f.MileageMax.HasValue) parts.Add("MileageMax=" + f.MileageMax.Value);
         return "/catalog?" + string.Join("&", parts);
     }
+}
+@{
+    ViewData["Title"] = "Каталог автомобилей";
+    ViewData["Description"] = "Каталог автомобилей. " + Model.TotalCount + " авто в наличии.";
 }
 
 <div class="container mt-4">
@@ -33,7 +32,9 @@
 
     <!-- Поиск -->
     <form method="get" action="/catalog" class="d-flex gap-2 mb-4">
-        <input type="text" name="Search" value="@Model.Filter.Search" class="form-control" placeholder="Поиск по марке или модели..." autocomplete="off" />
+        <input type="text" name="Search" value="@Model.Filter.Search"
+               class="form-control" placeholder="Поиск по марке или модели..."
+               autocomplete="off" maxlength="100" />
         <button type="submit" class="btn btn-primary px-4">Найти</button>
         @if (Model.Filter.HasActiveFilters)
         {
@@ -42,7 +43,8 @@
     </form>
 
     <div class="catalog-wrap">
-        <!-- Фильтры (sidebar) -->
+
+        <!-- Фильтры (sidebar на десктопе) -->
         <form method="get" action="/catalog" class="filters-sidebar d-none d-lg-block">
             <div class="filter-group">
                 <div class="filter-label">Марка</div>
@@ -54,20 +56,29 @@
                     }
                 </select>
             </div>
+
             <div class="filter-group">
                 <div class="filter-label">Цена, ₸</div>
                 <div class="filter-row">
-                    <input type="number" name="PriceMin" value="@Model.Filter.PriceMin" placeholder="от" class="form-control form-control-sm" />
-                    <input type="number" name="PriceMax" value="@Model.Filter.PriceMax" placeholder="до" class="form-control form-control-sm" />
+                    <input type="number" name="PriceMin" value="@Model.Filter.PriceMin"
+                           placeholder="от" class="form-control form-control-sm" min="0" />
+                    <input type="number" name="PriceMax" value="@Model.Filter.PriceMax"
+                           placeholder="до" class="form-control form-control-sm" min="0" />
                 </div>
             </div>
+
             <div class="filter-group">
                 <div class="filter-label">Год выпуска</div>
                 <div class="filter-row">
-                    <input type="number" name="YearMin" value="@Model.Filter.YearMin" placeholder="от" class="form-control form-control-sm" min="1990" max="@DateTime.Now.Year" />
-                    <input type="number" name="YearMax" value="@Model.Filter.YearMax" placeholder="до" class="form-control form-control-sm" min="1990" max="@DateTime.Now.Year" />
+                    <input type="number" name="YearMin" value="@Model.Filter.YearMin"
+                           placeholder="от" class="form-control form-control-sm"
+                           min="1990" max="@DateTime.Now.Year" />
+                    <input type="number" name="YearMax" value="@Model.Filter.YearMax"
+                           placeholder="до" class="form-control form-control-sm"
+                           min="1990" max="@DateTime.Now.Year" />
                 </div>
             </div>
+
             <div class="filter-group">
                 <div class="filter-label">Кузов</div>
                 <select name="BodyType" class="form-select form-select-sm">
@@ -81,28 +92,32 @@
                     }
                 </select>
             </div>
+
             <div class="filter-group">
                 <div class="filter-label">Коробка</div>
                 <select name="Transmission" class="form-select form-select-sm">
                     <option value="">Все</option>
-                    <option value="Автомат"  selected="@(Model.Filter.Transmission == "Автомат"  ? "selected" : null)">Автомат</option>
+                    <option value="Автомат" selected="@(Model.Filter.Transmission == "Автомат" ? "selected" : null)">Автомат</option>
                     <option value="Механика" selected="@(Model.Filter.Transmission == "Механика" ? "selected" : null)">Механика</option>
                     <option value="Вариатор" selected="@(Model.Filter.Transmission == "Вариатор" ? "selected" : null)">Вариатор</option>
-                    <option value="Робот"    selected="@(Model.Filter.Transmission == "Робот"    ? "selected" : null)">Робот</option>
+                    <option value="Робот" selected="@(Model.Filter.Transmission == "Робот" ? "selected" : null)">Робот</option>
                 </select>
             </div>
+
             <div class="filter-group">
                 <div class="filter-label">Топливо</div>
                 <select name="FuelType" class="form-select form-select-sm">
                     <option value="">Все</option>
-                    <option value="Бензин"  selected="@(Model.Filter.FuelType == "Бензин"  ? "selected" : null)">Бензин</option>
-                    <option value="Дизель"  selected="@(Model.Filter.FuelType == "Дизель"  ? "selected" : null)">Дизель</option>
-                    <option value="Гибрид"  selected="@(Model.Filter.FuelType == "Гибрид"  ? "selected" : null)">Гибрид</option>
+                    <option value="Бензин" selected="@(Model.Filter.FuelType == "Бензин" ? "selected" : null)">Бензин</option>
+                    <option value="Дизель" selected="@(Model.Filter.FuelType == "Дизель" ? "selected" : null)">Дизель</option>
+                    <option value="Гибрид" selected="@(Model.Filter.FuelType == "Гибрид" ? "selected" : null)">Гибрид</option>
                     <option value="Электро" selected="@(Model.Filter.FuelType == "Электро" ? "selected" : null)">Электро</option>
                 </select>
             </div>
+
             <input type="hidden" name="Page" value="1" />
             <button type="submit" class="filter-apply">Применить</button>
+
             @if (Model.Filter.HasActiveFilters)
             {
                 <a href="/catalog" class="filter-reset d-block text-center mt-2">Сбросить фильтры</a>
@@ -110,31 +125,61 @@
         </form>
 
         <!-- Каталог -->
-        <div>
+        <div class="catalog-main">
             <div class="catalog-header">
                 <div class="catalog-total">
                     @Model.TotalCount авто
                     @if (!string.IsNullOrEmpty(Model.Filter.Search))
                     {
-                        <span>по запросу «@Model.Filter.Search»</span>
+                        <span class="text-muted">по запросу «@Model.Filter.Search»</span>
                     }
                 </div>
+
+                <!-- Сортировка -->
                 <div class="catalog-sort">
                     <form method="get" action="/catalog" id="sort-form">
-                        @if (!string.IsNullOrEmpty(Model.Filter.Brand))        { <input type="hidden" name="Brand"        value="@Model.Filter.Brand" /> }
-                        @if (!string.IsNullOrEmpty(Model.Filter.BodyType))     { <input type="hidden" name="BodyType"     value="@Model.Filter.BodyType" /> }
-                        @if (!string.IsNullOrEmpty(Model.Filter.Transmission)) { <input type="hidden" name="Transmission" value="@Model.Filter.Transmission" /> }
-                        @if (!string.IsNullOrEmpty(Model.Filter.FuelType))     { <input type="hidden" name="FuelType"     value="@Model.Filter.FuelType" /> }
-                        @if (!string.IsNullOrEmpty(Model.Filter.Search))       { <input type="hidden" name="Search"       value="@Model.Filter.Search" /> }
-                        @if (Model.Filter.PriceMin.HasValue)   { <input type="hidden" name="PriceMin"   value="@Model.Filter.PriceMin" /> }
-                        @if (Model.Filter.PriceMax.HasValue)   { <input type="hidden" name="PriceMax"   value="@Model.Filter.PriceMax" /> }
-                        @if (Model.Filter.YearMin.HasValue)    { <input type="hidden" name="YearMin"    value="@Model.Filter.YearMin" /> }
-                        @if (Model.Filter.YearMax.HasValue)    { <input type="hidden" name="YearMax"    value="@Model.Filter.YearMax" /> }
-                        <select name="Sort" class="form-select form-select-sm" style="width:auto" onchange="document.getElementById('sort-form').submit()">
-                            <option value="new"        selected="@(Model.Filter.Sort == "new"        ? "selected" : null)">Сначала новые</option>
-                            <option value="price_asc"  selected="@(Model.Filter.Sort == "price_asc"  ? "selected" : null)">Цена ↑</option>
+                        @if (!string.IsNullOrEmpty(Model.Filter.Brand))
+                        {
+                            <input type="hidden" name="Brand" value="@Model.Filter.Brand" />
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Filter.BodyType))
+                        {
+                            <input type="hidden" name="BodyType" value="@Model.Filter.BodyType" />
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Filter.Transmission))
+                        {
+                            <input type="hidden" name="Transmission" value="@Model.Filter.Transmission" />
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Filter.FuelType))
+                        {
+                            <input type="hidden" name="FuelType" value="@Model.Filter.FuelType" />
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Filter.Search))
+                        {
+                            <input type="hidden" name="Search" value="@Model.Filter.Search" />
+                        }
+                        @if (Model.Filter.PriceMin.HasValue)
+                        {
+                            <input type="hidden" name="PriceMin" value="@Model.Filter.PriceMin" />
+                        }
+                        @if (Model.Filter.PriceMax.HasValue)
+                        {
+                            <input type="hidden" name="PriceMax" value="@Model.Filter.PriceMax" />
+                        }
+                        @if (Model.Filter.YearMin.HasValue)
+                        {
+                            <input type="hidden" name="YearMin" value="@Model.Filter.YearMin" />
+                        }
+                        @if (Model.Filter.YearMax.HasValue)
+                        {
+                            <input type="hidden" name="YearMax" value="@Model.Filter.YearMax" />
+                        }
+                        <select name="Sort" class="form-select form-select-sm" style="width:auto"
+                                onchange="document.getElementById('sort-form').submit()">
+                            <option value="new" selected="@(Model.Filter.Sort == "new" ? "selected" : null)">Сначала новые</option>
+                            <option value="price_asc" selected="@(Model.Filter.Sort == "price_asc" ? "selected" : null)">Цена ↑</option>
                             <option value="price_desc" selected="@(Model.Filter.Sort == "price_desc" ? "selected" : null)">Цена ↓</option>
-                            <option value="popular"    selected="@(Model.Filter.Sort == "popular"    ? "selected" : null)">Популярные</option>
+                            <option value="popular" selected="@(Model.Filter.Sort == "popular" ? "selected" : null)">Популярные</option>
                         </select>
                     </form>
                 </div>
@@ -149,15 +194,23 @@
                     }
                 </div>
 
-                <!-- Пагинация — фильтры сохраняются через @functions PageUrl() -->
+                <!-- Пагинация -->
                 @if (Model.TotalPages > 1)
                 {
-                    <nav class="mt-4">
-                        <ul class="pagination justify-content-center">
+                    <nav class="mt-4" aria-label="Страницы каталога">
+                        <ul class="pagination justify-content-center flex-wrap">
+                            @* Кнопка «Назад» *@
+                            @if (Model.Filter.Page > 1)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@PageUrl(Model.Filter, Model.Filter.Page - 1)">←</a>
+                                </li>
+                            }
+
+                            @* Номера страниц *@
                             @for (var p = 1; p <= Model.TotalPages; p++)
                             {
                                 var isActive = p == Model.Filter.Page;
-                                var url = PageUrl(Model.Filter, p);
                                 <li class="page-item @(isActive ? "active" : "")">
                                     @if (isActive)
                                     {
@@ -165,8 +218,16 @@
                                     }
                                     else
                                     {
-                                        <a class="page-link" href="@url">@p</a>
+                                        <a class="page-link" href="@PageUrl(Model.Filter, p)">@p</a>
                                     }
+                                </li>
+                            }
+
+                            @* Кнопка «Вперёд» *@
+                            @if (Model.Filter.Page < Model.TotalPages)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@PageUrl(Model.Filter, Model.Filter.Page + 1)">→</a>
                                 </li>
                             }
                         </ul>
@@ -181,12 +242,13 @@
                     @if (Model.Filter.HasActiveFilters)
                     {
                         <p>Попробуйте изменить параметры фильтра</p>
-                        <a href="/catalog" class="btn btn-primary">Сбросить фильтры</a>
+                        <a href="/catalog" class="btn btn-primary mt-2">Сбросить фильтры</a>
                     }
                     else
                     {
                         <p>Скоро здесь появятся новые автомобили</p>
                     }
+                    <a href="#lead-anchor" class="btn btn-outline-secondary mt-2">Оставить заявку</a>
                 </div>
             }
         </div>
@@ -200,7 +262,7 @@
         <div class="drawer-handle"></div>
         <div class="d-flex justify-content-between align-items-center mb-3">
             <strong>Фильтры</strong>
-            <button class="btn btn-sm btn-outline-secondary" id="drawer-close-btn">✕</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" id="drawer-close-btn">✕</button>
         </div>
         <form method="get" action="/catalog">
             <div class="mb-3">
@@ -214,14 +276,63 @@
                 </select>
             </div>
             <div class="mb-3">
-                <label class="form-label small text-muted">Цена от</label>
-                <input type="number" name="PriceMin" value="@Model.Filter.PriceMin" class="form-control form-control-sm" placeholder="от ₸" />
+                <label class="form-label small text-muted">Цена от, ₸</label>
+                <input type="number" name="PriceMin" value="@Model.Filter.PriceMin"
+                       class="form-control form-control-sm" placeholder="от ₸" min="0" />
             </div>
             <div class="mb-3">
-                <label class="form-label small text-muted">Цена до</label>
-                <input type="number" name="PriceMax" value="@Model.Filter.PriceMax" class="form-control form-control-sm" placeholder="до ₸" />
+                <label class="form-label small text-muted">Цена до, ₸</label>
+                <input type="number" name="PriceMax" value="@Model.Filter.PriceMax"
+                       class="form-control form-control-sm" placeholder="до ₸" min="0" />
             </div>
+            <div class="mb-3">
+                <label class="form-label small text-muted">Кузов</label>
+                <select name="BodyType" class="form-select form-select-sm">
+                    <option value="">Все</option>
+                    <option value="Седан" selected="@(Model.Filter.BodyType == "Седан" ? "selected" : null)">Седан</option>
+                    <option value="Кроссовер" selected="@(Model.Filter.BodyType == "Кроссовер" ? "selected" : null)">Кроссовер</option>
+                    <option value="Внедорожник" selected="@(Model.Filter.BodyType == "Внедорожник" ? "selected" : null)">Внедорожник</option>
+                    <option value="Хэтчбек" selected="@(Model.Filter.BodyType == "Хэтчбек" ? "selected" : null)">Хэтчбек</option>
+                    <option value="Минивэн" selected="@(Model.Filter.BodyType == "Минивэн" ? "selected" : null)">Минивэн</option>
+                    <option value="Купе" selected="@(Model.Filter.BodyType == "Купе" ? "selected" : null)">Купе</option>
+                    <option value="Пикап" selected="@(Model.Filter.BodyType == "Пикап" ? "selected" : null)">Пикап</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label small text-muted">Коробка</label>
+                <select name="Transmission" class="form-select form-select-sm">
+                    <option value="">Все</option>
+                    <option value="Автомат" selected="@(Model.Filter.Transmission == "Автомат" ? "selected" : null)">Автомат</option>
+                    <option value="Механика" selected="@(Model.Filter.Transmission == "Механика" ? "selected" : null)">Механика</option>
+                    <option value="Вариатор" selected="@(Model.Filter.Transmission == "Вариатор" ? "selected" : null)">Вариатор</option>
+                    <option value="Робот" selected="@(Model.Filter.Transmission == "Робот" ? "selected" : null)">Робот</option>
+                </select>
+            </div>
+            <input type="hidden" name="Page" value="1" />
             <button type="submit" class="btn btn-primary w-100">Применить</button>
+            @if (Model.Filter.HasActiveFilters)
+            {
+                <a href="/catalog" class="btn btn-outline-secondary w-100 mt-2">Сбросить</a>
+            }
         </form>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        // Drawer-фильтр на мобильном
+        (function () {
+            var openBtn    = document.getElementById('drawer-open-btn');
+            var closeBtn   = document.getElementById('drawer-close-btn');
+            var backdrop   = document.getElementById('drawer-backdrop');
+            var drawer     = document.getElementById('filters-drawer');
+
+            function open()  { drawer.classList.add('open');  document.body.style.overflow = 'hidden'; }
+            function close() { drawer.classList.remove('open'); document.body.style.overflow = ''; }
+
+            if (openBtn)  openBtn.addEventListener('click', open);
+            if (closeBtn) closeBtn.addEventListener('click', close);
+            if (backdrop) backdrop.addEventListener('click', close);
+        })();
+    </script>
+}

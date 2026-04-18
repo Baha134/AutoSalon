@@ -30,6 +30,7 @@
                     <div class="col-md-4">
                         <label class="form-label">Цена (₸) *</label>
                         <input asp-for="Price" type="number" class="form-control" min="0" required />
+                        <span asp-validation-for="Price" class="text-danger small"></span>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Пробег (км)</label>
@@ -43,29 +44,42 @@
                         <label class="form-label">Кузов</label>
                         <select asp-for="BodyType" class="form-select">
                             <option value="">—</option>
-                            <option>Седан</option><option>Кроссовер</option><option>Внедорожник</option>
-                            <option>Хэтчбек</option><option>Минивэн</option><option>Купе</option><option>Пикап</option>
+                            <option>Седан</option>
+                            <option>Кроссовер</option>
+                            <option>Внедорожник</option>
+                            <option>Хэтчбек</option>
+                            <option>Минивэн</option>
+                            <option>Купе</option>
+                            <option>Пикап</option>
                         </select>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Коробка</label>
                         <select asp-for="Transmission" class="form-select">
                             <option value="">—</option>
-                            <option>Автомат</option><option>Механика</option><option>Вариатор</option><option>Робот</option>
+                            <option>Автомат</option>
+                            <option>Механика</option>
+                            <option>Вариатор</option>
+                            <option>Робот</option>
                         </select>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Привод</label>
                         <select asp-for="DriveType" class="form-select">
                             <option value="">—</option>
-                            <option>Передний</option><option>Задний</option><option>Полный</option>
+                            <option>Передний</option>
+                            <option>Задний</option>
+                            <option>Полный</option>
                         </select>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Топливо</label>
                         <select asp-for="FuelType" class="form-select">
                             <option value="">—</option>
-                            <option>Бензин</option><option>Дизель</option><option>Гибрид</option><option>Электро</option>
+                            <option>Бензин</option>
+                            <option>Дизель</option>
+                            <option>Гибрид</option>
+                            <option>Электро</option>
                         </select>
                     </div>
                     <div class="col-md-4">
@@ -91,7 +105,7 @@
             </div>
         </div>
 
-        <!-- Статус и бейджи -->
+        <!-- Правая колонка -->
         <div class="col-lg-4">
             <div class="card border-0 shadow-sm p-4 mb-4">
                 <h5 class="fw-bold mb-3">Статус</h5>
@@ -109,7 +123,7 @@
                 </div>
             </div>
 
-            <div class="card border-0 shadow-sm p-4">
+            <div class="card border-0 shadow-sm p-4 mb-4">
                 <h5 class="fw-bold mb-3">Бейджи</h5>
                 <div class="form-check mb-2">
                     <input asp-for="IsVerified" class="form-check-input" type="checkbox" />
@@ -119,7 +133,7 @@
                     <input asp-for="HasWarranty" class="form-check-input" type="checkbox" />
                     <label class="form-check-label" asp-for="HasWarranty">🛡 Гарантия</label>
                 </div>
-                <div class="mb-2">
+                <div class="mb-3">
                     <label class="form-label small">Дней гарантии</label>
                     <input asp-for="WarrantyDays" type="number" class="form-control form-control-sm" placeholder="365" />
                 </div>
@@ -129,7 +143,16 @@
                 </div>
             </div>
 
-            <div class="mt-3 d-flex gap-2">
+            <!-- HistoryReportUrl — НОВОЕ ПОЛЕ -->
+            <div class="card border-0 shadow-sm p-4 mb-4">
+                <h5 class="fw-bold mb-3">📋 История авто</h5>
+                <label class="form-label small">Ссылка на отчёт (Kolesa, Autocheck и т.д.)</label>
+                <input asp-for="HistoryReportUrl" class="form-control" placeholder="https://..." />
+                <span asp-validation-for="HistoryReportUrl" class="text-danger small"></span>
+                <div class="form-text">Будет показана как кнопка на странице авто</div>
+            </div>
+
+            <div class="d-flex gap-2">
                 <button type="submit" class="btn btn-primary flex-fill">Сохранить</button>
                 <a href="/admin/cars" class="btn btn-outline-secondary">Отмена</a>
             </div>

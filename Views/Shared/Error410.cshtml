@@ -1,0 +1,17 @@
+@{
+    ViewData["Title"] = "Автомобиль снят с продажи";
+    ViewData["NoIndex"] = true;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5 text-center">
+    <div class="empty-state">
+        <div style="font-size:60px;margin-bottom:16px">🚗</div>
+        <h2 class="fw-bold mb-2">Этот автомобиль уже продан</h2>
+        <p class="text-muted mb-4">Страница была удалена, но в каталоге есть много других отличных вариантов.</p>
+        <div class="d-flex gap-3 justify-content-center">
+            <a href="/catalog" class="btn btn-primary">Смотреть каталог</a>
+            <a href="/" class="btn btn-outline-secondary">На главную</a>
+        </div>
+    </div>
+</div>

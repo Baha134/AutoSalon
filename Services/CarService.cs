@@ -2,13 +2,20 @@ using AutoSalon.Data;
 using AutoSalon.Models;
 using AutoSalon.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace AutoSalon.Services;
 
 public class CarService : ICarService
 {
     private readonly AppDbContext _db;
-    public CarService(AppDbContext db) => _db = db;
+    private readonly IMemoryCache _cache;
+
+    public CarService(AppDbContext db, IMemoryCache cache)
+    {
+        _db = db;
+        _cache = cache;
+    }
 
     public async Task<(List<Car> Items, int Total)> GetFilteredAsync(CarFilterViewModel filter)
     {
@@ -18,38 +25,51 @@ public class CarService : ICarService
             .Where(c => c.IsActive)
             .AsQueryable();
 
-        // Фильтры
-        if (!string.IsNullOrEmpty(filter.Brand))
+        // --- Фильтры ---
+        if (!string.IsNullOrWhiteSpace(filter.Brand))
             q = q.Where(c => c.Brand == filter.Brand);
-        if (!string.IsNullOrEmpty(filter.BodyType))
+
+        if (!string.IsNullOrWhiteSpace(filter.BodyType))
             q = q.Where(c => c.BodyType == filter.BodyType);
-        if (!string.IsNullOrEmpty(filter.Transmission))
+
+        if (!string.IsNullOrWhiteSpace(filter.Transmission))
             q = q.Where(c => c.Transmission == filter.Transmission);
-        if (!string.IsNullOrEmpty(filter.FuelType))
+
+        if (!string.IsNullOrWhiteSpace(filter.FuelType))
             q = q.Where(c => c.FuelType == filter.FuelType);
+
         if (filter.PriceMin.HasValue)
             q = q.Where(c => c.Price >= filter.PriceMin.Value);
+
         if (filter.PriceMax.HasValue)
             q = q.Where(c => c.Price <= filter.PriceMax.Value);
+
         if (filter.YearMin.HasValue)
             q = q.Where(c => c.Year >= filter.YearMin.Value);
+
         if (filter.YearMax.HasValue)
             q = q.Where(c => c.Year <= filter.YearMax.Value);
+
         if (filter.MileageMax.HasValue)
             q = q.Where(c => c.Mileage <= filter.MileageMax.Value);
-        if (!string.IsNullOrEmpty(filter.Search))
+
+        // --- Поиск по тексту: Brand + Model + Description (≥2 символов) ---
+        if (!string.IsNullOrWhiteSpace(filter.Search) && filter.Search.Length >= 2)
         {
-            var s = filter.Search.ToLower();
-            q = q.Where(c => c.Brand.ToLower().Contains(s) || c.Model.ToLower().Contains(s));
+            var term = filter.Search.Trim().ToLower();
+            q = q.Where(c =>
+                c.Brand.ToLower().Contains(term) ||
+                c.Model.ToLower().Contains(term) ||
+                (c.Description != null && c.Description.ToLower().Contains(term)));
         }
 
-        // Статус
+        // --- Статус: по умолчанию только Active (не показываем Sold) ---
         if (filter.Status.HasValue)
             q = q.Where(c => c.Status == filter.Status.Value);
         else
-            q = q.Where(c => c.Status != CarStatus.Sold);
+            q = q.Where(c => c.Status == CarStatus.Active);
 
-        // Сортировка
+        // --- Сортировка ---
         q = filter.Sort switch
         {
             "price_asc" => q.OrderBy(c => c.Price),
@@ -68,13 +88,23 @@ public class CarService : ICarService
         return (items, total);
     }
 
-    public async Task<List<string>> GetBrandsAsync() =>
-        await _db.Cars
-            .Where(c => c.IsActive)
+    // Список брендов с кешированием на 5 минут
+    public async Task<List<string>> GetBrandsAsync()
+    {
+        const string cacheKey = "brands_list";
+        if (_cache.TryGetValue(cacheKey, out List<string>? cached) && cached != null)
+            return cached;
+
+        var brands = await _db.Cars
+            .Where(c => c.IsActive && c.Status == CarStatus.Active)
             .Select(c => c.Brand)
             .Distinct()
             .OrderBy(b => b)
             .ToListAsync();
+
+        _cache.Set(cacheKey, brands, TimeSpan.FromMinutes(5));
+        return brands;
+    }
 
     public async Task<Car?> GetBySlugAsync(string slug) =>
         await _db.Cars
@@ -109,6 +139,7 @@ public class CarService : ICarService
         car.CreatedAt = DateTime.UtcNow;
         _db.Cars.Add(car);
         await _db.SaveChangesAsync();
+        _cache.Remove("brands_list"); // сбрасываем кеш брендов
         return car.Id;
     }
 
@@ -116,6 +147,7 @@ public class CarService : ICarService
     {
         _db.Cars.Update(car);
         await _db.SaveChangesAsync();
+        _cache.Remove("brands_list");
     }
 
     public async Task DeleteAsync(int id)
@@ -123,8 +155,9 @@ public class CarService : ICarService
         var car = await _db.Cars.FindAsync(id);
         if (car != null)
         {
-            car.IsActive = false; // Мягкое удаление
+            car.IsActive = false; // мягкое удаление
             await _db.SaveChangesAsync();
+            _cache.Remove("brands_list");
         }
     }
 
@@ -138,6 +171,7 @@ public class CarService : ICarService
     public async Task<int> GetTotalCountAsync() =>
         await _db.Cars.CountAsync(c => c.IsActive && c.Status == CarStatus.Active);
 
+    // --- Генерация уникального slug ---
     private async Task<string> GenerateSlugAsync(Car car)
     {
         var baseSlug = $"{car.Brand}-{car.Model}-{car.Year}"

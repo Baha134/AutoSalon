@@ -16,10 +16,12 @@
                     <div class="col-md-6">
                         <label class="form-label">Марка *</label>
                         <input asp-for="Brand" class="form-control" required />
+                        <span asp-validation-for="Brand" class="text-danger small"></span>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Модель *</label>
                         <input asp-for="Model" class="form-control" required />
+                        <span asp-validation-for="Model" class="text-danger small"></span>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Год *</label>
@@ -28,6 +30,7 @@
                     <div class="col-md-4">
                         <label class="form-label">Цена (₸) *</label>
                         <input asp-for="Price" type="number" class="form-control" min="0" required />
+                        <span asp-validation-for="Price" class="text-danger small"></span>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Пробег (км)</label>
@@ -41,29 +44,42 @@
                         <label class="form-label">Кузов</label>
                         <select asp-for="BodyType" class="form-select">
                             <option value="">—</option>
-                            <option>Седан</option><option>Кроссовер</option><option>Внедорожник</option>
-                            <option>Хэтчбек</option><option>Минивэн</option><option>Купе</option><option>Пикап</option>
+                            <option>Седан</option>
+                            <option>Кроссовер</option>
+                            <option>Внедорожник</option>
+                            <option>Хэтчбек</option>
+                            <option>Минивэн</option>
+                            <option>Купе</option>
+                            <option>Пикап</option>
                         </select>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Коробка</label>
                         <select asp-for="Transmission" class="form-select">
                             <option value="">—</option>
-                            <option>Автомат</option><option>Механика</option><option>Вариатор</option><option>Робот</option>
+                            <option>Автомат</option>
+                            <option>Механика</option>
+                            <option>Вариатор</option>
+                            <option>Робот</option>
                         </select>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Привод</label>
                         <select asp-for="DriveType" class="form-select">
                             <option value="">—</option>
-                            <option>Передний</option><option>Задний</option><option>Полный</option>
+                            <option>Передний</option>
+                            <option>Задний</option>
+                            <option>Полный</option>
                         </select>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Топливо</label>
                         <select asp-for="FuelType" class="form-select">
                             <option value="">—</option>
-                            <option>Бензин</option><option>Дизель</option><option>Гибрид</option><option>Электро</option>
+                            <option>Бензин</option>
+                            <option>Дизель</option>
+                            <option>Гибрид</option>
+                            <option>Электро</option>
                         </select>
                     </div>
                     <div class="col-md-4">
@@ -81,7 +97,7 @@
                 </div>
             </div>
 
-            <!-- Существующие фото -->
+            <!-- Существующие фото с drag-and-drop -->
             @if (Model.ExistingPhotos.Any())
             {
                 <div class="card border-0 shadow-sm p-4 mb-4">
@@ -92,7 +108,9 @@
                         {
                             <div class="photo-item position-relative" data-photo-id="@photo.Id" draggable="true"
                                  style="width:110px;cursor:grab">
-                                <img src="@photo.FilePath" style="width:110px;height:80px;object-fit:cover;border-radius:8px;border:@(photo.IsMain ? "2px solid #185FA5" : "2px solid transparent")" />
+                                <img src="@photo.FilePath"
+                                     style="width:110px;height:80px;object-fit:cover;border-radius:8px;border:@(photo.IsMain ? "2px solid #185FA5" : "2px solid transparent")"
+                                     alt="" loading="lazy" />
                                 @if (photo.IsMain)
                                 {
                                     <span style="position:absolute;top:4px;left:4px;background:#185FA5;color:#fff;font-size:9px;padding:1px 5px;border-radius:6px">Главное</span>
@@ -102,16 +120,19 @@
                                     {
                                         <button type="button" class="btn btn-xs btn-outline-primary flex-fill"
                                                 style="font-size:10px;padding:1px 4px"
-                                                onclick="setMain(@photo.Id)">Главное</button>
+                                                onclick="setMain(@photo.Id)">
+                                            Главное
+                                        </button>
                                     }
                                     <button type="button" class="btn btn-xs btn-outline-danger flex-fill"
                                             style="font-size:10px;padding:1px 4px"
-                                            onclick="delPhoto(@photo.Id, this)">✕</button>
+                                            onclick="delPhoto(@photo.Id, this)">
+                                        ✕
+                                    </button>
                                 </div>
                             </div>
                         }
                     </div>
-                    @Html.AntiForgeryToken()
                 </div>
             }
 
@@ -122,6 +143,7 @@
             </div>
         </div>
 
+        <!-- Правая колонка -->
         <div class="col-lg-4">
             <div class="card border-0 shadow-sm p-4 mb-4">
                 <h5 class="fw-bold mb-3">Статус</h5>
@@ -139,7 +161,7 @@
                 </div>
             </div>
 
-            <div class="card border-0 shadow-sm p-4">
+            <div class="card border-0 shadow-sm p-4 mb-4">
                 <h5 class="fw-bold mb-3">Бейджи</h5>
                 <div class="form-check mb-2">
                     <input asp-for="IsVerified" class="form-check-input" type="checkbox" />
@@ -149,7 +171,7 @@
                     <input asp-for="HasWarranty" class="form-check-input" type="checkbox" />
                     <label class="form-check-label" asp-for="HasWarranty">🛡 Гарантия</label>
                 </div>
-                <div class="mb-2">
+                <div class="mb-3">
                     <label class="form-label small">Дней гарантии</label>
                     <input asp-for="WarrantyDays" type="number" class="form-control form-control-sm" />
                 </div>
@@ -159,7 +181,15 @@
                 </div>
             </div>
 
-            <div class="mt-3 d-flex gap-2">
+            <!-- HistoryReportUrl — НОВОЕ ПОЛЕ -->
+            <div class="card border-0 shadow-sm p-4 mb-4">
+                <h5 class="fw-bold mb-3">📋 История авто</h5>
+                <label class="form-label small">Ссылка на отчёт</label>
+                <input asp-for="HistoryReportUrl" class="form-control" placeholder="https://..." />
+                <span asp-validation-for="HistoryReportUrl" class="text-danger small"></span>
+            </div>
+
+            <div class="d-flex gap-2">
                 <button type="submit" class="btn btn-primary flex-fill">Сохранить</button>
                 <a href="/admin/cars" class="btn btn-outline-secondary">Назад</a>
             </div>
@@ -168,27 +198,71 @@
 </form>
 
 @section Scripts {
-<script src="~/js/gallery.js"></script>
-<script>
-var carId = @Model.Id;
-var token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
+    <script>
+        var carId = @Model.Id;
+        var token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
 
-async function delPhoto(photoId, btn) {
-    if (!confirm('Удалить это фото?')) return;
-    btn.disabled = true;
-    await fetch('/admin/cars/' + carId + '/photos/' + photoId + '/delete', {
-        method: 'POST',
-        headers: { 'RequestVerificationToken': token }
-    });
-    btn.closest('.photo-item').remove();
-}
+        async function delPhoto(photoId, btn) {
+            if (!confirm('Удалить это фото?')) return;
+            btn.disabled = true;
+            const res = await fetch('/admin/cars/' + carId + '/photos/' + photoId + '/delete', {
+                method: 'POST',
+                headers: { 'RequestVerificationToken': token }
+            });
+            if (res.ok) {
+                btn.closest('.photo-item').remove();
+            } else {
+                btn.disabled = false;
+                alert('Ошибка удаления');
+            }
+        }
 
-async function setMain(photoId) {
-    await fetch('/admin/cars/' + carId + '/photos/' + photoId + '/setmain', {
-        method: 'POST',
-        headers: { 'RequestVerificationToken': token }
-    });
-    location.reload();
-}
-</script>
+        async function setMain(photoId) {
+            await fetch('/admin/cars/' + carId + '/photos/' + photoId + '/setmain', {
+                method: 'POST',
+                headers: { 'RequestVerificationToken': token }
+            });
+            location.reload();
+        }
+
+        // Drag-and-drop сортировка фото
+        (function () {
+            const grid = document.querySelector('.photo-grid');
+            if (!grid) return;
+
+            let dragging = null;
+
+            grid.addEventListener('dragstart', e => {
+                dragging = e.target.closest('.photo-item');
+                if (dragging) dragging.style.opacity = '0.5';
+            });
+
+            grid.addEventListener('dragover', e => {
+                e.preventDefault();
+                const target = e.target.closest('.photo-item');
+                if (target && target !== dragging) {
+                    const rect = target.getBoundingClientRect();
+                    const after = e.clientX > rect.left + rect.width / 2;
+                    grid.insertBefore(dragging, after ? target.nextSibling : target);
+                }
+            });
+
+            grid.addEventListener('dragend', async () => {
+                if (dragging) dragging.style.opacity = '';
+                dragging = null;
+
+                const ids = [...grid.querySelectorAll('.photo-item')]
+                    .map(el => parseInt(el.dataset.photoId));
+
+                await fetch('/admin/cars/' + carId + '/photos/reorder', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': token
+                    },
+                    body: JSON.stringify(ids)
+                });
+            });
+        })();
+    </script>
 }

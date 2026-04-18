@@ -61,6 +61,11 @@ public class AdminCarViewModel
     [Range(1, 3650, ErrorMessage = "Дней гарантии: от 1 до 3650")]
     public int? WarrantyDays { get; set; }
 
+    // HistoryReport — ссылка на отчёт об истории авто
+    [MaxLength(500)]
+    [Url(ErrorMessage = "Укажите корректный URL")]
+    public string? HistoryReportUrl { get; set; }
+
     // Photos
     public List<IFormFile> Photos { get; set; } = new();
     public List<CarPhoto> ExistingPhotos { get; set; } = new();

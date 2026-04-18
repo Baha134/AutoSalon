@@ -15,9 +15,12 @@ public class HomeController : Controller
         _settings = settings;
     }
 
+    [HttpGet("/")]
+    [HttpGet("")]
     public async Task<IActionResult> Index()
     {
-        var (items, total) = await _cars.GetFilteredAsync(new CarFilterViewModel { PageSize = 6, Sort = "new" });
+        var (items, total) = await _cars.GetFilteredAsync(
+            new CarFilterViewModel { PageSize = 6, Sort = "new" });
         var brands = await _cars.GetBrandsAsync();
         var settings = await _settings.GetAsync();
 
@@ -31,16 +34,23 @@ public class HomeController : Controller
         return View(vm);
     }
 
+    // Явный роут /about — теперь ссылка в navbar работает
+    [HttpGet("/about")]
     public async Task<IActionResult> About()
     {
         var settings = await _settings.GetAsync();
         return View(settings);
     }
 
+    // Кастомные страницы ошибок — вызываются через UseStatusCodePagesWithReExecute
     [Route("Home/Error/{code?}")]
     public IActionResult Error(int? code)
     {
-        if (code == 404) return View("Error404");
-        return View("Error");
+        return code switch
+        {
+            404 => View("Error404"),
+            410 => View("Error410"),
+            _ => View("Error500")
+        };
     }
 }

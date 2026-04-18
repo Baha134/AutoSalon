@@ -1,3 +1,4 @@
+@model AutoSalon.Models.SalonSettings
 @{
     ViewData["Title"] = "О нас";
     ViewData["Description"] = "Автосалон — проверенные автомобили с гарантией. Контакты, адрес, режим работы.";
@@ -13,7 +14,7 @@
                 <p>Мы занимаемся продажей автомобилей с пробегом и новых автомобилей. Каждый автомобиль проходит техническую проверку перед продажей. Помогаем с оформлением кредита, страховки и регистрацией.</p>
                 <ul class="list-unstyled">
                     <li class="mb-2">✅ Проверка по базам ГИБДД и истории ДТП</li>
-                    <li class="mb-2">🏦 Кредит от 18% годовых</li>
+                    <li class="mb-2">🏦 Кредит от @Model.CreditRate% годовых</li>
                     <li class="mb-2">🔄 Обмен вашего автомобиля (trade-in)</li>
                     <li class="mb-2">🛡 Гарантия на все автомобили</li>
                     <li class="mb-2">📄 Помощь в оформлении документов</li>
@@ -37,27 +38,31 @@
                 <h2 class="h5 fw-bold mb-3">📞 Контакты</h2>
                 <div class="mb-3">
                     <div class="text-muted small mb-1">Телефон</div>
-                    <a href="tel:+70000000000" class="fw-bold fs-5 text-decoration-none">+7 (000) 000-00-00</a>
+                    <a href="tel:@Model.PhoneNumber?.Replace(" ", "").Replace("(", "").Replace(")", "").Replace("-", "")"
+                       class="fw-bold fs-5 text-decoration-none">@Model.PhoneNumber</a>
                 </div>
-                <div class="mb-3">
-                    <div class="text-muted small mb-1">WhatsApp</div>
-                    <a href="https://wa.me/70000000000" target="_blank" class="btn btn-sm" style="background:#25D366;color:#fff">
-                        💬 Написать в WhatsApp
-                    </a>
-                </div>
+                @if (!string.IsNullOrEmpty(Model.WhatsAppNumber))
+                {
+                    <div class="mb-3">
+                        <div class="text-muted small mb-1">WhatsApp</div>
+                        <a href="https://wa.me/@Model.WhatsAppNumber" target="_blank" class="btn btn-sm" style="background:#25D366;color:#fff">
+                            💬 Написать в WhatsApp
+                        </a>
+                    </div>
+                }
                 <div class="mb-3">
                     <div class="text-muted small mb-1">Адрес</div>
-                    <div>г. Кокшетау, ул. Примерная, д. 1</div>
+                    <div>@Model.Address</div>
                 </div>
                 <div class="mb-3">
                     <div class="text-muted small mb-1">Режим работы</div>
-                    <div>Пн–Вс: 9:00 — 20:00</div>
+                    <div>@Model.WorkingHours</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Карта (Яндекс Карты embed) -->
+    <!-- Карта -->
     <div class="mt-4">
         <h2 class="h5 fw-bold mb-3">🗺 Как нас найти</h2>
         <div style="border-radius:12px;overflow:hidden;height:350px;background:#eee;display:flex;align-items:center;justify-content:center">

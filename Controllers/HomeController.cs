@@ -31,7 +31,11 @@ public class HomeController : Controller
         return View(vm);
     }
 
-    public IActionResult About() => View();
+    public async Task<IActionResult> About()
+    {
+        var settings = await _settings.GetAsync();
+        return View(settings);
+    }
 
     [Route("Home/Error/{code?}")]
     public IActionResult Error(int? code)

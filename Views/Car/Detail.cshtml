@@ -63,7 +63,7 @@
                                  src="@photos[i].FilePath"
                                  data-src="@photos[i].FilePath"
                                  data-idx="@i"
-                                 alt="Фото @(i+1)" />
+                                 alt="Фото @(i + 1)" />
                         }
                     </div>
                 }
@@ -74,9 +74,18 @@
             @if (car.Badge != null)
             {
                 <div class="car-badges mb-3">
-                    @if (car.Badge.IsVerified) { <span class="car-badge badge-verified">✔ Проверено</span> }
-                    @if (car.Badge.HasWarranty) { <span class="car-badge badge-warranty">🛡 Гарантия @car.Badge.WarrantyDays дн.</span> }
-                    @if (car.Badge.HasExchange) { <span class="car-badge badge-exchange">🔄 Обмен</span> }
+                    @if (car.Badge.IsVerified)
+                    {
+                        <span class="car-badge badge-verified">✔ Проверено</span>
+                    }
+                    @if (car.Badge.HasWarranty)
+                    {
+                        <span class="car-badge badge-warranty">🛡 Гарантия @car.Badge.WarrantyDays дн.</span>
+                    }
+                    @if (car.Badge.HasExchange)
+                    {
+                        <span class="car-badge badge-exchange">🔄 Обмен</span>
+                    }
                     @if (car.Badge.HistoryReportUrl != null)
                     {
                         <a class="car-badge badge-verified" href="@car.Badge.HistoryReportUrl" target="_blank" rel="noopener">📄 История авто</a>
@@ -162,8 +171,7 @@
                 @if (canBuy)
                 {
                     <div id="lead-anchor">
-                        <!-- Кнопки -->
-                        <a href="tel:@settings?.PhoneNumber?.Replace(" ","").Replace("(","").Replace(")","").Replace("-","")"
+                        <a href="tel:@settings?.PhoneNumber?.Replace(" ", "").Replace("(", "").Replace(")", "").Replace("-", "")"
                            class="cta-btn cta-call">📞 Позвонить</a>
                         @if (!string.IsNullOrEmpty(settings?.WhatsAppNumber))
                         {
@@ -226,28 +234,75 @@
 </div>
 
 @section Scripts {
-<script src="~/js/calculator.js"></script>
-<script>
-// Галерея с навигацией
-var photos = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(photos.Select(p => p.FilePath).ToList()));
-var currentIdx = 0;
+    <script>
+        (function () {
+            // ===== КАЛЬКУЛЯТОР =====
+            var box = document.getElementById('calculator');
+            if (box) {
+                var price        = parseFloat(box.dataset.price) || 0;
+                var downSlider   = document.getElementById('calc-down');
+                var monthsSlider = document.getElementById('calc-months');
+                var downLabel    = document.getElementById('down-label');
+                var monthsLabel  = document.getElementById('months-label');
+                var rMonthly     = document.getElementById('r-monthly');
+                var rDown        = document.getElementById('r-down');
+                var rOver        = document.getElementById('r-over');
+                var ctaMonthly   = document.getElementById('cta-monthly');
 
-function setPhoto(idx) {
-    if (idx < 0) idx = photos.length - 1;
-    if (idx >= photos.length) idx = 0;
-    currentIdx = idx;
-    document.getElementById('main-photo').src = photos[idx];
-    document.getElementById('photo-idx').textContent = idx + 1;
-    document.querySelectorAll('.gallery-thumb').forEach(function(t, i) {
-        t.classList.toggle('active', i === idx);
-    });
-}
+                function fmt(n) {
+                    return Number(n).toLocaleString('ru-RU') + ' ₸';
+                }
 
-function galleryPrev() { setPhoto(currentIdx - 1); }
-function galleryNext() { setPhoto(currentIdx + 1); }
+                async function recalc() {
+                    var downPct = parseInt(downSlider.value);
+                    var months  = parseInt(monthsSlider.value);
+                    downLabel.textContent   = downPct + '%';
+                    monthsLabel.textContent = months + ' мес.';
+                    try {
+                        var res = await fetch(
+                            '/api/calculator?price=' + price +
+                            '&downPct=' + downPct +
+                            '&months='  + months
+                        );
+                        if (!res.ok) return;
+                        var d = await res.json();
+                        if (rMonthly)   rMonthly.textContent   = fmt(d.monthly);
+                        if (rDown)      rDown.textContent       = fmt(d.downAmount);
+                        if (rOver)      rOver.textContent       = fmt(d.overpay);
+                        if (ctaMonthly) ctaMonthly.textContent  = fmt(d.monthly);
+                    } catch(e) {
+                        console.error('Calc error', e);
+                    }
+                }
 
-document.querySelectorAll('.gallery-thumb').forEach(function(t) {
-    t.addEventListener('click', function() { setPhoto(parseInt(this.dataset.idx)); });
-});
-</script>
+                downSlider.addEventListener('input', recalc);
+                monthsSlider.addEventListener('input', recalc);
+                recalc();
+            }
+
+            // ===== ГАЛЕРЕЯ =====
+            var photos = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(photos.Select(p => p.FilePath).ToList()));
+            var currentIdx = 0;
+
+            function setPhoto(idx) {
+                if (idx < 0) idx = photos.length - 1;
+                if (idx >= photos.length) idx = 0;
+                currentIdx = idx;
+                var mainImg = document.getElementById('main-photo');
+                var idxEl   = document.getElementById('photo-idx');
+                if (mainImg) mainImg.src = photos[idx];
+                if (idxEl)   idxEl.textContent = idx + 1;
+                document.querySelectorAll('.gallery-thumb').forEach(function(t, i) {
+                    t.classList.toggle('active', i === idx);
+                });
+            }
+
+            window.galleryPrev = function() { setPhoto(currentIdx - 1); };
+            window.galleryNext = function() { setPhoto(currentIdx + 1); };
+
+            document.querySelectorAll('.gallery-thumb').forEach(function(t) {
+                t.addEventListener('click', function() { setPhoto(parseInt(this.dataset.idx)); });
+            });
+        })();
+    </script>
 }

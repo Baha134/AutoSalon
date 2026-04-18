@@ -1,8 +1,10 @@
+using AutoSalon.Data;
 using AutoSalon.Models;
 using AutoSalon.Services;
 using AutoSalon.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutoSalon.Controllers.Admin;
 
@@ -13,11 +15,13 @@ public class CarsAdminController : Controller
 {
     private readonly ICarService _cars;
     private readonly IPhotoService _photos;
+    private readonly AppDbContext _db;
 
-    public CarsAdminController(ICarService cars, IPhotoService photos)
+    public CarsAdminController(ICarService cars, IPhotoService photos, AppDbContext db)
     {
         _cars = cars;
         _photos = photos;
+        _db = db;
     }
 
     [HttpGet("")]
@@ -41,13 +45,12 @@ public class CarsAdminController : Controller
             return View("~/Areas/Admin/Views/CarsAdmin/Create.cshtml", vm);
 
         var car = MapToModel(vm);
-        car.Slug = GenerateSlug(car.Brand, car.Model, car.Year);
-        car.CreatedAt = DateTime.UtcNow;
-
         var id = await _cars.CreateAsync(car);
 
         if (vm.Photos.Count > 0)
             await _photos.SavePhotosAsync(vm.Photos, id);
+
+        await SaveBadgeAsync(id, vm);
 
         TempData["Success"] = "Автомобиль добавлен";
         return RedirectToAction("Index");
@@ -79,6 +82,8 @@ public class CarsAdminController : Controller
 
         if (vm.Photos.Count > 0)
             await _photos.SavePhotosAsync(vm.Photos, id);
+
+        await SaveBadgeAsync(id, vm);
 
         TempData["Success"] = "Изменения сохранены";
         return RedirectToAction("Index");
@@ -116,6 +121,24 @@ public class CarsAdminController : Controller
 
     // --- helpers ---
 
+    private async Task SaveBadgeAsync(int carId, AdminCarViewModel vm)
+    {
+        var badge = await _db.CarBadges.FirstOrDefaultAsync(b => b.CarId == carId);
+
+        if (badge == null)
+        {
+            badge = new CarBadge { CarId = carId };
+            _db.CarBadges.Add(badge);
+        }
+
+        badge.IsVerified = vm.IsVerified;
+        badge.HasWarranty = vm.HasWarranty;
+        badge.HasExchange = vm.HasExchange;
+        badge.WarrantyDays = vm.HasWarranty ? vm.WarrantyDays : null;
+
+        await _db.SaveChangesAsync();
+    }
+
     private static Car MapToModel(AdminCarViewModel vm) => new()
     {
         Brand = vm.Brand,
@@ -137,12 +160,21 @@ public class CarsAdminController : Controller
 
     private static void ApplyToModel(Car car, AdminCarViewModel vm)
     {
-        car.Brand = vm.Brand; car.Model = vm.Model; car.Year = vm.Year;
-        car.Price = vm.Price; car.Mileage = vm.Mileage; car.EngineVolume = vm.EngineVolume;
-        car.BodyType = vm.BodyType; car.Transmission = vm.Transmission;
-        car.DriveType = vm.DriveType; car.FuelType = vm.FuelType;
-        car.Color = vm.Color; car.City = vm.City; car.Description = vm.Description;
-        car.Status = vm.Status; car.IsActive = vm.IsActive;
+        car.Brand = vm.Brand;
+        car.Model = vm.Model;
+        car.Year = vm.Year;
+        car.Price = vm.Price;
+        car.Mileage = vm.Mileage;
+        car.EngineVolume = vm.EngineVolume;
+        car.BodyType = vm.BodyType;
+        car.Transmission = vm.Transmission;
+        car.DriveType = vm.DriveType;
+        car.FuelType = vm.FuelType;
+        car.Color = vm.Color;
+        car.City = vm.City;
+        car.Description = vm.Description;
+        car.Status = vm.Status;
+        car.IsActive = vm.IsActive;
     }
 
     private static AdminCarViewModel MapToViewModel(Car car) => new()
@@ -168,14 +200,4 @@ public class CarsAdminController : Controller
         HasExchange = car.Badge?.HasExchange ?? false,
         WarrantyDays = car.Badge?.WarrantyDays
     };
-
-    private static string GenerateSlug(string brand, string model, int year)
-    {
-        var raw = $"{brand}-{model}-{year}".ToLower()
-            .Replace(" ", "-")
-            .Replace("ё", "e")
-            .Replace("ь", "")
-            .Replace("ъ", "");
-        return raw + "-" + Guid.NewGuid().ToString("N")[..6];
-    }
 }

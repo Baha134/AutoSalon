@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] — Админ | АвтоСалон</title>
+    <meta name="robots" content="noindex" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        body { background: #f0f2f5; }
+        .admin-sidebar { width: 220px; min-height: 100vh; background: #1a1a2e; flex-shrink: 0; }
+        .admin-sidebar .brand { padding: 20px 18px; font-weight: 700; font-size: 17px; color: #fff; border-bottom: 1px solid rgba(255,255,255,.1); }
+        .admin-sidebar .brand span { color: #f0ad00; }
+        .admin-nav .nav-link { color: rgba(255,255,255,.7); padding: 10px 18px; font-size: 14px; display: flex; align-items: center; gap: 9px; transition: all .15s; border-left: 3px solid transparent; }
+        .admin-nav .nav-link:hover, .admin-nav .nav-link.active { color: #fff; background: rgba(255,255,255,.07); border-left-color: #f0ad00; }
+        .admin-main { flex: 1; overflow: hidden; }
+        .admin-topbar { background: #fff; border-bottom: 1px solid #e0e0e0; padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; }
+        .admin-topbar .page-title { font-size: 16px; font-weight: 600; }
+        .admin-content { padding: 24px; }
+        .stat-card { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+        .stat-card .stat-val { font-size: 32px; font-weight: 800; }
+        .stat-card .stat-label { font-size: 13px; color: #888; margin-top: 4px; }
+        .admin-table { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+        .admin-table table { margin: 0; }
+        .admin-table thead th { background: #f7f8fa; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: #666; font-weight: 600; border-bottom: 1px solid #e8e8e8; padding: 12px 16px; }
+        .admin-table td { padding: 12px 16px; vertical-align: middle; font-size: 14px; }
+        .badge-new-lead { background: #dcf5e8; color: #1a7a3c; }
+        .badge-fail { background: #fce8e8; color: #a32d2d; }
+    </style>
+</head>
+<body>
+<div class="d-flex">
+    <!-- Сайдбар -->
+    <div class="admin-sidebar">
+        <div class="brand">Авто<span>Салон</span> <small style="font-size:10px;opacity:.5">Admin</small></div>
+        <nav class="admin-nav mt-2">
+            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Dashboard" ? "active" : "")" href="/admin">
+                📊 Дашборд
+            </a>
+            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "CarsAdmin" ? "active" : "")" href="/admin/cars">
+                🚗 Автомобили
+            </a>
+            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "LeadsAdmin" ? "active" : "")" href="/admin/leads">
+                📋 Заявки
+            </a>
+            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Settings" ? "active" : "")" href="/admin/settings">
+                ⚙️ Настройки
+            </a>
+            <hr style="border-color:rgba(255,255,255,.1);margin:12px 18px"/>
+            <a class="nav-link" href="/">🌐 На сайт</a>
+        </nav>
+    </div>
+
+    <!-- Контент -->
+    <div class="admin-main">
+        <div class="admin-topbar">
+            <div class="page-title">@ViewData["Title"]</div>
+            <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/" method="post">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-sm btn-outline-secondary">Выйти</button>
+            </form>
+        </div>
+
+        <div class="admin-content">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    ✅ @TempData["Success"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    ❌ @TempData["Error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+            @RenderBody()
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

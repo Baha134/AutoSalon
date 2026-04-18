@@ -1,0 +1,89 @@
+@model List<AutoSalon.Models.Lead>
+@{
+    ViewData["Title"] = "Заявки";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="admin-table">
+    <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
+        <strong>Все заявки (@Model.Count)</strong>
+        <div class="text-muted small">
+            Новых: <span class="text-success fw-bold">@Model.Count(l => l.Status == AutoSalon.Models.LeadStatus.New)</span>
+            &nbsp;|&nbsp;
+            Ошибок уведомлений: <span class="text-danger fw-bold">@Model.Count(l => l.NotifyFailed)</span>
+        </div>
+    </div>
+    <table class="table table-hover mb-0">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Имя / Телефон</th>
+                <th>Автомобиль</th>
+                <th>Тип</th>
+                <th>Сообщение</th>
+                <th>Статус</th>
+                <th>Дата</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var lead in Model)
+            {
+                <tr>
+                    <td class="text-muted small">@lead.Id</td>
+                    <td>
+                        <div class="fw-semibold">@lead.Name</div>
+                        <a href="tel:@lead.Phone" class="text-muted small">@lead.Phone</a>
+                    </td>
+                    <td>
+                        @if (lead.Car != null)
+                        {
+                            <a href="/car/@lead.Car.Slug" target="_blank" class="small">@lead.Car.Brand @lead.Car.Model @lead.Car.Year</a>
+                        }
+                        else
+                        {
+                            <span class="text-muted small">—</span>
+                        }
+                    </td>
+                    <td>
+                        @switch (lead.LeadType)
+                        {
+                            case AutoSalon.Models.LeadType.Call:
+                                <span>📞 Звонок</span>
+                                break;
+                            case AutoSalon.Models.LeadType.WhatsApp:
+                                <span>💬 WhatsApp</span>
+                                break;
+                            case AutoSalon.Models.LeadType.Credit:
+                                <span>🏦 Кредит</span>
+                                break;
+                        }
+                    </td>
+                    <td class="text-muted small" style="max-width:150px">
+                        <div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">@lead.Message</div>
+                    </td>
+                    <td>
+                        @if (lead.Status == AutoSalon.Models.LeadStatus.New)
+                        {
+                            <span class="badge badge-new-lead">Новая</span>
+                        }
+                        else if (lead.Status == AutoSalon.Models.LeadStatus.InProgress)
+                        {
+                            <span class="badge bg-warning text-dark">В работе</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Готово</span>
+                        }
+                        @if (lead.NotifyFailed)
+                        {
+                            <span class="badge badge-fail ms-1" title="Telegram-уведомление не отправлено">⚠️</span>
+                        }
+                    </td>
+                    <td class="text-muted small">@lead.CreatedAt.ToString("dd.MM.yy HH:mm")</td>
+                    <td><a href="/admin/leads/@lead.Id" class="btn btn-sm btn-outline-secondary">Открыть</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

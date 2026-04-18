@@ -27,3 +27,6 @@ public class CarFilterViewModel
         YearMin.HasValue || YearMax.HasValue ||
         MileageMax.HasValue;
 }
+
+
+

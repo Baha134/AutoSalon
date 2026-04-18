@@ -11,3 +11,6 @@ public class CarListViewModel
     public List<string> Brands { get; set; } = new();
     public List<string> BodyTypes { get; set; } = new();
 }
+
+
+

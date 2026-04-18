@@ -62,9 +62,9 @@
                 @Html.AntiForgeryToken()
                 <div class="mb-3">
                     <select name="status" class="form-select">
-                        <option value="0" @(Model.Status == AutoSalon.Models.LeadStatus.New ? "selected" : "")>Новая</option>
-                        <option value="1" @(Model.Status == AutoSalon.Models.LeadStatus.InProgress ? "selected" : "")>В работе</option>
-                        <option value="2" @(Model.Status == AutoSalon.Models.LeadStatus.Done ? "selected" : "")>Готово</option>
+                        <option value="0" selected="@(Model.Status == AutoSalon.Models.LeadStatus.New ? "selected" : null)">Новая</option>
+                        <option value="1" selected="@(Model.Status == AutoSalon.Models.LeadStatus.InProgress ? "selected" : null)">В работе</option>
+                        <option value="2" selected="@(Model.Status == AutoSalon.Models.LeadStatus.Done ? "selected" : null)">Готово</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Сохранить статус</button>

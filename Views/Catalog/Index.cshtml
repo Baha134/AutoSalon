@@ -101,14 +101,43 @@
                 </div>
                 <div class="catalog-sort">
                     <form method="get" action="/catalog" id="sort-form">
-                        @foreach (var key in new[] { "Brand", "BodyType", "Transmission", "FuelType", "PriceMin", "PriceMax", "YearMin", "YearMax", "MileageMax", "Search", "Page" })
-                        {
-                            var val = Request.Query[key].ToString();
-                            if (!string.IsNullOrEmpty(val))
+                        <form method="get" action="/catalog" id="sort-form">
+                            @if (!string.IsNullOrEmpty(Model.Filter.Brand))
                             {
-                                <input type="hidden" name="@key" value="@val" />
+                                <input type="hidden" name="Brand" value="@Model.Filter.Brand" />
                             }
-                        }
+                            @if (!string.IsNullOrEmpty(Model.Filter.BodyType))
+                            {
+                                <input type="hidden" name="BodyType" value="@Model.Filter.BodyType" />
+                            }
+                            @if (!string.IsNullOrEmpty(Model.Filter.Transmission))
+                            {
+                                <input type="hidden" name="Transmission" value="@Model.Filter.Transmission" />
+                            }
+                            @if (!string.IsNullOrEmpty(Model.Filter.FuelType))
+                            {
+                                <input type="hidden" name="FuelType" value="@Model.Filter.FuelType" />
+                            }
+                            @if (!string.IsNullOrEmpty(Model.Filter.Search))
+                            {
+                                <input type="hidden" name="Search" value="@Model.Filter.Search" />
+                            }
+                            @if (Model.Filter.PriceMin.HasValue)
+                            {
+                                <input type="hidden" name="PriceMin" value="@Model.Filter.PriceMin" />
+                            }
+                            @if (Model.Filter.PriceMax.HasValue)
+                            {
+                                <input type="hidden" name="PriceMax" value="@Model.Filter.PriceMax" />
+                            }
+                            @if (Model.Filter.YearMin.HasValue)
+                            {
+                                <input type="hidden" name="YearMin" value="@Model.Filter.YearMin" />
+                            }
+                            @if (Model.Filter.YearMax.HasValue)
+                            {
+                                <input type="hidden" name="YearMax" value="@Model.Filter.YearMax" />
+                            }
                         <select name="Sort" class="form-select form-select-sm" style="width:auto" onchange="document.getElementById('sort-form').submit()">
                             <option value="new" @(Model.Filter.Sort == "new" ? "selected" : "")>Сначала новые</option>
                             <option value="price_asc" @(Model.Filter.Sort == "price_asc" ? "selected" : "")>Цена ↑</option>
@@ -143,7 +172,7 @@
                                     }
                                     else
                                     {
-                                        <a class="page-link" href="/catalog?@Html.Raw(Request.QueryString.ToString().TrimStart('?').Replace($"Page={Model.Filter.Page}", "").TrimStart('&'))&Page=@p">@p</a>
+                                        <a class="page-link" href="/catalog?Page=@p">@p</a>
                                     }
                                 </li>
                             }
@@ -217,8 +246,8 @@ document.addEventListener('DOMContentLoaded', function() {
         .drawer-panel { position:absolute;bottom:0;left:0;right:0;background:#fff;border-radius:16px 16px 0 0;padding:20px;transform:translateY(100%);transition:transform .3s; max-height:85vh;overflow-y:auto; }
         .drawer-handle { width:40px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 16px; }
         .filters-drawer.open .drawer-panel { transform:translateY(0); }
-        @media(min-width:992px){ .filters-drawer-btn { display:none!important; } .filters-drawer { display:none!important; } }
-        @media(max-width:991px){ .filters-sidebar { display:none!important; } .filters-drawer { display:block!important; } .catalog-wrap { grid-template-columns:1fr!important; } }
+               @@media(min-width:992px){ .filters-drawer-btn { display:none!important; } .filters-drawer { display:none!important; } }
+                @@media(max-width:991px){ .filters-sidebar { display:none!important; } .filters-drawer { display:block!important; } .catalog-wrap { grid-template-columns:1fr!important; } }
     `;
     const style = document.createElement('style');
     style.textContent = drawerStyles;

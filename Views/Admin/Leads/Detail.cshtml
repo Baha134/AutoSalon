@@ -1,0 +1,83 @@
+@model AutoSalon.Models.Lead
+@{
+    ViewData["Title"] = "Заявка #" + Model.Id;
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm p-4">
+            <h5 class="fw-bold mb-3">Данные заявки #@Model.Id</h5>
+            <table class="table table-sm">
+                <tr><th style="width:140px">Имя</th><td>@Model.Name</td></tr>
+                <tr><th>Телефон</th><td><a href="tel:@Model.Phone">@Model.Phone</a></td></tr>
+                <tr>
+                    <th>Тип</th>
+                    <td>
+                        @switch (Model.LeadType)
+                        {
+                            case AutoSalon.Models.LeadType.Call: <span>📞 Звонок</span> break;
+                            case AutoSalon.Models.LeadType.WhatsApp: <span>💬 WhatsApp</span> break;
+                            case AutoSalon.Models.LeadType.Credit: <span>🏦 Кредит</span> break;
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <th>Автомобиль</th>
+                    <td>
+                        @if (Model.Car != null)
+                        {
+                            <a href="/car/@Model.Car.Slug" target="_blank">@Model.Car.Brand @Model.Car.Model @Model.Car.Year</a>
+                        }
+                        else
+                        {
+                            <span class="text-muted">Не указан</span>
+                        }
+                    </td>
+                </tr>
+                <tr><th>Сообщение</th><td>@(Model.Message ?? "—")</td></tr>
+                <tr><th>IP</th><td class="text-muted small">@Model.IP</td></tr>
+                <tr><th>Дата</th><td>@Model.CreatedAt.ToString("dd.MM.yyyy HH:mm")</td></tr>
+                <tr>
+                    <th>Уведомление</th>
+                    <td>
+                        @if (Model.NotifyFailed)
+                        {
+                            <span class="badge badge-fail">⚠️ Не отправлено</span>
+                        }
+                        else
+                        {
+                            <span class="badge" style="background:#dcf5e8;color:#1a7a3c">✅ Доставлено</span>
+                        }
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm p-4">
+            <h5 class="fw-bold mb-3">Изменить статус</h5>
+            <form method="post" action="/admin/leads/@Model.Id/status">
+                @Html.AntiForgeryToken()
+                <div class="mb-3">
+                    <select name="status" class="form-select">
+                        <option value="0" @(Model.Status == AutoSalon.Models.LeadStatus.New ? "selected" : "")>Новая</option>
+                        <option value="1" @(Model.Status == AutoSalon.Models.LeadStatus.InProgress ? "selected" : "")>В работе</option>
+                        <option value="2" @(Model.Status == AutoSalon.Models.LeadStatus.Done ? "selected" : "")>Готово</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Сохранить статус</button>
+            </form>
+
+            <hr />
+
+            @if (Model.Car != null)
+            {
+                <a href="/car/@Model.Car.Slug" target="_blank" class="btn btn-outline-primary w-100 mb-2">🔗 Открыть авто</a>
+            }
+            <a href="tel:@Model.Phone" class="btn btn-outline-success w-100 mb-2">📞 Позвонить</a>
+            <a href="/admin/leads" class="btn btn-outline-secondary w-100">← К списку</a>
+        </div>
+    </div>
+</div>

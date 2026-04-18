@@ -1,0 +1,13 @@
+@{
+    ViewData["Title"] = "Автомобиль недоступен";
+    ViewData["NoIndex"] = true;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container py-5 text-center">
+    <div class="empty-state">
+        <div class="empty-icon">🚗</div>
+        <h3>Этот автомобиль больше не доступен</h3>
+        <p>Возможно, он был продан или снят с продажи.</p>
+        <a href="/catalog" class="btn btn-primary">Смотреть каталог</a>
+    </div>
+</div>

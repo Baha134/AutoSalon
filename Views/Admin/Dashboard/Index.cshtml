@@ -1,0 +1,102 @@
+@{
+    ViewData["Title"] = "Дашборд";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-val text-primary">@ViewBag.TotalCars</div>
+            <div class="stat-label">Автомобилей в базе</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-val">@ViewBag.TotalLeads</div>
+            <div class="stat-label">Всего заявок</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-val text-success">@ViewBag.NewLeads</div>
+            <div class="stat-label">Новых заявок</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            @if (ViewBag.FailedNotifications > 0)
+            {
+                <div class="stat-val text-danger">⚠️ @ViewBag.FailedNotifications</div>
+                <div class="stat-label">Уведомления не отправлены</div>
+            }
+            else
+            {
+                <div class="stat-val text-success">✅ 0</div>
+                <div class="stat-label">Все уведомления доставлены</div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="admin-table">
+    <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
+        <strong>Последние заявки</strong>
+        <a href="/admin/leads" class="btn btn-sm btn-outline-primary">Все заявки</a>
+    </div>
+    <table class="table table-hover mb-0">
+        <thead>
+            <tr>
+                <th>Имя</th>
+                <th>Телефон</th>
+                <th>Автомобиль</th>
+                <th>Тип</th>
+                <th>Статус</th>
+                <th>Дата</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.RecentLeads != null)
+            {
+                foreach (var lead in ViewBag.RecentLeads)
+                {
+                    <tr>
+                        <td>@lead.Name</td>
+                        <td><a href="tel:@lead.Phone">@lead.Phone</a></td>
+                        <td>
+                            @if (lead.Car != null)
+                            {
+                                <a href="/car/@lead.Car.Slug" target="_blank">@lead.Car.Brand @lead.Car.Model</a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">—</span>
+                            }
+                        </td>
+                        <td>@lead.LeadType</td>
+                        <td>
+                            @if (lead.Status == AutoSalon.Models.LeadStatus.New)
+                            {
+                                <span class="badge badge-new-lead">Новая</span>
+                            }
+                            else if (lead.Status == AutoSalon.Models.LeadStatus.InProgress)
+                            {
+                                <span class="badge bg-warning text-dark">В работе</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Готово</span>
+                            }
+                            @if (lead.NotifyFailed)
+                            {
+                                <span class="badge badge-fail ms-1" title="Уведомление не отправлено">⚠️</span>
+                            }
+                        </td>
+                        <td class="text-muted small">@lead.CreatedAt.ToString("dd.MM HH:mm")</td>
+                        <td><a href="/admin/leads/@lead.Id" class="btn btn-sm btn-outline-secondary">Открыть</a></td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

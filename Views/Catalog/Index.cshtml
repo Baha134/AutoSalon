@@ -1,0 +1,228 @@
+@model AutoSalon.ViewModels.CarListViewModel
+@{
+    ViewData["Title"] = "Каталог автомобилей";
+    ViewData["Description"] = "Каталог автомобилей. " + Model.TotalCount + " авто в наличии.";
+}
+
+<div class="container mt-4">
+
+    <!-- Мобильная кнопка фильтров -->
+    <button class="filters-drawer-btn d-lg-none mb-3 btn btn-outline-secondary w-100" id="drawer-open-btn">
+        🔍 Фильтры
+    </button>
+
+    <!-- Поиск -->
+    <form method="get" action="/catalog" class="d-flex gap-2 mb-4">
+        <input type="text" name="Search" value="@Model.Filter.Search" class="form-control" placeholder="Поиск по марке или модели..." autocomplete="off" />
+        <button type="submit" class="btn btn-primary px-4">Найти</button>
+        @if (Model.Filter.HasActiveFilters)
+        {
+            <a href="/catalog" class="btn btn-outline-secondary">Сбросить</a>
+        }
+    </form>
+
+    <div class="catalog-wrap">
+        <!-- Фильтры (sidebar) -->
+        <form method="get" action="/catalog" class="filters-sidebar d-none d-lg-block">
+            <div class="filter-group">
+                <div class="filter-label">Марка</div>
+                <select name="Brand" class="form-select form-select-sm" onchange="this.form.submit()">
+                    <option value="">Все марки</option>
+                    @foreach (var b in Model.Brands)
+                    {
+                        <option value="@b" @(Model.Filter.Brand == b ? "selected" : "")>@b</option>
+                    }
+                </select>
+            </div>
+            <div class="filter-group">
+                <div class="filter-label">Цена, ₸</div>
+                <div class="filter-row">
+                    <input type="number" name="PriceMin" value="@Model.Filter.PriceMin" placeholder="от" class="form-control form-control-sm" />
+                    <input type="number" name="PriceMax" value="@Model.Filter.PriceMax" placeholder="до" class="form-control form-control-sm" />
+                </div>
+            </div>
+            <div class="filter-group">
+                <div class="filter-label">Год выпуска</div>
+                <div class="filter-row">
+                    <input type="number" name="YearMin" value="@Model.Filter.YearMin" placeholder="от" class="form-control form-control-sm" min="1990" max="@DateTime.Now.Year" />
+                    <input type="number" name="YearMax" value="@Model.Filter.YearMax" placeholder="до" class="form-control form-control-sm" min="1990" max="@DateTime.Now.Year" />
+                </div>
+            </div>
+            <div class="filter-group">
+                <div class="filter-label">Кузов</div>
+                <select name="BodyType" class="form-select form-select-sm">
+                    <option value="">Все</option>
+                    @if (Model.BodyTypes != null)
+                    {
+                        foreach (var bt in Model.BodyTypes)
+                        {
+                            <option value="@bt" @(Model.Filter.BodyType == bt ? "selected" : "")>@bt</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="filter-group">
+                <div class="filter-label">Коробка</div>
+                <select name="Transmission" class="form-select form-select-sm">
+                    <option value="">Все</option>
+                    <option value="Автомат" @(Model.Filter.Transmission == "Автомат" ? "selected" : "")>Автомат</option>
+                    <option value="Механика" @(Model.Filter.Transmission == "Механика" ? "selected" : "")>Механика</option>
+                    <option value="Вариатор" @(Model.Filter.Transmission == "Вариатор" ? "selected" : "")>Вариатор</option>
+                    <option value="Робот" @(Model.Filter.Transmission == "Робот" ? "selected" : "")>Робот</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <div class="filter-label">Топливо</div>
+                <select name="FuelType" class="form-select form-select-sm">
+                    <option value="">Все</option>
+                    <option value="Бензин" @(Model.Filter.FuelType == "Бензин" ? "selected" : "")>Бензин</option>
+                    <option value="Дизель" @(Model.Filter.FuelType == "Дизель" ? "selected" : "")>Дизель</option>
+                    <option value="Гибрид" @(Model.Filter.FuelType == "Гибрид" ? "selected" : "")>Гибрид</option>
+                    <option value="Электро" @(Model.Filter.FuelType == "Электро" ? "selected" : "")>Электро</option>
+                </select>
+            </div>
+            <input type="hidden" name="Page" value="1" />
+            <button type="submit" class="filter-apply">Применить</button>
+            @if (Model.Filter.HasActiveFilters)
+            {
+                <a href="/catalog" class="filter-reset d-block text-center mt-2">Сбросить фильтры</a>
+            }
+        </form>
+
+        <!-- Каталог -->
+        <div>
+            <div class="catalog-header">
+                <div class="catalog-total">
+                    @Model.TotalCount авто
+                    @if (!string.IsNullOrEmpty(Model.Filter.Search))
+                    {
+                        <span>по запросу «@Model.Filter.Search»</span>
+                    }
+                </div>
+                <div class="catalog-sort">
+                    <form method="get" action="/catalog" id="sort-form">
+                        @foreach (var key in new[] { "Brand", "BodyType", "Transmission", "FuelType", "PriceMin", "PriceMax", "YearMin", "YearMax", "MileageMax", "Search", "Page" })
+                        {
+                            var val = Request.Query[key].ToString();
+                            if (!string.IsNullOrEmpty(val))
+                            {
+                                <input type="hidden" name="@key" value="@val" />
+                            }
+                        }
+                        <select name="Sort" class="form-select form-select-sm" style="width:auto" onchange="document.getElementById('sort-form').submit()">
+                            <option value="new" @(Model.Filter.Sort == "new" ? "selected" : "")>Сначала новые</option>
+                            <option value="price_asc" @(Model.Filter.Sort == "price_asc" ? "selected" : "")>Цена ↑</option>
+                            <option value="price_desc" @(Model.Filter.Sort == "price_desc" ? "selected" : "")>Цена ↓</option>
+                            <option value="popular" @(Model.Filter.Sort == "popular" ? "selected" : "")>Популярные</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+
+            @if (Model.Cars.Any())
+            {
+                <div class="car-grid" id="catalog-grid">
+                    @foreach (var car in Model.Cars)
+                    {
+                        <partial name="_CarCard" model="car" />
+                    }
+                </div>
+
+                <!-- Пагинация -->
+                @if (Model.TotalPages > 1)
+                {
+                    <nav class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            @for (var p = 1; p <= Model.TotalPages; p++)
+                            {
+                                var isActive = p == Model.Filter.Page;
+                                <li class="page-item @(isActive ? "active" : "")">
+                                    @if (isActive)
+                                    {
+                                        <span class="page-link">@p</span>
+                                    }
+                                    else
+                                    {
+                                        <a class="page-link" href="/catalog?@Html.Raw(Request.QueryString.ToString().TrimStart('?').Replace($"Page={Model.Filter.Page}", "").TrimStart('&'))&Page=@p">@p</a>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                }
+            }
+            else
+            {
+                <div class="empty-state py-5">
+                    <div class="empty-icon">🚗</div>
+                    <h3>Ничего не нашлось</h3>
+                    @if (Model.Filter.HasActiveFilters)
+                    {
+                        <p>Попробуйте изменить параметры фильтра</p>
+                        <a href="/catalog" class="btn btn-primary">Сбросить фильтры</a>
+                    }
+                    else
+                    {
+                        <p>Скоро здесь появятся новые автомобили</p>
+                    }
+                    <a href="#" class="btn btn-outline-secondary mt-2" onclick="document.getElementById('lead-anchor') && document.getElementById('lead-anchor').scrollIntoView({behavior:'smooth'})">Оставить заявку</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Мобильный Drawer-фильтр -->
+<div class="filters-drawer" id="filters-drawer">
+    <div class="drawer-backdrop" id="drawer-backdrop"></div>
+    <div class="drawer-panel">
+        <div class="drawer-handle"></div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <strong>Фильтры</strong>
+            <button class="btn btn-sm btn-outline-secondary" id="drawer-close-btn">✕</button>
+        </div>
+        <form method="get" action="/catalog">
+            <div class="mb-3">
+                <label class="form-label small text-muted">Марка</label>
+                <select name="Brand" class="form-select form-select-sm">
+                    <option value="">Все марки</option>
+                    @foreach (var b in Model.Brands)
+                    {
+                        <option value="@b" @(Model.Filter.Brand == b ? "selected" : "")>@b</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label small text-muted">Цена от</label>
+                <input type="number" name="PriceMin" value="@Model.Filter.PriceMin" class="form-control form-control-sm" placeholder="от ₸" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label small text-muted">Цена до</label>
+                <input type="number" name="PriceMax" value="@Model.Filter.PriceMax" class="form-control form-control-sm" placeholder="до ₸" />
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Применить</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+// Мобильный drawer CSS (inline для drawer, т.к. не отображается в CSS desktop)
+document.addEventListener('DOMContentLoaded', function() {
+    const drawerStyles = `
+        .filters-drawer { position:fixed;inset:0;z-index:1050;pointer-events:none; }
+        .filters-drawer.open { pointer-events:auto; }
+        .drawer-backdrop { position:absolute;inset:0;background:rgba(0,0,0,.5);opacity:0;transition:opacity .3s; }
+        .filters-drawer.open .drawer-backdrop { opacity:1; }
+        .drawer-panel { position:absolute;bottom:0;left:0;right:0;background:#fff;border-radius:16px 16px 0 0;padding:20px;transform:translateY(100%);transition:transform .3s; max-height:85vh;overflow-y:auto; }
+        .drawer-handle { width:40px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 16px; }
+        .filters-drawer.open .drawer-panel { transform:translateY(0); }
+        @media(min-width:992px){ .filters-drawer-btn { display:none!important; } .filters-drawer { display:none!important; } }
+        @media(max-width:991px){ .filters-sidebar { display:none!important; } .filters-drawer { display:block!important; } .catalog-wrap { grid-template-columns:1fr!important; } }
+    `;
+    const style = document.createElement('style');
+    style.textContent = drawerStyles;
+    document.head.appendChild(style);
+});
+</script>
+}

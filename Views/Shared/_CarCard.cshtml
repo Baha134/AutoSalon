@@ -1,0 +1,96 @@
+@model AutoSalon.Models.Car
+@{
+    var isSold = Model.Status == AutoSalon.Models.CarStatus.Sold;
+    var isReserved = Model.Status == AutoSalon.Models.CarStatus.Reserved;
+    var mainPhoto = Model.MainPhoto;
+}
+<div class="car-card">
+    <a href="/car/@Model.Slug" class="car-card-img-link">
+        <div class="car-card-img">
+            @if (mainPhoto != null)
+            {
+                <img src="@mainPhoto.FilePath" alt="@Model.Brand @Model.Model @Model.Year" loading="lazy" />
+            }
+            else
+            {
+                <div class="no-photo">Нет фото</div>
+            }
+
+            @* Статус *@
+            @if (isSold)
+            {
+                <div class="status-badge status-sold">Продано</div>
+            }
+            else if (isReserved)
+            {
+                <div class="status-badge status-reserved">Резерв</div>
+            }
+
+            @* Избранное *@
+            @if (!isSold)
+            {
+                <button class="fav-btn" data-car-id="@Model.Id" onclick="toggleFav(event, @Model.Id, this)" title="В избранное">♡</button>
+            }
+
+            @* Сравнить *@
+            @if (!isSold)
+            {
+                <button class="compare-btn" onclick="toggleCompare(event, @Model.Id, this)">⚖ Сравнить</button>
+            }
+        </div>
+    </a>
+    <div class="car-card-body">
+        @* Бейджи *@
+        @if (Model.Badge != null)
+        {
+            <div class="car-badges">
+                @if (Model.Badge.IsVerified)
+                {
+                    <span class="car-badge badge-verified">✔ Проверено</span>
+                }
+                @if (Model.Badge.HasWarranty)
+                {
+                    <span class="car-badge badge-warranty">🛡 Гарантия</span>
+                }
+                @if (Model.Badge.HasExchange)
+                {
+                    <span class="car-badge badge-exchange">🔄 Обмен</span>
+                }
+            </div>
+        }
+
+        <a href="/car/@Model.Slug" class="car-card-title d-block text-decoration-none text-dark">
+            @Model.Brand @Model.Model
+        </a>
+        <div class="car-card-price">
+            @if (isSold)
+            {
+                <span class="text-muted text-decoration-line-through">@Model.DisplayPrice</span>
+            }
+            else
+            {
+                @Model.DisplayPrice
+            }
+        </div>
+        <div class="car-card-specs">
+            <span>@Model.Year г.</span>
+            <span>@Model.DisplayMileage</span>
+            <span>@Model.EngineVolume л</span>
+            <span>@Model.Transmission</span>
+        </div>
+        <div class="car-card-footer">
+            @if (!isSold && !isReserved)
+            {
+                <a href="/car/@Model.Slug" class="btn btn-primary btn-sm flex-fill">Подробнее</a>
+            }
+            else if (isReserved)
+            {
+                <a href="/car/@Model.Slug" class="btn btn-outline-warning btn-sm flex-fill">Узнать подробнее</a>
+            }
+            else
+            {
+                <span class="btn btn-outline-secondary btn-sm flex-fill disabled">Продано</span>
+            }
+        </div>
+    </div>
+</div>

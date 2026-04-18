@@ -1,0 +1,80 @@
+@model AutoSalon.ViewModels.CarListViewModel
+@{
+    ViewData["Title"] = "Автомобили";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="text-muted small">Всего: @Model.TotalCount авто</div>
+    <a href="/admin/cars/create" class="btn btn-primary">+ Добавить автомобиль</a>
+</div>
+
+<div class="admin-table">
+    <table class="table table-hover mb-0">
+        <thead>
+            <tr>
+                <th>Фото</th>
+                <th>Автомобиль</th>
+                <th>Цена</th>
+                <th>Пробег</th>
+                <th>Статус</th>
+                <th>Просмотры</th>
+                <th>Дата</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var car in Model.Cars)
+            {
+                <tr>
+                    <td style="width:70px">
+                        @if (car.MainPhoto != null)
+                        {
+                            <img src="@car.MainPhoto.FilePath" style="width:60px;height:44px;object-fit:cover;border-radius:6px" alt="" />
+                        }
+                        else
+                        {
+                            <div style="width:60px;height:44px;background:#eee;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#bbb">нет</div>
+                        }
+                    </td>
+                    <td>
+                        <div class="fw-semibold">@car.Brand @car.Model @car.Year</div>
+                        <div class="text-muted small">@car.BodyType · @car.Transmission · @car.EngineVolume л</div>
+                    </td>
+                    <td class="fw-semibold">@car.DisplayPrice</td>
+                    <td class="text-muted small">@car.DisplayMileage</td>
+                    <td>
+                        @if (car.Status == AutoSalon.Models.CarStatus.Active)
+                        {
+                            <span class="badge" style="background:#dcf5e8;color:#1a7a3c">Активный</span>
+                        }
+                        else if (car.Status == AutoSalon.Models.CarStatus.Reserved)
+                        {
+                            <span class="badge" style="background:#fff3cd;color:#856404">Резерв</span>
+                        }
+                        else
+                        {
+                            <span class="badge" style="background:#f8d7da;color:#721c24">Продано</span>
+                        }
+                        @if (!car.IsActive)
+                        {
+                            <span class="badge bg-secondary ms-1">Скрыт</span>
+                        }
+                    </td>
+                    <td class="text-muted small">@car.ViewCount</td>
+                    <td class="text-muted small">@car.CreatedAt.ToString("dd.MM.yy")</td>
+                    <td>
+                        <div class="d-flex gap-1">
+                            <a href="/admin/cars/@car.Id/edit" class="btn btn-sm btn-outline-primary">✏️</a>
+                            <a href="/car/@car.Slug" target="_blank" class="btn btn-sm btn-outline-secondary">🔗</a>
+                            <form method="post" action="/admin/cars/@car.Id/delete" onsubmit="return confirm('Удалить этот автомобиль?')">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-sm btn-outline-danger">🗑</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,94 @@
+@model AutoSalon.ViewModels.CompareViewModel
+@{
+    ViewData["Title"] = "Сравнение автомобилей";
+    var cars = Model.Cars;
+}
+
+<div class="container mt-4">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 fw-bold mb-0">Сравнение автомобилей</h1>
+        @if (cars.Any())
+        {
+            <form method="post" action="/compare/clear">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-outline-secondary btn-sm">Очистить список</button>
+            </form>
+        }
+    </div>
+
+    @if (!cars.Any())
+    {
+        <div class="empty-state py-5 text-center">
+            <div class="empty-icon">⚖️</div>
+            <h3>Список сравнения пуст</h3>
+            <p>Добавьте до 3 автомобилей для сравнения</p>
+            <a href="/catalog" class="btn btn-primary">Перейти в каталог</a>
+        </div>
+    }
+    else
+    {
+        <!-- Фото / заголовки -->
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle compare-table">
+                <thead>
+                    <tr>
+                        <th style="width:180px">Характеристика</th>
+                        @foreach (var car in cars)
+                        {
+                            <th class="text-center">
+                                @if (car.MainPhoto != null)
+                                {
+                                    <img src="@car.MainPhoto.FilePath" alt="@car.Brand @car.Model" style="width:100%;height:120px;object-fit:cover;border-radius:8px;margin-bottom:8px" />
+                                }
+                                <div class="fw-bold">@car.Brand @car.Model</div>
+                                <div class="fw-bold text-primary">@car.DisplayPrice</div>
+                                <div class="mt-2 d-flex flex-column gap-1">
+                                    <a href="/car/@car.Slug" class="btn btn-sm btn-primary">Подробнее</a>
+                                    <form method="post" action="/compare/remove/@car.Id">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-sm btn-outline-secondary w-100">Убрать</button>
+                                    </form>
+                                </div>
+                            </th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var rows = new[] {
+                            ("Год", cars.Select(c => c.Year.ToString()).ToArray()),
+                            ("Пробег", cars.Select(c => c.DisplayMileage).ToArray()),
+                            ("Двигатель", cars.Select(c => $"{c.EngineVolume} л").ToArray()),
+                            ("Топливо", cars.Select(c => c.FuelType).ToArray()),
+                            ("Коробка", cars.Select(c => c.Transmission).ToArray()),
+                            ("Привод", cars.Select(c => c.DriveType).ToArray()),
+                            ("Кузов", cars.Select(c => c.BodyType).ToArray()),
+                            ("Цвет", cars.Select(c => c.Color).ToArray()),
+                            ("Город", cars.Select(c => c.City).ToArray()),
+                        };
+                    }
+                    @foreach (var (label, values) in rows)
+                    {
+                        <tr>
+                            <td class="text-muted small fw-semibold">@label</td>
+                            @for (var i = 0; i < cars.Count; i++)
+                            {
+                                var allSame = values.Distinct().Count() == 1;
+                                var highlight = !allSame && i == 0; // подсветка лучшего
+                                <td class="text-center @(highlight ? "table-success" : "")">@(i < values.Length ? values[i] : "—")</td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @if (cars.Count < 3)
+        {
+            <div class="alert alert-info mt-3">
+                Можно добавить ещё @(3 - cars.Count) авто для сравнения.
+                <a href="/catalog" class="alert-link">Перейти в каталог</a>
+            </div>
+        }
+    }
+</div>

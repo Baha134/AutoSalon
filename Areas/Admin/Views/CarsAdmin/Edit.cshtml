@@ -97,7 +97,7 @@
                 </div>
             </div>
 
-            <!-- Существующие фото с drag-and-drop -->
+            <!-- Существующие фото -->
             @if (Model.ExistingPhotos.Any())
             {
                 <div class="card border-0 shadow-sm p-4 mb-4">
@@ -109,27 +109,30 @@
                             <div class="photo-item position-relative" data-photo-id="@photo.Id" draggable="true"
                                  style="width:110px;cursor:grab">
                                 <img src="@photo.FilePath"
-                                     style="width:110px;height:80px;object-fit:cover;border-radius:8px;border:@(photo.IsMain ? "2px solid #185FA5" : "2px solid transparent")"
+                                     style="width:110px;height:80px;object-fit:cover;border-radius:8px;border:@(photo.IsMain ? "2px solid #185FA5" : "2px solid #dee2e6")"
                                      alt="" loading="lazy" />
+
                                 @if (photo.IsMain)
                                 {
-                                    <span style="position:absolute;top:4px;left:4px;background:#185FA5;color:#fff;font-size:9px;padding:1px 5px;border-radius:6px">Главное</span>
+                                    <span style="position:absolute;top:4px;left:4px;background:#185FA5;color:#fff;font-size:9px;padding:2px 6px;border-radius:6px;pointer-events:none">Главное</span>
                                 }
-                                <div class="d-flex gap-1 mt-1">
-                                    @if (!photo.IsMain)
-                                    {
-                                        <button type="button" class="btn btn-xs btn-outline-primary flex-fill"
-                                                style="font-size:10px;padding:1px 4px"
-                                                onclick="setMain(@photo.Id)">
-                                            Главное
-                                        </button>
-                                    }
-                                    <button type="button" class="btn btn-xs btn-outline-danger flex-fill"
-                                            style="font-size:10px;padding:1px 4px"
-                                            onclick="delPhoto(@photo.Id, this)">
-                                        ✕
+
+                                <button type="button"
+                                        onclick="delPhoto(@photo.Id, this)"
+                                        title="Удалить фото"
+                                        style="position:absolute;top:3px;right:3px;width:22px;height:22px;border-radius:50%;background:rgba(220,53,69,0.85);color:#fff;border:none;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0">
+                                    ✕
+                                </button>
+
+                                @if (!photo.IsMain)
+                                {
+                                    <button type="button"
+                                            onclick="setMain(@photo.Id)"
+                                            title="Сделать главным"
+                                            style="position:absolute;bottom:3px;left:3px;right:3px;background:rgba(24,95,165,0.8);color:#fff;border:none;font-size:9px;padding:2px 4px;border-radius:4px;cursor:pointer;text-align:center">
+                                        Сделать главным
                                     </button>
-                                </div>
+                                }
                             </div>
                         }
                     </div>
@@ -181,7 +184,6 @@
                 </div>
             </div>
 
-            <!-- HistoryReportUrl — НОВОЕ ПОЛЕ -->
             <div class="card border-0 shadow-sm p-4 mb-4">
                 <h5 class="fw-bold mb-3">📋 История авто</h5>
                 <label class="form-label small">Ссылка на отчёт</label>
@@ -225,7 +227,6 @@
             location.reload();
         }
 
-        // Drag-and-drop сортировка фото
         (function () {
             const grid = document.querySelector('.photo-grid');
             if (!grid) return;

@@ -16,7 +16,6 @@ public class HomeController : Controller
     }
 
     [HttpGet("/")]
-    [HttpGet("")]
     public async Task<IActionResult> Index()
     {
         var (items, total) = await _cars.GetFilteredAsync(
@@ -34,7 +33,6 @@ public class HomeController : Controller
         return View(vm);
     }
 
-    // Явный роут /about — теперь ссылка в navbar работает
     [HttpGet("/about")]
     public async Task<IActionResult> About()
     {
@@ -42,7 +40,6 @@ public class HomeController : Controller
         return View(settings);
     }
 
-    // Кастомные страницы ошибок — вызываются через UseStatusCodePagesWithReExecute
     [Route("Home/Error/{code?}")]
     public IActionResult Error(int? code)
     {

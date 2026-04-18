@@ -30,7 +30,7 @@
                     <option value="">Все марки</option>
                     @foreach (var b in Model.Brands)
                     {
-                        <option value="@b" @(Model.Filter.Brand == b ? "selected" : "")>@b</option>
+                        <option value="@b" selected="@(Model.Filter.Brand == b ? "selected" : null)">@b</option>
                     }
                 </select>
             </div>
@@ -56,7 +56,7 @@
                     {
                         foreach (var bt in Model.BodyTypes)
                         {
-                            <option value="@bt" @(Model.Filter.BodyType == bt ? "selected" : "")>@bt</option>
+                            <option value="@bt" selected="@(Model.Filter.BodyType == bt ? "selected" : null)">@bt</option>
                         }
                     }
                 </select>
@@ -65,20 +65,20 @@
                 <div class="filter-label">Коробка</div>
                 <select name="Transmission" class="form-select form-select-sm">
                     <option value="">Все</option>
-                    <option value="Автомат" @(Model.Filter.Transmission == "Автомат" ? "selected" : "")>Автомат</option>
-                    <option value="Механика" @(Model.Filter.Transmission == "Механика" ? "selected" : "")>Механика</option>
-                    <option value="Вариатор" @(Model.Filter.Transmission == "Вариатор" ? "selected" : "")>Вариатор</option>
-                    <option value="Робот" @(Model.Filter.Transmission == "Робот" ? "selected" : "")>Робот</option>
+                    <option value="Автомат" selected="@(Model.Filter.Transmission == "Автомат" ? "selected" : null)">Автомат</option>
+                    <option value="Механика" selected="@(Model.Filter.Transmission == "Механика" ? "selected" : null)">Механика</option>
+                    <option value="Вариатор" selected="@(Model.Filter.Transmission == "Вариатор" ? "selected" : null)">Вариатор</option>
+                    <option value="Робот" selected="@(Model.Filter.Transmission == "Робот" ? "selected" : null)">Робот</option>
                 </select>
             </div>
             <div class="filter-group">
                 <div class="filter-label">Топливо</div>
                 <select name="FuelType" class="form-select form-select-sm">
                     <option value="">Все</option>
-                    <option value="Бензин" @(Model.Filter.FuelType == "Бензин" ? "selected" : "")>Бензин</option>
-                    <option value="Дизель" @(Model.Filter.FuelType == "Дизель" ? "selected" : "")>Дизель</option>
-                    <option value="Гибрид" @(Model.Filter.FuelType == "Гибрид" ? "selected" : "")>Гибрид</option>
-                    <option value="Электро" @(Model.Filter.FuelType == "Электро" ? "selected" : "")>Электро</option>
+                    <option value="Бензин" selected="@(Model.Filter.FuelType == "Бензин" ? "selected" : null)">Бензин</option>
+                    <option value="Дизель" selected="@(Model.Filter.FuelType == "Дизель" ? "selected" : null)">Дизель</option>
+                    <option value="Гибрид" selected="@(Model.Filter.FuelType == "Гибрид" ? "selected" : null)">Гибрид</option>
+                    <option value="Электро" selected="@(Model.Filter.FuelType == "Электро" ? "selected" : null)">Электро</option>
                 </select>
             </div>
             <input type="hidden" name="Page" value="1" />
@@ -101,48 +101,47 @@
                 </div>
                 <div class="catalog-sort">
                     <form method="get" action="/catalog" id="sort-form">
-                        <form method="get" action="/catalog" id="sort-form">
-                            @if (!string.IsNullOrEmpty(Model.Filter.Brand))
-                            {
-                                <input type="hidden" name="Brand" value="@Model.Filter.Brand" />
-                            }
-                            @if (!string.IsNullOrEmpty(Model.Filter.BodyType))
-                            {
-                                <input type="hidden" name="BodyType" value="@Model.Filter.BodyType" />
-                            }
-                            @if (!string.IsNullOrEmpty(Model.Filter.Transmission))
-                            {
-                                <input type="hidden" name="Transmission" value="@Model.Filter.Transmission" />
-                            }
-                            @if (!string.IsNullOrEmpty(Model.Filter.FuelType))
-                            {
-                                <input type="hidden" name="FuelType" value="@Model.Filter.FuelType" />
-                            }
-                            @if (!string.IsNullOrEmpty(Model.Filter.Search))
-                            {
-                                <input type="hidden" name="Search" value="@Model.Filter.Search" />
-                            }
-                            @if (Model.Filter.PriceMin.HasValue)
-                            {
-                                <input type="hidden" name="PriceMin" value="@Model.Filter.PriceMin" />
-                            }
-                            @if (Model.Filter.PriceMax.HasValue)
-                            {
-                                <input type="hidden" name="PriceMax" value="@Model.Filter.PriceMax" />
-                            }
-                            @if (Model.Filter.YearMin.HasValue)
-                            {
-                                <input type="hidden" name="YearMin" value="@Model.Filter.YearMin" />
-                            }
-                            @if (Model.Filter.YearMax.HasValue)
-                            {
-                                <input type="hidden" name="YearMax" value="@Model.Filter.YearMax" />
-                            }
+                        @if (!string.IsNullOrEmpty(Model.Filter.Brand))
+                        {
+                            <input type="hidden" name="Brand" value="@Model.Filter.Brand" />
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Filter.BodyType))
+                        {
+                            <input type="hidden" name="BodyType" value="@Model.Filter.BodyType" />
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Filter.Transmission))
+                        {
+                            <input type="hidden" name="Transmission" value="@Model.Filter.Transmission" />
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Filter.FuelType))
+                        {
+                            <input type="hidden" name="FuelType" value="@Model.Filter.FuelType" />
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Filter.Search))
+                        {
+                            <input type="hidden" name="Search" value="@Model.Filter.Search" />
+                        }
+                        @if (Model.Filter.PriceMin.HasValue)
+                        {
+                            <input type="hidden" name="PriceMin" value="@Model.Filter.PriceMin" />
+                        }
+                        @if (Model.Filter.PriceMax.HasValue)
+                        {
+                            <input type="hidden" name="PriceMax" value="@Model.Filter.PriceMax" />
+                        }
+                        @if (Model.Filter.YearMin.HasValue)
+                        {
+                            <input type="hidden" name="YearMin" value="@Model.Filter.YearMin" />
+                        }
+                        @if (Model.Filter.YearMax.HasValue)
+                        {
+                            <input type="hidden" name="YearMax" value="@Model.Filter.YearMax" />
+                        }
                         <select name="Sort" class="form-select form-select-sm" style="width:auto" onchange="document.getElementById('sort-form').submit()">
-                            <option value="new" @(Model.Filter.Sort == "new" ? "selected" : "")>Сначала новые</option>
-                            <option value="price_asc" @(Model.Filter.Sort == "price_asc" ? "selected" : "")>Цена ↑</option>
-                            <option value="price_desc" @(Model.Filter.Sort == "price_desc" ? "selected" : "")>Цена ↓</option>
-                            <option value="popular" @(Model.Filter.Sort == "popular" ? "selected" : "")>Популярные</option>
+                            <option value="new" selected="@(Model.Filter.Sort == "new" ? "selected" : null)">Сначала новые</option>
+                            <option value="price_asc" selected="@(Model.Filter.Sort == "price_asc" ? "selected" : null)">Цена ↑</option>
+                            <option value="price_desc" selected="@(Model.Filter.Sort == "price_desc" ? "selected" : null)">Цена ↓</option>
+                            <option value="popular" selected="@(Model.Filter.Sort == "popular" ? "selected" : null)">Популярные</option>
                         </select>
                     </form>
                 </div>
@@ -217,7 +216,7 @@
                     <option value="">Все марки</option>
                     @foreach (var b in Model.Brands)
                     {
-                        <option value="@b" @(Model.Filter.Brand == b ? "selected" : "")>@b</option>
+                        <option value="@b" selected="@(Model.Filter.Brand == b ? "selected" : null)">@b</option>
                     }
                 </select>
             </div>
@@ -235,23 +234,23 @@
 </div>
 
 @section Scripts {
-<script>
-// Мобильный drawer CSS (inline для drawer, т.к. не отображается в CSS desktop)
-document.addEventListener('DOMContentLoaded', function() {
-    const drawerStyles = `
-        .filters-drawer { position:fixed;inset:0;z-index:1050;pointer-events:none; }
-        .filters-drawer.open { pointer-events:auto; }
-        .drawer-backdrop { position:absolute;inset:0;background:rgba(0,0,0,.5);opacity:0;transition:opacity .3s; }
-        .filters-drawer.open .drawer-backdrop { opacity:1; }
-        .drawer-panel { position:absolute;bottom:0;left:0;right:0;background:#fff;border-radius:16px 16px 0 0;padding:20px;transform:translateY(100%);transition:transform .3s; max-height:85vh;overflow-y:auto; }
-        .drawer-handle { width:40px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 16px; }
-        .filters-drawer.open .drawer-panel { transform:translateY(0); }
-               @@media(min-width:992px){ .filters-drawer-btn { display:none!important; } .filters-drawer { display:none!important; } }
-                @@media(max-width:991px){ .filters-sidebar { display:none!important; } .filters-drawer { display:block!important; } .catalog-wrap { grid-template-columns:1fr!important; } }
-    `;
-    const style = document.createElement('style');
-    style.textContent = drawerStyles;
-    document.head.appendChild(style);
-});
-</script>
+    <script>
+        // Мобильный drawer CSS (inline для drawer, т.к. не отображается в CSS desktop)
+        document.addEventListener('DOMContentLoaded', function() {
+            const drawerStyles = `
+                .filters-drawer { position:fixed;inset:0;z-index:1050;pointer-events:none; }
+                .filters-drawer.open { pointer-events:auto; }
+                .drawer-backdrop { position:absolute;inset:0;background:rgba(0,0,0,.5);opacity:0;transition:opacity .3s; }
+                .filters-drawer.open .drawer-backdrop { opacity:1; }
+                .drawer-panel { position:absolute;bottom:0;left:0;right:0;background:#fff;border-radius:16px 16px 0 0;padding:20px;transform:translateY(100%);transition:transform .3s; max-height:85vh;overflow-y:auto; }
+                .drawer-handle { width:40px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 16px; }
+                .filters-drawer.open .drawer-panel { transform:translateY(0); }
+                       @@media(min-width:992px){ .filters-drawer-btn { display:none!important; } .filters-drawer { display:none!important; } }
+                        @@media(max-width:991px){ .filters-sidebar { display:none!important; } .filters-drawer { display:block!important; } .catalog-wrap { grid-template-columns:1fr!important; } }
+            `;
+            const style = document.createElement('style');
+            style.textContent = drawerStyles;
+            document.head.appendChild(style);
+        });
+    </script>
 }

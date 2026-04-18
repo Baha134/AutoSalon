@@ -1,12 +1,17 @@
 @{
-    ViewData["Title"] = "Ошибка";
+    ViewData["Title"] = "Страница не найдена";
+    ViewData["NoIndex"] = true;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div class="container py-5 text-center">
     <div class="empty-state">
-        <div class="empty-icon">⚠️</div>
-        <h3>Что-то пошло не так</h3>
-        <p>Произошла ошибка. Пожалуйста, попробуйте позже.</p>
-        <a href="/" class="btn btn-primary">На главную</a>
+        <div style="font-size:80px;font-weight:900;color:#e0e4ea;line-height:1">404</div>
+        <h2 class="fw-bold mt-3 mb-2">Страница не найдена</h2>
+        <p class="text-muted mb-4">Возможно, она была удалена или вы перешли по неверной ссылке.</p>
+        <div class="d-flex gap-3 justify-content-center">
+            <a href="/" class="btn btn-primary">На главную</a>
+            <a href="/catalog" class="btn btn-outline-secondary">Каталог авто</a>
+        </div>
     </div>
 </div>

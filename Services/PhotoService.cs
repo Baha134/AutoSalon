@@ -12,6 +12,7 @@ public class PhotoService : IPhotoService
     private readonly AppDbContext _db;
     private readonly IWebHostEnvironment _env;
     private const int MaxWidth = 1200;
+    private const long MaxFileSize = 10 * 1024 * 1024; // 10 МБ
 
     public PhotoService(AppDbContext db, IWebHostEnvironment env)
     {
@@ -34,7 +35,10 @@ public class PhotoService : IPhotoService
         {
             if (file.Length == 0) continue;
 
-            // Проверяем MIME-тип
+            // Проверка размера файла
+            if (file.Length > MaxFileSize) continue;
+
+            // Проверка MIME-типа
             if (!allowedTypes.Contains(file.ContentType.ToLower())) continue;
 
             try

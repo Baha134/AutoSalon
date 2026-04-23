@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- БД ---
+// БД
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
-// --- Identity ---
+// Identity 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 {
     options.Lockout.AllowedForNewUsers = true;
@@ -18,21 +18,22 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
     options.Password.RequireDigit = true;
     options.Password.RequiredLength = 8;
+    options.SignIn.RequireConfirmedAccount = false;
 })
 .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<AppDbContext>();
 
-// --- MVC ---
+// MVC
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
-// --- Кеш (используется в CarService и SettingsService) ---
+// Кеш (используется в CarService и SettingsService)
 builder.Services.AddMemoryCache();
 
-// --- HttpClient для Telegram ---
+// HttpClient для Telegram
 builder.Services.AddHttpClient();
 
-// --- Сервисы приложения ---
+// Сервисы приложения
 builder.Services.AddScoped<ICarService, CarService>();
 builder.Services.AddScoped<ILeadService, LeadService>();
 builder.Services.AddScoped<IPhotoService, PhotoService>();
@@ -41,7 +42,7 @@ builder.Services.AddScoped<ICalculatorService, CalculatorService>();
 builder.Services.AddScoped<IFavoriteService, CookieFavoriteService>();
 builder.Services.AddScoped<INotifyService, TelegramNotifyService>();
 
-// --- Session для Compare ---
+// Session для Compare
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(o =>
 {
@@ -52,13 +53,13 @@ builder.Services.AddSession(o =>
 
 var app = builder.Build();
 
-// --- Seed ---
+// Seed
 using (var scope = app.Services.CreateScope())
 {
     await SeedData.InitAsync(scope.ServiceProvider);
 }
 
-// --- Middleware pipeline (порядок важен!) ---
+//Middleware pipeline (порядок важен!) 
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error/500");
@@ -79,7 +80,7 @@ app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// --- Маршруты ---
+// Маршруты
 app.MapControllerRoute(
     name: "areas",
     pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");

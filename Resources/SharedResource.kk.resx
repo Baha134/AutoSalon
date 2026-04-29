@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -21,89 +21,91 @@
   <resheader name="reader"><value>System.Resources.ResXResourceReader</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter</value></resheader>
 
-  <!-- Навигация -->
-  <data name="Nav_Catalog"><value>Каталог</value></data>
-  <data name="Nav_About"><value>Біз туралы</value></data>
-  <data name="Nav_Compare"><value>Салыстыру</value></data>
-  <data name="Nav_Favorites"><value>Таңдаулылар</value></data>
-  <data name="Nav_Register"><value>Тіркелу</value></data>
-  <data name="Nav_Login"><value>Кіру</value></data>
-  <data name="Nav_Logout"><value>Шығу</value></data>
-  <data name="Nav_Hello"><value>Сәлем</value></data>
+  <!-- РќР°РІРёРіР°С†РёСЏ -->
+  <data name="Nav_Catalog"><value>РљР°С‚Р°Р»РѕРі</value></data>
+  <data name="Nav_About"><value>Р‘С–Р· С‚СѓСЂР°Р»С‹</value></data>
+  <data name="Nav_Compare"><value>РЎР°Р»С‹СЃС‚С‹СЂСѓ</value></data>
+  <data name="Nav_Favorites"><value>РўР°ТЈРґР°СѓР»С‹Р»Р°СЂ</value></data>
+  <data name="Nav_Register"><value>РўС–СЂРєРµР»Сѓ</value></data>
+  <data name="Nav_Login"><value>РљС–СЂСѓ</value></data>
+  <data name="Nav_Logout"><value>РЁС‹Т“Сѓ</value></data>
+  <data name="Nav_Hello"><value>РЎУ™Р»РµРј</value></data>
 
-  <!-- Главная страница -->
-  <data name="Home_Title"><value>Автомобиль сату</value></data>
-  <data name="Home_Subtitle"><value>Жүрілген және жаңа автомобильдердің үлкен таңдауы</value></data>
-  <data name="Home_ViewCatalog"><value>Каталогты қарау</value></data>
-  <data name="Home_LeaveRequest"><value>Өтінім қалдыру</value></data>
-  <data name="Home_NewArrivals"><value>Жаңа түсімдер</value></data>
-  <data name="Home_AllCars"><value>Барлық автомобильдер</value></data>
+  <!-- Р“Р»Р°РІРЅР°СЏ СЃС‚СЂР°РЅРёС†Р° -->
+  <data name="Home_Title"><value>РђРІС‚РѕРјРѕР±РёР»СЊ СЃР°С‚Сѓ</value></data>
+  <data name="Home_Subtitle"><value>Р–ТЇСЂС–Р»РіРµРЅ Р¶У™РЅРµ Р¶Р°ТЈР° Р°РІС‚РѕРјРѕР±РёР»СЊРґРµСЂРґС–ТЈ ТЇР»РєРµРЅ С‚Р°ТЈРґР°СѓС‹</value></data>
+  <data name="Home_ViewCatalog"><value>РљР°С‚Р°Р»РѕРіС‚С‹ Т›Р°СЂР°Сѓ</value></data>
+  <data name="Home_LeaveRequest"><value>УЁС‚С–РЅС–Рј Т›Р°Р»РґС‹СЂСѓ</value></data>
+  <data name="Home_NewArrivals"><value>Р–Р°ТЈР° С‚ТЇСЃС–РјРґРµСЂ</value></data>
+  <data name="Home_AllCars"><value>Р‘Р°СЂР»С‹Т› Р°РІС‚РѕРјРѕР±РёР»СЊРґРµСЂ</value></data>
 
-  <!-- Каталог -->
-  <data name="Catalog_Title"><value>Автомобильдер каталогы</value></data>
-  <data name="Catalog_Filter"><value>Сүзгілер</value></data>
-  <data name="Catalog_Reset"><value>Тазалау</value></data>
-  <data name="Catalog_Apply"><value>Қолдану</value></data>
-  <data name="Catalog_Brand"><value>Маркасы</value></data>
-  <data name="Catalog_Model"><value>Моделі</value></data>
-  <data name="Catalog_PriceFrom"><value>Бағасы бастап</value></data>
-  <data name="Catalog_PriceTo"><value>Бағасы дейін</value></data>
-  <data name="Catalog_YearFrom"><value>Жылы бастап</value></data>
-  <data name="Catalog_YearTo"><value>Жылы дейін</value></data>
-  <data name="Catalog_BodyType"><value>Кузов түрі</value></data>
-  <data name="Catalog_Transmission"><value>Коробка</value></data>
-  <data name="Catalog_FuelType"><value>Отын түрі</value></data>
-  <data name="Catalog_NoCars"><value>Автомобильдер табылмады</value></data>
-  <data name="Catalog_Found"><value>Табылды</value></data>
+  <!-- РљР°С‚Р°Р»РѕРі -->
+  <data name="Catalog_Title"><value>РђРІС‚РѕРјРѕР±РёР»СЊРґРµСЂ РєР°С‚Р°Р»РѕРіС‹</value></data>
+  <data name="Catalog_Filter"><value>РЎТЇР·РіС–Р»РµСЂ</value></data>
+  <data name="Catalog_Reset"><value>РўР°Р·Р°Р»Р°Сѓ</value></data>
+  <data name="Catalog_Apply"><value>ТљРѕР»РґР°РЅСѓ</value></data>
+  <data name="Catalog_Brand"><value>РњР°СЂРєР°СЃС‹</value></data>
+  <data name="Catalog_Model"><value>РњРѕРґРµР»С–</value></data>
+  <data name="Catalog_PriceFrom"><value>Р‘Р°Т“Р°СЃС‹ Р±Р°СЃС‚Р°Рї</value></data>
+  <data name="Catalog_PriceTo"><value>Р‘Р°Т“Р°СЃС‹ РґРµР№С–РЅ</value></data>
+  <data name="Catalog_YearFrom"><value>Р–С‹Р»С‹ Р±Р°СЃС‚Р°Рї</value></data>
+  <data name="Catalog_YearTo"><value>Р–С‹Р»С‹ РґРµР№С–РЅ</value></data>
+  <data name="Catalog_BodyType"><value>РљСѓР·РѕРІ С‚ТЇСЂС–</value></data>
+  <data name="Catalog_Transmission"><value>РљРѕСЂРѕР±РєР°</value></data>
+  <data name="Catalog_FuelType"><value>РћС‚С‹РЅ С‚ТЇСЂС–</value></data>
+  <data name="Catalog_NoCars"><value>РђРІС‚РѕРјРѕР±РёР»СЊРґРµСЂ С‚Р°Р±С‹Р»РјР°РґС‹</value></data>
+  <data name="Catalog_Found"><value>РўР°Р±С‹Р»РґС‹</value></data>
 
-  <!-- Карточка авто -->
-  <data name="Car_Year"><value>Жылы</value></data>
-  <data name="Car_Mileage"><value>Жүрісі</value></data>
-  <data name="Car_Engine"><value>Қозғалтқыш</value></data>
-  <data name="Car_Transmission"><value>Коробка</value></data>
-  <data name="Car_Drive"><value>Жетек</value></data>
-  <data name="Car_Color"><value>Түсі</value></data>
-  <data name="Car_Body"><value>Кузов</value></data>
-  <data name="Car_Fuel"><value>Отын</value></data>
-  <data name="Car_Price"><value>Бағасы</value></data>
-  <data name="Car_Details"><value>Толығырақ</value></data>
-  <data name="Car_AddToFavorite"><value>Таңдаулыға қосу</value></data>
-  <data name="Car_RemoveFromFavorite"><value>Таңдаулыдан алу</value></data>
-  <data name="Car_AddToCompare"><value>Салыстыру</value></data>
-  <data name="Car_LeaveRequest"><value>Өтінім қалдыру</value></data>
-  <data name="Car_Sold"><value>Сатылды</value></data>
-  <data name="Car_Reserved"><value>Брондалған</value></data>
-  <data name="Car_Verified"><value>Тексерілген</value></data>
-  <data name="Car_Warranty"><value>Кепілдік</value></data>
-  <data name="Car_Exchange"><value>Айырбас</value></data>
-  <data name="Car_History"><value>Автомобиль тарихы</value></data>
-  <data name="Car_Description"><value>Сипаттама</value></data>
+  <!-- РљР°СЂС‚РѕС‡РєР° Р°РІС‚Рѕ -->
+  <data name="Car_Year"><value>Р–С‹Р»С‹</value></data>
+  <data name="Car_Mileage"><value>Р–ТЇСЂС–СЃС–</value></data>
+  <data name="Car_Engine"><value>ТљРѕР·Т“Р°Р»С‚Т›С‹С€</value></data>
+  <data name="Car_Transmission"><value>РљРѕСЂРѕР±РєР°</value></data>
+  <data name="Car_Drive"><value>Р–РµС‚РµРє</value></data>
+  <data name="Car_Color"><value>РўТЇСЃС–</value></data>
+  <data name="Car_Body"><value>РљСѓР·РѕРІ</value></data>
+  <data name="Car_Fuel"><value>РћС‚С‹РЅ</value></data>
+  <data name="Car_Price"><value>Р‘Р°Т“Р°СЃС‹</value></data>
+  <data name="Car_Details"><value>РўРѕР»С‹Т“С‹СЂР°Т›</value></data>
+  <data name="Car_AddToFavorite"><value>РўР°ТЈРґР°СѓР»С‹Т“Р° Т›РѕСЃСѓ</value></data>
+  <data name="Car_RemoveFromFavorite"><value>РўР°ТЈРґР°СѓР»С‹РґР°РЅ Р°Р»Сѓ</value></data>
+  <data name="Car_AddToCompare"><value>РЎР°Р»С‹СЃС‚С‹СЂСѓ</value></data>
+  <data name="Car_LeaveRequest"><value>УЁС‚С–РЅС–Рј Т›Р°Р»РґС‹СЂСѓ</value></data>
+  <data name="Car_Sold"><value>РЎР°С‚С‹Р»РґС‹</value></data>
+  <data name="Car_Reserved"><value>Р‘СЂРѕРЅРґР°Р»Т“Р°РЅ</value></data>
+  <data name="Car_Verified"><value>РўРµРєСЃРµСЂС–Р»РіРµРЅ</value></data>
+  <data name="Car_Warranty"><value>РљРµРїС–Р»РґС–Рє</value></data>
+  <data name="Car_Exchange"><value>РђР№С‹СЂР±Р°СЃ</value></data>
+  <data name="Car_History"><value>РђРІС‚РѕРјРѕР±РёР»СЊ С‚Р°СЂРёС…С‹</value></data>
+  <data name="Car_Description"><value>РЎРёРїР°С‚С‚Р°РјР°</value></data>
 
-  <!-- Форма заявки -->
-  <data name="Lead_Name"><value>Атыңыз</value></data>
-  <data name="Lead_Phone"><value>Телефон нөмірі</value></data>
-  <data name="Lead_Comment"><value>Пікір</value></data>
-  <data name="Lead_Submit"><value>Өтінім жіберу</value></data>
-  <data name="Lead_Sending"><value>Жіберілуде...</value></data>
-  <data name="Lead_Success"><value>Өтінім қабылданды! Жақын арада хабарласамыз.</value></data>
+  <!-- Р¤РѕСЂРјР° Р·Р°СЏРІРєРё -->
+  <data name="Lead_Name"><value>РђС‚С‹ТЈС‹Р·</value></data>
+  <data name="Lead_Phone"><value>РўРµР»РµС„РѕРЅ РЅУ©РјС–СЂС–</value></data>
+  <data name="Lead_Comment"><value>РџС–РєС–СЂ</value></data>
+  <data name="Lead_Submit"><value>УЁС‚С–РЅС–Рј Р¶С–Р±РµСЂСѓ</value></data>
+  <data name="Lead_Sending"><value>Р–С–Р±РµСЂС–Р»СѓРґРµ...</value></data>
+  <data name="Lead_Success"><value>УЁС‚С–РЅС–Рј Т›Р°Р±С‹Р»РґР°РЅРґС‹! Р–Р°Т›С‹РЅ Р°СЂР°РґР° С…Р°Р±Р°СЂР»Р°СЃР°РјС‹Р·.</value></data>
 
-  <!-- Сравнение -->
-  <data name="Compare_Title"><value>Автомобильдерді салыстыру</value></data>
-  <data name="Compare_Empty"><value>Салыстыруға автомобильдер жоқ</value></data>
-  <data name="Compare_Clear"><value>Тазалау</value></data>
-  <data name="Compare_Remove"><value>Жою</value></data>
+  <!-- РЎСЂР°РІРЅРµРЅРёРµ -->
+  <data name="Compare_Title"><value>РђРІС‚РѕРјРѕР±РёР»СЊРґРµСЂРґС– СЃР°Р»С‹СЃС‚С‹СЂСѓ</value></data>
+  <data name="Compare_Empty"><value>РЎР°Р»С‹СЃС‚С‹СЂСѓТ“Р° Р°РІС‚РѕРјРѕР±РёР»СЊРґРµСЂ Р¶РѕТ›</value></data>
+  <data name="Compare_Clear"><value>РўР°Р·Р°Р»Р°Сѓ</value></data>
+  <data name="Compare_Remove"><value>Р–РѕСЋ</value></data>
 
-  <!-- Избранное -->
-  <data name="Favorites_Title"><value>Таңдаулылар</value></data>
-  <data name="Favorites_Empty"><value>Таңдаулы автомобильдер жоқ</value></data>
+  <!-- РР·Р±СЂР°РЅРЅРѕРµ -->
+  <data name="Favorites_Title"><value>РўР°ТЈРґР°СѓР»С‹Р»Р°СЂ</value></data>
+  <data name="Favorites_Empty"><value>РўР°ТЈРґР°СѓР»С‹ Р°РІС‚РѕРјРѕР±РёР»СЊРґРµСЂ Р¶РѕТ›</value></data>
 
-  <!-- Подвал -->
-  <data name="Footer_Description"><value>Жүрілген және жаңа автомобильдерді сату</value></data>
-  <data name="Footer_Sitemap"><value>Сайт картасы</value></data>
+  <!-- РџРѕРґРІР°Р» -->
+  <data name="Footer_Description"><value>Р–ТЇСЂС–Р»РіРµРЅ Р¶У™РЅРµ Р¶Р°ТЈР° Р°РІС‚РѕРјРѕР±РёР»СЊРґРµСЂРґС– СЃР°С‚Сѓ</value></data>
+  <data name="Footer_Sitemap"><value>РЎР°Р№С‚ РєР°СЂС‚Р°СЃС‹</value></data>
 
-  <!-- Общее -->
-  <data name="Btn_Back"><value>Артқа</value></data>
-  <data name="Btn_Save"><value>Сақтау</value></data>
-  <data name="Lbl_km"><value>км</value></data>
-  <data name="Lbl_currency"><value>₸</value></data>
+  <!-- РћР±С‰РµРµ -->
+  <data name="Btn_Back"><value>РђСЂС‚Т›Р°</value></data>
+  <data name="Btn_Save"><value>РЎР°Т›С‚Р°Сѓ</value></data>
+  <data name="Lbl_km"><value>РєРј</value></data>
+  <data name="Lbl_currency"><value>в‚ё</value></data>
+  <data name="Lead_Title"><value>Өтінім қалдыру</value></data>
+  <data name="Home_Hero_Subtitle"><value>Қолданылған және жаңа автомобильдердің үлкен таңдауы</value></data>
 </root>

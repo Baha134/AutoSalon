@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -46,7 +46,7 @@
   <data name="Catalog_Filters" xml:space="preserve"><value>Filters</value></data>
   <data name="Catalog_Filter_Brand" xml:space="preserve"><value>Brand</value></data>
   <data name="Catalog_Filter_Year" xml:space="preserve"><value>Year</value></data>
-  <data name="Catalog_Filter_Price" xml:space="preserve"><value>Price (₸)</value></data>
+  <data name="Catalog_Filter_Price" xml:space="preserve"><value>Price (в‚ё)</value></data>
   <data name="Catalog_Filter_Mileage" xml:space="preserve"><value>Mileage (km)</value></data>
   <data name="Catalog_Filter_Body" xml:space="preserve"><value>Body Type</value></data>
   <data name="Catalog_Filter_Transmission" xml:space="preserve"><value>Transmission</value></data>
@@ -128,7 +128,7 @@
 
   <!-- ===== CALCULATOR ===== -->
   <data name="Calc_Title" xml:space="preserve"><value>Loan Calculator</value></data>
-  <data name="Calc_Price" xml:space="preserve"><value>Car Price (₸)</value></data>
+  <data name="Calc_Price" xml:space="preserve"><value>Car Price (в‚ё)</value></data>
   <data name="Calc_Down" xml:space="preserve"><value>Down Payment (%)</value></data>
   <data name="Calc_Term" xml:space="preserve"><value>Loan Term (months)</value></data>
   <data name="Calc_Rate" xml:space="preserve"><value>Interest Rate (%)</value></data>
@@ -162,4 +162,6 @@
   <data name="Error_500_Text" xml:space="preserve"><value>Something went wrong. Please try again later.</value></data>
   <data name="Error_Back" xml:space="preserve"><value>Go to Home</value></data>
 
+  <data name="Lead_Title"><value>Leave a request</value></data>
+  <data name="Home_Hero_Subtitle"><value>Large selection of used and new cars</value></data>
 </root>

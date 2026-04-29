@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter</value></resheader>
+
+  <!-- Навигация -->
+  <data name="Nav_Catalog"><value>Каталог</value></data>
+  <data name="Nav_About"><value>О нас</value></data>
+  <data name="Nav_Compare"><value>Сравнение</value></data>
+  <data name="Nav_Favorites"><value>Избранное</value></data>
+  <data name="Nav_Register"><value>Регистрация</value></data>
+  <data name="Nav_Login"><value>Войти</value></data>
+  <data name="Nav_Logout"><value>Выйти</value></data>
+  <data name="Nav_Hello"><value>Привет</value></data>
+
+  <!-- Главная страница -->
+  <data name="Home_Title"><value>Продажа автомобилей</value></data>
+  <data name="Home_Subtitle"><value>Большой выбор авто с пробегом и новых автомобилей</value></data>
+  <data name="Home_ViewCatalog"><value>Смотреть каталог</value></data>
+  <data name="Home_LeaveRequest"><value>Оставить заявку</value></data>
+  <data name="Home_NewArrivals"><value>Новые поступления</value></data>
+  <data name="Home_AllCars"><value>Все автомобили</value></data>
+
+  <!-- Каталог -->
+  <data name="Catalog_Title"><value>Каталог автомобилей</value></data>
+  <data name="Catalog_Filter"><value>Фильтры</value></data>
+  <data name="Catalog_Reset"><value>Сбросить</value></data>
+  <data name="Catalog_Apply"><value>Применить</value></data>
+  <data name="Catalog_Brand"><value>Марка</value></data>
+  <data name="Catalog_Model"><value>Модель</value></data>
+  <data name="Catalog_PriceFrom"><value>Цена от</value></data>
+  <data name="Catalog_PriceTo"><value>Цена до</value></data>
+  <data name="Catalog_YearFrom"><value>Год от</value></data>
+  <data name="Catalog_YearTo"><value>Год до</value></data>
+  <data name="Catalog_BodyType"><value>Кузов</value></data>
+  <data name="Catalog_Transmission"><value>Коробка</value></data>
+  <data name="Catalog_FuelType"><value>Топливо</value></data>
+  <data name="Catalog_NoCars"><value>Автомобили не найдены</value></data>
+  <data name="Catalog_Found"><value>Найдено</value></data>
+
+  <!-- Карточка авто -->
+  <data name="Car_Year"><value>Год</value></data>
+  <data name="Car_Mileage"><value>Пробег</value></data>
+  <data name="Car_Engine"><value>Двигатель</value></data>
+  <data name="Car_Transmission"><value>Коробка</value></data>
+  <data name="Car_Drive"><value>Привод</value></data>
+  <data name="Car_Color"><value>Цвет</value></data>
+  <data name="Car_Body"><value>Кузов</value></data>
+  <data name="Car_Fuel"><value>Топливо</value></data>
+  <data name="Car_Price"><value>Цена</value></data>
+  <data name="Car_Details"><value>Подробнее</value></data>
+  <data name="Car_AddToFavorite"><value>В избранное</value></data>
+  <data name="Car_RemoveFromFavorite"><value>Убрать из избранного</value></data>
+  <data name="Car_AddToCompare"><value>Сравнить</value></data>
+  <data name="Car_LeaveRequest"><value>Оставить заявку</value></data>
+  <data name="Car_Sold"><value>Продано</value></data>
+  <data name="Car_Reserved"><value>Резерв</value></data>
+  <data name="Car_Verified"><value>Проверено</value></data>
+  <data name="Car_Warranty"><value>Гарантия</value></data>
+  <data name="Car_Exchange"><value>Обмен</value></data>
+  <data name="Car_History"><value>История авто</value></data>
+  <data name="Car_Description"><value>Описание</value></data>
+
+  <!-- Форма заявки -->
+  <data name="Lead_Name"><value>Ваше имя</value></data>
+  <data name="Lead_Phone"><value>Номер телефона</value></data>
+  <data name="Lead_Comment"><value>Комментарий</value></data>
+  <data name="Lead_Submit"><value>Отправить заявку</value></data>
+  <data name="Lead_Sending"><value>Отправляем...</value></data>
+  <data name="Lead_Success"><value>Заявка принята! Мы свяжемся с вами в ближайшее время.</value></data>
+
+  <!-- Сравнение -->
+  <data name="Compare_Title"><value>Сравнение автомобилей</value></data>
+  <data name="Compare_Empty"><value>Нет автомобилей для сравнения</value></data>
+  <data name="Compare_Clear"><value>Очистить</value></data>
+  <data name="Compare_Remove"><value>Удалить</value></data>
+
+  <!-- Избранное -->
+  <data name="Favorites_Title"><value>Избранное</value></data>
+  <data name="Favorites_Empty"><value>Нет избранных автомобилей</value></data>
+
+  <!-- Подвал -->
+  <data name="Footer_Description"><value>Продажа автомобилей с пробегом и новых</value></data>
+  <data name="Footer_Sitemap"><value>Карта сайта</value></data>
+
+  <!-- Общее -->
+  <data name="Btn_Back"><value>Назад</value></data>
+  <data name="Btn_Save"><value>Сохранить</value></data>
+  <data name="Lbl_km"><value>км</value></data>
+  <data name="Lbl_currency"><value>₸</value></data>
+</root>

@@ -2,7 +2,9 @@ using AutoSalon.Data;
 using AutoSalon.Middleware;
 using AutoSalon.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +29,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
-// Кеш (используется в CarService и SettingsService)
+// Кеш
 builder.Services.AddMemoryCache();
 
 // HttpClient для Telegram
@@ -51,6 +53,31 @@ builder.Services.AddSession(o =>
     o.Cookie.IsEssential = true;
 });
 
+// ===== ЛОКАЛИЗАЦИЯ =====
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new[]
+    {
+        new CultureInfo("ru"),
+        new CultureInfo("kk"),
+        new CultureInfo("en")
+    };
+
+    options.DefaultRequestCulture = new RequestCulture("ru");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+
+    // Порядок определения языка: сначала cookie, потом браузер, потом дефолт
+    options.RequestCultureProviders = new List<IRequestCultureProvider>
+    {
+        new CookieRequestCultureProvider(),
+        new AcceptLanguageHeaderRequestCultureProvider()
+    };
+});
+// =======================
+
 var app = builder.Build();
 
 // Seed
@@ -59,21 +86,25 @@ using (var scope = app.Services.CreateScope())
     await SeedData.InitAsync(scope.ServiceProvider);
 }
 
-//Middleware pipeline (порядок важен!) 
+// Middleware pipeline (порядок важен!)
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error/500");
     app.UseHsts();
 }
 
-// Кастомные страницы ошибок (404, 500 и т.д.)
+// Кастомные страницы ошибок
 app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-// Rate limit ПЕРЕД авторизацией — защищаем до аутентификации
+// ===== ПРИМЕНЯЕМ ЛОКАЛИЗАЦИЮ (до авторизации) =====
+app.UseRequestLocalization();
+// ===================================================
+
+// Rate limit ПЕРЕД авторизацией
 app.UseMiddleware<RateLimitMiddleware>();
 
 app.UseSession();

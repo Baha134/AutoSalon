@@ -18,6 +18,9 @@ public class HomeController : Controller
     [HttpGet("/")]
     public async Task<IActionResult> Index()
     {
+        var asm = typeof(Program).Assembly.GetName().Name;
+        Console.WriteLine("=== ASSEMBLY: " + asm);
+
         var (items, total) = await _cars.GetFilteredAsync(
             new CarFilterViewModel { PageSize = 6, Sort = "new" });
         var brands = await _cars.GetBrandsAsync();

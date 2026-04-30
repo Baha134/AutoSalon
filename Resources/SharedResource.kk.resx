@@ -1,111 +1,141 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
-  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
-  <resheader name="version"><value>2.0</value></resheader>
-  <resheader name="reader"><value>System.Resources.ResXResourceReader</value></resheader>
-  <resheader name="writer"><value>System.Resources.ResXResourceWriter</value></resheader>
-
-  <!-- РќР°РІРёРіР°С†РёСЏ -->
-  <data name="Nav_Catalog"><value>РљР°С‚Р°Р»РѕРі</value></data>
-  <data name="Nav_About"><value>Р‘С–Р· С‚СѓСЂР°Р»С‹</value></data>
-  <data name="Nav_Compare"><value>РЎР°Р»С‹СЃС‚С‹СЂСѓ</value></data>
-  <data name="Nav_Favorites"><value>РўР°ТЈРґР°СѓР»С‹Р»Р°СЂ</value></data>
-  <data name="Nav_Register"><value>РўС–СЂРєРµР»Сѓ</value></data>
-  <data name="Nav_Login"><value>РљС–СЂСѓ</value></data>
-  <data name="Nav_Logout"><value>РЁС‹Т“Сѓ</value></data>
-  <data name="Nav_Hello"><value>РЎУ™Р»РµРј</value></data>
-
-  <!-- Р“Р»Р°РІРЅР°СЏ СЃС‚СЂР°РЅРёС†Р° -->
-  <data name="Home_Title"><value>РђРІС‚РѕРјРѕР±РёР»СЊ СЃР°С‚Сѓ</value></data>
-  <data name="Home_Subtitle"><value>Р–ТЇСЂС–Р»РіРµРЅ Р¶У™РЅРµ Р¶Р°ТЈР° Р°РІС‚РѕРјРѕР±РёР»СЊРґРµСЂРґС–ТЈ ТЇР»РєРµРЅ С‚Р°ТЈРґР°СѓС‹</value></data>
-  <data name="Home_ViewCatalog"><value>РљР°С‚Р°Р»РѕРіС‚С‹ Т›Р°СЂР°Сѓ</value></data>
-  <data name="Home_LeaveRequest"><value>УЁС‚С–РЅС–Рј Т›Р°Р»РґС‹СЂСѓ</value></data>
-  <data name="Home_NewArrivals"><value>Р–Р°ТЈР° С‚ТЇСЃС–РјРґРµСЂ</value></data>
-  <data name="Home_AllCars"><value>Р‘Р°СЂР»С‹Т› Р°РІС‚РѕРјРѕР±РёР»СЊРґРµСЂ</value></data>
-
-  <!-- РљР°С‚Р°Р»РѕРі -->
-  <data name="Catalog_Title"><value>РђРІС‚РѕРјРѕР±РёР»СЊРґРµСЂ РєР°С‚Р°Р»РѕРіС‹</value></data>
-  <data name="Catalog_Filter"><value>РЎТЇР·РіС–Р»РµСЂ</value></data>
-  <data name="Catalog_Reset"><value>РўР°Р·Р°Р»Р°Сѓ</value></data>
-  <data name="Catalog_Apply"><value>ТљРѕР»РґР°РЅСѓ</value></data>
-  <data name="Catalog_Brand"><value>РњР°СЂРєР°СЃС‹</value></data>
-  <data name="Catalog_Model"><value>РњРѕРґРµР»С–</value></data>
-  <data name="Catalog_PriceFrom"><value>Р‘Р°Т“Р°СЃС‹ Р±Р°СЃС‚Р°Рї</value></data>
-  <data name="Catalog_PriceTo"><value>Р‘Р°Т“Р°СЃС‹ РґРµР№С–РЅ</value></data>
-  <data name="Catalog_YearFrom"><value>Р–С‹Р»С‹ Р±Р°СЃС‚Р°Рї</value></data>
-  <data name="Catalog_YearTo"><value>Р–С‹Р»С‹ РґРµР№С–РЅ</value></data>
-  <data name="Catalog_BodyType"><value>РљСѓР·РѕРІ С‚ТЇСЂС–</value></data>
-  <data name="Catalog_Transmission"><value>РљРѕСЂРѕР±РєР°</value></data>
-  <data name="Catalog_FuelType"><value>РћС‚С‹РЅ С‚ТЇСЂС–</value></data>
-  <data name="Catalog_NoCars"><value>РђРІС‚РѕРјРѕР±РёР»СЊРґРµСЂ С‚Р°Р±С‹Р»РјР°РґС‹</value></data>
-  <data name="Catalog_Found"><value>РўР°Р±С‹Р»РґС‹</value></data>
-
-  <!-- РљР°СЂС‚РѕС‡РєР° Р°РІС‚Рѕ -->
-  <data name="Car_Year"><value>Р–С‹Р»С‹</value></data>
-  <data name="Car_Mileage"><value>Р–ТЇСЂС–СЃС–</value></data>
-  <data name="Car_Engine"><value>ТљРѕР·Т“Р°Р»С‚Т›С‹С€</value></data>
-  <data name="Car_Transmission"><value>РљРѕСЂРѕР±РєР°</value></data>
-  <data name="Car_Drive"><value>Р–РµС‚РµРє</value></data>
-  <data name="Car_Color"><value>РўТЇСЃС–</value></data>
-  <data name="Car_Body"><value>РљСѓР·РѕРІ</value></data>
-  <data name="Car_Fuel"><value>РћС‚С‹РЅ</value></data>
-  <data name="Car_Price"><value>Р‘Р°Т“Р°СЃС‹</value></data>
-  <data name="Car_Details"><value>РўРѕР»С‹Т“С‹СЂР°Т›</value></data>
-  <data name="Car_AddToFavorite"><value>РўР°ТЈРґР°СѓР»С‹Т“Р° Т›РѕСЃСѓ</value></data>
-  <data name="Car_RemoveFromFavorite"><value>РўР°ТЈРґР°СѓР»С‹РґР°РЅ Р°Р»Сѓ</value></data>
-  <data name="Car_AddToCompare"><value>РЎР°Р»С‹СЃС‚С‹СЂСѓ</value></data>
-  <data name="Car_LeaveRequest"><value>УЁС‚С–РЅС–Рј Т›Р°Р»РґС‹СЂСѓ</value></data>
-  <data name="Car_Sold"><value>РЎР°С‚С‹Р»РґС‹</value></data>
-  <data name="Car_Reserved"><value>Р‘СЂРѕРЅРґР°Р»Т“Р°РЅ</value></data>
-  <data name="Car_Verified"><value>РўРµРєСЃРµСЂС–Р»РіРµРЅ</value></data>
-  <data name="Car_Warranty"><value>РљРµРїС–Р»РґС–Рє</value></data>
-  <data name="Car_Exchange"><value>РђР№С‹СЂР±Р°СЃ</value></data>
-  <data name="Car_History"><value>РђРІС‚РѕРјРѕР±РёР»СЊ С‚Р°СЂРёС…С‹</value></data>
-  <data name="Car_Description"><value>РЎРёРїР°С‚С‚Р°РјР°</value></data>
-
-  <!-- Р¤РѕСЂРјР° Р·Р°СЏРІРєРё -->
-  <data name="Lead_Name"><value>РђС‚С‹ТЈС‹Р·</value></data>
-  <data name="Lead_Phone"><value>РўРµР»РµС„РѕРЅ РЅУ©РјС–СЂС–</value></data>
-  <data name="Lead_Comment"><value>РџС–РєС–СЂ</value></data>
-  <data name="Lead_Submit"><value>УЁС‚С–РЅС–Рј Р¶С–Р±РµСЂСѓ</value></data>
-  <data name="Lead_Sending"><value>Р–С–Р±РµСЂС–Р»СѓРґРµ...</value></data>
-  <data name="Lead_Success"><value>УЁС‚С–РЅС–Рј Т›Р°Р±С‹Р»РґР°РЅРґС‹! Р–Р°Т›С‹РЅ Р°СЂР°РґР° С…Р°Р±Р°СЂР»Р°СЃР°РјС‹Р·.</value></data>
-
-  <!-- РЎСЂР°РІРЅРµРЅРёРµ -->
-  <data name="Compare_Title"><value>РђРІС‚РѕРјРѕР±РёР»СЊРґРµСЂРґС– СЃР°Р»С‹СЃС‚С‹СЂСѓ</value></data>
-  <data name="Compare_Empty"><value>РЎР°Р»С‹СЃС‚С‹СЂСѓТ“Р° Р°РІС‚РѕРјРѕР±РёР»СЊРґРµСЂ Р¶РѕТ›</value></data>
-  <data name="Compare_Clear"><value>РўР°Р·Р°Р»Р°Сѓ</value></data>
-  <data name="Compare_Remove"><value>Р–РѕСЋ</value></data>
-
-  <!-- РР·Р±СЂР°РЅРЅРѕРµ -->
-  <data name="Favorites_Title"><value>РўР°ТЈРґР°СѓР»С‹Р»Р°СЂ</value></data>
-  <data name="Favorites_Empty"><value>РўР°ТЈРґР°СѓР»С‹ Р°РІС‚РѕРјРѕР±РёР»СЊРґРµСЂ Р¶РѕТ›</value></data>
-
-  <!-- РџРѕРґРІР°Р» -->
-  <data name="Footer_Description"><value>Р–ТЇСЂС–Р»РіРµРЅ Р¶У™РЅРµ Р¶Р°ТЈР° Р°РІС‚РѕРјРѕР±РёР»СЊРґРµСЂРґС– СЃР°С‚Сѓ</value></data>
-  <data name="Footer_Sitemap"><value>РЎР°Р№С‚ РєР°СЂС‚Р°СЃС‹</value></data>
-
-  <!-- РћР±С‰РµРµ -->
-  <data name="Btn_Back"><value>РђСЂС‚Т›Р°</value></data>
-  <data name="Btn_Save"><value>РЎР°Т›С‚Р°Сѓ</value></data>
-  <data name="Lbl_km"><value>РєРј</value></data>
-  <data name="Lbl_currency"><value>в‚ё</value></data>
-  <data name="Lead_Title"><value>Өтінім қалдыру</value></data>
-  <data name="Home_Hero_Subtitle"><value>Қолданылған және жаңа автомобильдердің үлкен таңдауы</value></data>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Home_Hero_Subtitle" xml:space="preserve">
+    <value>Кепілдікпен тексерілген автомобильдер. Кредит, айырбас, бөліп төлеу.</value>
+  </data>
+  <data name="Lead_Success" xml:space="preserve">
+    <value>Өтінішіңіз қабылданды! Жақын арада хабарласамыз.</value>
+  </data>
+  <data name="Lead_Title" xml:space="preserve">
+    <value>Өтініш қалдыру</value>
+  </data>
+  <data name="Nav_About" xml:space="preserve">
+    <value>Біз туралы</value>
+  </data>
+  <data name="Nav_Catalog" xml:space="preserve">
+    <value>Каталог</value>
+  </data>
+  <data name="Nav_Compare" xml:space="preserve">
+    <value>Салыстыру</value>
+  </data>
+  <data name="Nav_Favorites" xml:space="preserve">
+    <value>Таңдаулылар</value>
+  </data>
 </root>

@@ -9,7 +9,7 @@ namespace AutoSalon.Controllers
         /// Переключает язык сайта и перенаправляет обратно на страницу откуда пришёл запрос.
         /// Вызывается по маршруту: GET /language/set?culture=ru  (или kk, en)
         /// </summary>
-        [HttpGet]
+        [HttpGet("/language/set")]
         public IActionResult Set(string culture, string returnUrl = "/")
         {
             // Допустимые культуры

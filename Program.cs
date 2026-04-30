@@ -69,7 +69,6 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.SupportedCultures = supportedCultures;
     options.SupportedUICultures = supportedCultures;
 
-    // Порядок определения языка: сначала cookie, потом браузер, потом дефолт
     options.RequestCultureProviders = new List<IRequestCultureProvider>
     {
         new CookieRequestCultureProvider(),
@@ -86,25 +85,21 @@ using (var scope = app.Services.CreateScope())
     await SeedData.InitAsync(scope.ServiceProvider);
 }
 
-// Middleware pipeline (порядок важен!)
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error/500");
     app.UseHsts();
 }
 
-// Кастомные страницы ошибок
 app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseRequestLocalization();
+
 app.UseRouting();
 
-// ===== ПРИМЕНЯЕМ ЛОКАЛИЗАЦИЮ (до авторизации) =====
-app.UseRequestLocalization();
-// ===================================================
-
-// Rate limit ПЕРЕД авторизацией
 app.UseMiddleware<RateLimitMiddleware>();
 
 app.UseSession();
@@ -112,6 +107,11 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 // Маршруты
+app.MapControllerRoute(
+    name: "language",
+    pattern: "language/set",
+    defaults: new { controller = "Language", action = "Set" });
+
 app.MapControllerRoute(
     name: "areas",
     pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");

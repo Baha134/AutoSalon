@@ -257,4 +257,12 @@
 <data name="Fav_Empty_Sub" xml:space="preserve"><value>Нажмите ♡ на карточке автомобиля, чтобы сохранить</value></data>
 <data name="Fav_ToCatalog" xml:space="preserve"><value>Перейти в каталог</value></data>
 <data name="Fav_Count" xml:space="preserve"><value>{0} авто в избранном</value></data>
+<data name="Login_Hello" xml:space="preserve"><value>Привет, {0}!</value></data>
+<data name="Login_Logout" xml:space="preserve"><value>Выйти</value></data>
+<data name="Login_Register" xml:space="preserve"><value>Регистрация</value></data>
+<data name="Login_Login" xml:space="preserve"><value>Войти</value></data>
+<data name="Error_Title" xml:space="preserve"><value>Страница не найдена</value></data>
+<data name="Error_Sub" xml:space="preserve"><value>Возможно, она была удалена или вы перешли по неверной ссылке.</value></data>
+<data name="Error_Home" xml:space="preserve"><value>На главную</value></data>
+<data name="Error_Catalog" xml:space="preserve"><value>Каталог авто</value></data>
 </root>

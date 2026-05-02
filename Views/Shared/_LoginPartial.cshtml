@@ -4,15 +4,16 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
+    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
+          asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index">
-                    Привет, @UserManager.GetUserName(User)!
+                    @string.Format(L["Login_Hello"], UserManager.GetUserName(User))
                 </a>
             </li>
             <li class="nav-item">
-                <button type="submit" class="nav-link btn btn-link text-dark">Выйти</button>
+                <button type="submit" class="nav-link btn btn-link text-dark">@L["Login_Logout"]</button>
             </li>
         </ul>
     </form>
@@ -21,10 +22,10 @@ else
 {
     <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Регистрация</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">@L["Login_Register"]</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Войти</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">@L["Login_Login"]</a>
         </li>
     </ul>
 }

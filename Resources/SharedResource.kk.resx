@@ -268,4 +268,12 @@
 <data name="Fav_Empty_Sub" xml:space="preserve"><value>Сақтау үшін автомобиль картасындағы ♡ басыңыз</value></data>
 <data name="Fav_ToCatalog" xml:space="preserve"><value>Каталогқа өту</value></data>
 <data name="Fav_Count" xml:space="preserve"><value>{0} авто таңдаулыларда</value></data>
+<data name="Login_Hello" xml:space="preserve"><value>Сәлем, {0}!</value></data>
+<data name="Login_Logout" xml:space="preserve"><value>Шығу</value></data>
+<data name="Login_Register" xml:space="preserve"><value>Тіркелу</value></data>
+<data name="Login_Login" xml:space="preserve"><value>Кіру</value></data>
+<data name="Error_Title" xml:space="preserve"><value>Бет табылмады</value></data>
+<data name="Error_Sub" xml:space="preserve"><value>Мүмкін ол жойылған немесе сіз қате сілтемеге өттіңіз.</value></data>
+<data name="Error_Home" xml:space="preserve"><value>Басты бетке</value></data>
+<data name="Error_Catalog" xml:space="preserve"><value>Авто каталогы</value></data>
 </root>

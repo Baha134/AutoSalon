@@ -268,4 +268,12 @@
 <data name="Fav_Empty_Sub" xml:space="preserve"><value>Click ♡ on a car card to save it</value></data>
 <data name="Fav_ToCatalog" xml:space="preserve"><value>Go to catalog</value></data>
 <data name="Fav_Count" xml:space="preserve"><value>{0} cars in favorites</value></data>
+<data name="Login_Hello" xml:space="preserve"><value>Hello, {0}!</value></data>
+<data name="Login_Logout" xml:space="preserve"><value>Logout</value></data>
+<data name="Login_Register" xml:space="preserve"><value>Register</value></data>
+<data name="Login_Login" xml:space="preserve"><value>Login</value></data>
+<data name="Error_Title" xml:space="preserve"><value>Page not found</value></data>
+<data name="Error_Sub" xml:space="preserve"><value>It may have been deleted or you followed an incorrect link.</value></data>
+<data name="Error_Home" xml:space="preserve"><value>Go to home</value></data>
+<data name="Error_Catalog" xml:space="preserve"><value>Car catalog</value></data>
 </root>

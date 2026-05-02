@@ -3,6 +3,9 @@ namespace AutoSalon.Models;
 public class SalonSettings
 {
     public int Id { get; set; }
+    public string SalonName { get; set; } = "Автопрайм";
+    public string Phone { get; set; } = "";
+    public string Email { get; set; } = "";
     public string PhoneNumber { get; set; } = "";
     public string WhatsAppNumber { get; set; } = "";
     public string Address { get; set; } = "";

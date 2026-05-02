@@ -11,6 +11,24 @@
             <input type="hidden" asp-for="Id" />
 
             <div class="card border-0 shadow-sm p-4 mb-4">
+                <h5 class="fw-bold mb-3">🏢 Салон</h5>
+                <div class="mb-3">
+                    <label class="form-label">Название салона</label>
+                    <input asp-for="SalonName" class="form-control" placeholder="Автопрайм" />
+                    <div class="form-text">Отображается в шапке и подвале сайта</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Телефон (для сайта)</label>
+                    <input asp-for="Phone" class="form-control" placeholder="+7 (777) 123-45-67" />
+                    <div class="form-text">Показывается в шапке и футере главной страницы</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input asp-for="Email" class="form-control" placeholder="info@autosalon.kz" />
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm p-4 mb-4">
                 <h5 class="fw-bold mb-3">📞 Контакты</h5>
                 <div class="mb-3">
                     <label class="form-label">Телефон</label>

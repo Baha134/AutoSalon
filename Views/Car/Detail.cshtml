@@ -1,4 +1,6 @@
 @model AutoSalon.ViewModels.CarDetailViewModel
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<AutoSalon.Resources.SharedResource> L
 
 @{
     var car = Model.Car;
@@ -15,44 +17,315 @@
     ViewData["OgImage"] = mainPhoto?.FilePath ?? "";
 }
 
-<div class="container mt-3">
+<style>
+    :root {
+        --gold: #F5A623;
+        --gold-dark: #D4861A;
+        --dark: #0d0d0d;
+        --dark2: #141414;
+        --dark3: #1c1c1c;
+        --dark4: #252525;
+        --text: #ffffff;
+        --muted: rgba(255,255,255,0.5);
+        --border: rgba(255,255,255,0.07);
+        --radius: 14px;
+    }
 
-    <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb small">
-            <li class="breadcrumb-item"><a href="/">@L["Detail_Home"]</a></li>
-            <li class="breadcrumb-item"><a href="/catalog">@L["Detail_Catalog"]</a></li>
-            <li class="breadcrumb-item active">@car.Brand @car.Model @car.Year</li>
-        </ol>
-    </nav>
+    body { background: var(--dark) !important; color: var(--text) !important; }
 
-    <div class="car-detail-layout">
+    /* BREADCRUMB */
+    .breadcrumb { background: none; padding: 0; margin-bottom: 24px; }
+    .breadcrumb-item a { color: var(--muted); text-decoration: none; font-size: 13px; transition: color .2s; }
+    .breadcrumb-item a:hover { color: var(--gold); }
+    .breadcrumb-item.active { color: var(--muted); font-size: 13px; }
+    .breadcrumb-item + .breadcrumb-item::before { color: var(--muted); }
 
-        <div>
-            @if (isSold)
+    /* ALERTS */
+    .detail-alert {
+        border-radius: var(--radius); padding: 14px 20px;
+        font-size: 14px; font-weight: 600; margin-bottom: 20px;
+        border: 1px solid;
+    }
+    .detail-alert-danger { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3); color: #f87171; }
+    .detail-alert-warning { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); color: #fbbf24; }
+
+    /* LAYOUT */
+    .detail-wrap {
+        max-width: 1280px; margin: 0 auto;
+        padding: 24px 32px 80px;
+        display: grid;
+        grid-template-columns: 1fr 360px;
+        gap: 32px;
+        align-items: start;
+    }
+
+    /* GALLERY */
+    .gallery-main-img {
+        width: 100%; border-radius: var(--radius);
+        aspect-ratio: 16/10; object-fit: cover;
+        background: var(--dark2);
+        display: block;
+    }
+    .gallery-wrap { position: relative; }
+    .gallery-nav {
+        position: absolute; top: 50%; transform: translateY(-50%);
+        background: rgba(0,0,0,0.55); backdrop-filter: blur(6px);
+        border: 1px solid rgba(255,255,255,0.15);
+        color: #fff; width: 44px; height: 44px;
+        border-radius: 50%; font-size: 22px;
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer; transition: background .2s;
+        z-index: 2;
+    }
+    .gallery-nav:hover { background: rgba(245,166,35,0.4); border-color: var(--gold); }
+    .gallery-prev { left: 14px; }
+    .gallery-next { right: 14px; }
+    .gallery-counter {
+        position: absolute; bottom: 14px; right: 14px;
+        background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+        color: rgba(255,255,255,0.8); font-size: 12px; font-weight: 600;
+        padding: 4px 12px; border-radius: 50px;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    .gallery-thumbs {
+        display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap;
+    }
+    .gallery-thumb {
+        width: 72px; height: 52px; object-fit: cover;
+        border-radius: 8px; cursor: pointer;
+        border: 2px solid transparent;
+        opacity: .6; transition: opacity .2s, border-color .2s;
+    }
+    .gallery-thumb:hover { opacity: .9; }
+    .gallery-thumb.active { border-color: var(--gold); opacity: 1; }
+    .no-photo-wrap {
+        aspect-ratio: 16/10; border-radius: var(--radius);
+        background: var(--dark2); border: 1px solid var(--border);
+        display: flex; align-items: center; justify-content: center;
+        color: var(--muted); font-size: 16px;
+    }
+
+    /* CAR TITLE */
+    .car-detail-title {
+        font-family: 'Unbounded', sans-serif;
+        font-size: clamp(22px, 3vw, 32px);
+        font-weight: 900; margin: 24px 0 12px;
+        line-height: 1.2;
+    }
+
+    /* BADGES */
+    .car-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+    .car-badge {
+        font-size: 11px; font-weight: 700; letter-spacing: .06em;
+        padding: 5px 12px; border-radius: 50px; text-decoration: none;
+    }
+    .badge-verified { background: rgba(34,197,94,0.12); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+    .badge-warranty { background: rgba(59,130,246,0.12); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); }
+    .badge-exchange { background: rgba(168,85,247,0.12); color: #c084fc; border: 1px solid rgba(168,85,247,0.3); }
+
+    /* SPECS GRID */
+    .specs-grid {
+        display: grid; grid-template-columns: 1fr 1fr;
+        gap: 1px; background: var(--border);
+        border: 1px solid var(--border); border-radius: var(--radius);
+        overflow: hidden; margin-bottom: 32px;
+    }
+    .spec-item {
+        background: var(--dark2); padding: 16px 20px;
+    }
+    .spec-key {
+        font-size: 10px; font-weight: 700; letter-spacing: .1em;
+        text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
+    }
+    .spec-val { font-size: 15px; font-weight: 600; color: var(--text); }
+
+    /* DESCRIPTION */
+    .car-description {
+        background: var(--dark2); border: 1px solid var(--border);
+        border-radius: var(--radius); padding: 24px;
+        margin-bottom: 32px;
+    }
+    .car-description h3 {
+        font-size: 14px; font-weight: 700; letter-spacing: .08em;
+        text-transform: uppercase; color: var(--gold); margin-bottom: 12px;
+    }
+    .car-description p { color: var(--muted); line-height: 1.8; margin: 0; font-size: 14px; }
+
+    /* CALCULATOR */
+    .calculator-box {
+        background: var(--dark2); border: 1px solid var(--border);
+        border-radius: var(--radius); padding: 24px; margin-bottom: 32px;
+    }
+    .calculator-box h3 {
+        font-size: 14px; font-weight: 700; letter-spacing: .08em;
+        text-transform: uppercase; color: var(--gold); margin-bottom: 20px;
+    }
+    .calc-slider-group { margin-bottom: 18px; }
+    .calc-slider-group label {
+        font-size: 12px; color: var(--muted); display: flex;
+        justify-content: space-between; margin-bottom: 8px;
+    }
+    .calc-slider-group label strong { color: var(--text); }
+    input[type=range] {
+        width: 100%; accent-color: var(--gold);
+        height: 4px; cursor: pointer;
+    }
+    .calc-result {
+        display: grid; grid-template-columns: 1fr 1fr 1fr;
+        gap: 1px; background: var(--border);
+        border: 1px solid var(--border); border-radius: 10px;
+        overflow: hidden; margin-top: 16px;
+    }
+    .calc-result > div { background: var(--dark3); padding: 14px 12px; text-align: center; }
+    .r-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; }
+    .r-val { font-size: 14px; font-weight: 800; color: var(--gold); }
+
+    /* SIMILAR */
+    .similar-section { margin-top: 40px; }
+    .similar-section h3 {
+        font-size: 14px; font-weight: 700; letter-spacing: .08em;
+        text-transform: uppercase; color: var(--gold); margin-bottom: 20px;
+    }
+    .car-grid {
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 16px;
+    }
+
+    /* CTA BOX */
+    .cta-box {
+        background: var(--dark2); border: 1px solid var(--border);
+        border-radius: var(--radius); padding: 24px;
+        position: sticky; top: 90px;
+    }
+    .cta-price {
+        font-family: 'Unbounded', sans-serif;
+        font-size: 28px; font-weight: 900;
+        color: var(--gold); margin-bottom: 6px;
+    }
+    .cta-monthly {
+        font-size: 13px; color: var(--muted); margin-bottom: 20px;
+    }
+    .cta-monthly span { color: var(--text); font-weight: 700; }
+
+    .btn-cta {
+        display: flex; align-items: center; justify-content: center;
+        gap: 8px; width: 100%; border-radius: 10px;
+        padding: 13px; font-weight: 700; font-size: 14px;
+        text-decoration: none; border: none; cursor: pointer;
+        transition: transform .15s, opacity .2s;
+        margin-bottom: 10px;
+    }
+    .btn-cta:hover { transform: translateY(-1px); opacity: .9; }
+    .btn-call { background: var(--gold); color: #000; }
+    .btn-whatsapp { background: #25D366; color: #fff; }
+    .btn-credit {
+        background: transparent; color: var(--text);
+        border: 1px solid var(--border);
+    }
+    .btn-credit:hover { border-color: rgba(245,166,35,0.4); color: var(--gold); }
+
+    .cta-actions {
+        display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+        margin: 14px 0 20px;
+    }
+    .btn-action {
+        background: var(--dark3); border: 1px solid var(--border);
+        color: var(--muted); border-radius: 10px; padding: 10px;
+        font-size: 12px; font-weight: 600; cursor: pointer;
+        transition: border-color .2s, color .2s;
+        text-align: center;
+    }
+    .btn-action:hover { border-color: rgba(245,166,35,0.3); color: var(--gold); }
+    .btn-action.active { border-color: var(--gold); color: var(--gold); }
+
+    /* LEAD FORM */
+    .lead-title {
+        font-size: 13px; font-weight: 700; letter-spacing: .08em;
+        text-transform: uppercase; color: var(--gold); margin-bottom: 14px;
+    }
+    .lead-input {
+        width: 100%; background: var(--dark3) !important;
+        border: 1px solid var(--border) !important;
+        color: var(--text) !important; border-radius: 8px;
+        padding: 11px 14px; font-size: 13px; outline: none;
+        transition: border-color .2s; margin-bottom: 10px;
+    }
+    .lead-input::placeholder { color: var(--muted); }
+    .lead-input:focus { border-color: rgba(245,166,35,0.4) !important; box-shadow: none !important; }
+    textarea.lead-input { resize: vertical; min-height: 70px; }
+    .btn-submit {
+        width: 100%; background: var(--gold); color: #000;
+        border: none; border-radius: 8px; padding: 13px;
+        font-weight: 700; font-size: 14px; cursor: pointer;
+        transition: background .2s;
+    }
+    .btn-submit:hover { background: var(--gold-dark); }
+
+    /* FRAUD */
+    .fraud-box {
+        background: rgba(245,166,35,0.06);
+        border: 1px solid rgba(245,166,35,0.2);
+        border-radius: 10px; padding: 14px;
+        font-size: 12px; color: var(--muted);
+        margin-top: 16px;
+    }
+    .fraud-box strong { color: var(--gold); display: block; margin-bottom: 4px; }
+
+    /* CONTACT INFO */
+    .cta-contacts { margin-top: 14px; }
+    .cta-contact-item { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+
+    /* SOLD/RESERVED STATE */
+    .status-message {
+        background: var(--dark3); border: 1px solid var(--border);
+        border-radius: 10px; padding: 16px; text-align: center;
+        color: var(--muted); font-size: 14px; margin-bottom: 16px;
+    }
+
+    @@media (max-width: 991px) {
+        .detail-wrap { grid-template-columns: 1fr; padding: 16px 16px 60px; }
+        .cta-box { position: static; }
+        .specs-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @@media (max-width: 480px) {
+        .specs-grid { grid-template-columns: 1fr; }
+        .calc-result { grid-template-columns: 1fr; }
+    }
+</style>
+
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;900&display=swap" rel="stylesheet">
+
+<div class="detail-wrap">
+
+    <!-- ЛЕВАЯ КОЛОНКА -->
+    <div>
+        <nav aria-label="breadcrumb" class="mb-3">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">@L["Detail_Home"]</a></li>
+                <li class="breadcrumb-item"><a href="/catalog">@L["Detail_Catalog"]</a></li>
+                <li class="breadcrumb-item active">@car.Brand @car.Model @car.Year</li>
+            </ol>
+        </nav>
+
+        @if (isSold)
+        {
+            <div class="detail-alert detail-alert-danger">🚫 @L["Detail_Sold_Alert"]</div>
+        }
+        else if (isReserved)
+        {
+            <div class="detail-alert detail-alert-warning">⏳ @L["Detail_Reserved_Alert"]</div>
+        }
+
+        <!-- Галерея -->
+        <div class="gallery-wrap" id="car-gallery">
+            @if (photos.Any())
             {
-                <div class="alert alert-danger mb-3">@L["Detail_Sold_Alert"]</div>
-            }
-            else if (isReserved)
-            {
-                <div class="alert alert-warning mb-3">@L["Detail_Reserved_Alert"]</div>
-            }
-
-            <!-- Галерея -->
-            <div class="gallery-wrap gallery" id="car-gallery">
-                <div class="gallery-main position-relative">
-                    @if (photos.Any())
-                    {
-                        <img class="gallery-main" src="@photos[0].FilePath" alt="@car.Brand @car.Model" id="main-photo" />
-                        <button class="gallery-nav gallery-prev" onclick="galleryPrev()">‹</button>
-                        <button class="gallery-nav gallery-next" onclick="galleryNext()">›</button>
-                        <div class="gallery-counter"><span id="photo-idx">1</span> / @photos.Count</div>
-                    }
-                    else
-                    {
-                        <div class="d-flex align-items-center justify-content-center" style="height:300px;background:#eee;color:#aaa">
-                            @L["Detail_NoPhoto"]
-                        </div>
-                    }
+                <div style="position:relative">
+                    <img class="gallery-main-img" src="@photos[0].FilePath"
+                         alt="@car.Brand @car.Model" id="main-photo" />
+                    <button class="gallery-nav gallery-prev" onclick="galleryPrev()">‹</button>
+                    <button class="gallery-nav gallery-next" onclick="galleryNext()">›</button>
+                    <div class="gallery-counter"><span id="photo-idx">1</span> / @photos.Count</div>
                 </div>
                 @if (photos.Count > 1)
                 {
@@ -67,235 +340,261 @@
                         }
                     </div>
                 }
-            </div>
-
-            <!-- Характеристики -->
-            <h2 class="fw-bold mt-4 mb-1">@car.Brand @car.Model @car.Year</h2>
-
-            @if (car.Badge != null)
+            }
+            else
             {
-                <div class="car-badges mb-3">
-                    @if (car.Badge.IsVerified)
+                <div class="no-photo-wrap">🚗 @L["Detail_NoPhoto"]</div>
+            }
+        </div>
+
+        <!-- Заголовок -->
+        <h1 class="car-detail-title">@car.Brand @car.Model @car.Year</h1>
+
+        @if (car.Badge != null)
+        {
+            <div class="car-badges">
+                @if (car.Badge.IsVerified)   { <span class="car-badge badge-verified">✓ @L["Detail_Verified"]</span> }
+                @if (car.Badge.HasWarranty)  { <span class="car-badge badge-warranty">🛡 @string.Format(L["Detail_Warranty"], car.Badge.WarrantyDays)</span> }
+                @if (car.Badge.HasExchange)  { <span class="car-badge badge-exchange">🔄 @L["Detail_Exchange"]</span> }
+                @if (car.Badge.HistoryReportUrl != null)
+                {
+                    <a class="car-badge badge-verified" href="@car.Badge.HistoryReportUrl" target="_blank" rel="noopener">📋 @L["Detail_History"]</a>
+                }
+            </div>
+        }
+
+        <!-- Характеристики -->
+        <div class="specs-grid">
+            <div class="spec-item"><div class="spec-key">@L["Detail_Year"]</div><div class="spec-val">@car.Year</div></div>
+            <div class="spec-item"><div class="spec-key">@L["Detail_Mileage"]</div><div class="spec-val">@car.DisplayMileage</div></div>
+            <div class="spec-item"><div class="spec-key">@L["Detail_Engine"]</div><div class="spec-val">@car.EngineVolume л, @car.FuelType</div></div>
+            <div class="spec-item"><div class="spec-key">@L["Detail_Transmission"]</div><div class="spec-val">@car.Transmission</div></div>
+            <div class="spec-item"><div class="spec-key">@L["Detail_Drive"]</div><div class="spec-val">@car.DriveType</div></div>
+            <div class="spec-item"><div class="spec-key">@L["Detail_Body"]</div><div class="spec-val">@car.BodyType</div></div>
+            <div class="spec-item"><div class="spec-key">@L["Detail_Color"]</div><div class="spec-val">@car.Color</div></div>
+            <div class="spec-item"><div class="spec-key">@L["Detail_City"]</div><div class="spec-val">@car.City</div></div>
+        </div>
+
+        <!-- Описание -->
+        @if (!string.IsNullOrEmpty(car.Description))
+        {
+            <div class="car-description">
+                <h3>@L["Detail_Description"]</h3>
+                <p>@car.Description</p>
+            </div>
+        }
+
+        <!-- Калькулятор -->
+        @if (canBuy)
+        {
+            <div class="calculator-box" id="calculator"
+                 data-price="@car.Price" data-car-id="@car.Id">
+                <h3>@L["Detail_Calc_Title"]</h3>
+                <div class="calc-slider-group">
+                    <label>@L["Detail_Calc_Down"] <strong id="down-label">20%</strong></label>
+                    <input type="range" id="calc-down" min="10" max="90" value="20" step="5" />
+                </div>
+                <div class="calc-slider-group">
+                    <label>@L["Detail_Calc_Months"] <strong id="months-label">60 @L["Detail_Calc_Months_Label"]</strong></label>
+                    <input type="range" id="calc-months" min="12" max="120" value="60" step="12" />
+                </div>
+                <div class="calc-result" id="calc-result">
+                    <div><div class="r-label">@L["Detail_Calc_Monthly"]</div><div class="r-val" id="r-monthly">—</div></div>
+                    <div><div class="r-label">@L["Detail_Calc_Downpay"]</div><div class="r-val" id="r-down">—</div></div>
+                    <div><div class="r-label">@L["Detail_Calc_Overpay"]</div><div class="r-val" id="r-over">—</div></div>
+                </div>
+            </div>
+        }
+
+        <!-- Похожие -->
+        @if (Model.Similar.Any())
+        {
+            <div class="similar-section">
+                <h3>@L["Detail_Similar"]</h3>
+                <div class="car-grid">
+                    @foreach (var sim in Model.Similar.Take(3))
                     {
-                        <span class="car-badge badge-verified">@L["Detail_Verified"]</span>
-                    }
-                    @if (car.Badge.HasWarranty)
-                    {
-                        <span class="car-badge badge-warranty">@string.Format(L["Detail_Warranty"], car.Badge.WarrantyDays)</span>
-                    }
-                    @if (car.Badge.HasExchange)
-                    {
-                        <span class="car-badge badge-exchange">@L["Detail_Exchange"]</span>
-                    }
-                    @if (car.Badge.HistoryReportUrl != null)
-                    {
-                        <a class="car-badge badge-verified" href="@car.Badge.HistoryReportUrl" target="_blank" rel="noopener">@L["Detail_History"]</a>
+                        <partial name="_CarCard" model="sim" />
                     }
                 </div>
-            }
+            </div>
+        }
+    </div>
 
-            <div class="car-specs-grid">
-                <div class="spec-item"><div class="spec-key">@L["Detail_Year"]</div><div class="spec-val">@car.Year</div></div>
-                <div class="spec-item"><div class="spec-key">@L["Detail_Mileage"]</div><div class="spec-val">@car.DisplayMileage</div></div>
-                <div class="spec-item"><div class="spec-key">@L["Detail_Engine"]</div><div class="spec-val">@car.EngineVolume л, @car.FuelType</div></div>
-                <div class="spec-item"><div class="spec-key">@L["Detail_Transmission"]</div><div class="spec-val">@car.Transmission</div></div>
-                <div class="spec-item"><div class="spec-key">@L["Detail_Drive"]</div><div class="spec-val">@car.DriveType</div></div>
-                <div class="spec-item"><div class="spec-key">@L["Detail_Body"]</div><div class="spec-val">@car.BodyType</div></div>
-                <div class="spec-item"><div class="spec-key">@L["Detail_Color"]</div><div class="spec-val">@car.Color</div></div>
-                <div class="spec-item"><div class="spec-key">@L["Detail_City"]</div><div class="spec-val">@car.City</div></div>
+    <!-- ПРАВАЯ КОЛОНКА -->
+    <div>
+        <div class="cta-box">
+            <div class="cta-price">
+                @if (isSold)
+                {
+                    <span style="text-decoration:line-through; opacity:.4">@car.DisplayPrice</span>
+                }
+                else { @car.DisplayPrice }
             </div>
 
-            @if (!string.IsNullOrEmpty(car.Description))
-            {
-                <div class="mt-4">
-                    <h3 class="h5 fw-bold">@L["Detail_Description"]</h3>
-                    <p class="text-muted">@car.Description</p>
-                </div>
-            }
-
-            <!-- Калькулятор -->
             @if (canBuy)
             {
-                <div class="calculator-box" id="calculator"
-                     data-price="@car.Price"
-                     data-car-id="@car.Id">
-                    <h3>@L["Detail_Calc_Title"]</h3>
-                    <div class="calc-slider-group">
-                        <label>@L["Detail_Calc_Down"] <strong id="down-label">20%</strong></label>
-                        <input type="range" id="calc-down" min="10" max="90" value="20" step="5" />
+                <div class="cta-monthly">от <span id="cta-monthly">—</span> @L["Detail_Monthly_Suffix"]</div>
+
+                <div id="lead-anchor">
+                    <a href="tel:@(settings?.PhoneNumber?.Replace(" ","").Replace("(","").Replace(")","").Replace("-",""))"
+                       class="btn-cta btn-call">📞 @L["Detail_Call"]</a>
+
+                    @if (!string.IsNullOrEmpty(settings?.WhatsAppNumber))
+                    {
+                        <a href="https://wa.me/@settings.WhatsAppNumber" target="_blank" rel="noopener"
+                           class="btn-cta btn-whatsapp">💬 @L["Detail_WhatsApp"]</a>
+                    }
+
+                    <button class="btn-cta btn-credit"
+                            onclick="document.getElementById('calculator')?.scrollIntoView({behavior:'smooth'})">
+                        🏦 @L["Detail_CalcCredit"]
+                    </button>
+
+                    <div class="cta-actions">
+                        <button class="btn-action fav-btn"
+                                data-car-id="@car.Id"
+                                onclick="toggleFav(event, @car.Id, this)">
+                            ♡ @L["Detail_Favorite"]
+                        </button>
+                        <button class="btn-action compare-btn"
+                                onclick="toggleCompare(event, @car.Id, this)">
+                            ⚖ @L["Detail_Compare"]
+                        </button>
                     </div>
-                    <div class="calc-slider-group">
-                        <label>@L["Detail_Calc_Months"] <strong id="months-label">60 @L["Detail_Calc_Months_Label"]</strong></label>
-                        <input type="range" id="calc-months" min="12" max="120" value="60" step="12" />
-                    </div>
-                    <div class="calc-result" id="calc-result">
-                        <div><div class="r-label">@L["Detail_Calc_Monthly"]</div><div class="r-val" id="r-monthly">—</div></div>
-                        <div><div class="r-label">@L["Detail_Calc_Downpay"]</div><div class="r-val" id="r-down">—</div></div>
-                        <div><div class="r-label">@L["Detail_Calc_Overpay"]</div><div class="r-val" id="r-over">—</div></div>
-                    </div>
+
+                    <div class="lead-title">@L["Detail_LeaveRequest"]</div>
+                    <form method="post" action="/leads">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="CarId" value="@car.Id" />
+                        <input type="hidden" name="LeadType" value="Call" />
+                        <input type="text" name="Website" style="display:none" tabindex="-1" autocomplete="off" />
+                        <input type="text" name="Name" class="lead-input"
+                               placeholder="@L["Detail_Form_Name"]" required maxlength="100" />
+                        <input type="tel" name="Phone" class="lead-input"
+                               placeholder="@L["Detail_Form_Phone"]" required />
+                        <textarea name="Message" class="lead-input"
+                                  placeholder="@L["Detail_Form_Comment"]"></textarea>
+                        <button type="submit" class="btn-submit">@L["Detail_Form_Submit"]</button>
+                    </form>
                 </div>
             }
-
-            <!-- Похожие авто -->
-            @if (Model.Similar.Any())
+            else
             {
-                <div class="mt-5">
-                    <h3 class="h5 fw-bold mb-3">@L["Detail_Similar"]</h3>
-                    <div class="car-grid">
-                        @foreach (var sim in Model.Similar.Take(3))
-                        {
-                            <partial name="_CarCard" model="sim" />
-                        }
-                    </div>
+                <div class="status-message">
+                    @(isSold ? L["Detail_Status_Sold"] : L["Detail_Status_Reserved"])
+                </div>
+                <a href="/catalog" class="btn-cta btn-call" style="margin-top:0">@L["Detail_Other_Cars"]</a>
+            }
+
+            <div class="fraud-box">
+                <strong>⚠ @L["Detail_Fraud_Title"]</strong>
+                @L["Detail_Fraud_Text"]
+            </div>
+
+            @if (settings != null)
+            {
+                <div class="cta-contacts">
+                    @if (!string.IsNullOrEmpty(settings.Address))
+                    {
+                        <div class="cta-contact-item">📍 @settings.Address</div>
+                    }
+                    @if (!string.IsNullOrEmpty(settings.WorkingHours))
+                    {
+                        <div class="cta-contact-item">⏰ @settings.WorkingHours</div>
+                    }
                 </div>
             }
         </div>
-
-        <!-- ПРАВАЯ КОЛОНКА -->
-        <div>
-            <div class="car-cta-box">
-                <div class="car-cta-price">
-                    @if (isSold)
-                    {
-                        <span class="text-muted text-decoration-line-through">@car.DisplayPrice</span>
-                    }
-                    else
-                    {
-                        @car.DisplayPrice
-                    }
-                </div>
-
-                @if (canBuy)
-                {
-                    <div class="car-cta-monthly">@L["Detail_Monthly_From"] <span id="cta-monthly">—</span> @L["Detail_Monthly_Suffix"]</div>
-                }
-
-                @if (canBuy)
-                {
-                    <div id="lead-anchor">
-                        <a href="tel:@settings?.PhoneNumber?.Replace(" ", "").Replace("(", "").Replace(")", "").Replace("-", "")"
-                           class="cta-btn cta-call">@L["Detail_Call"]</a>
-
-                        @if (!string.IsNullOrEmpty(settings?.WhatsAppNumber))
-                        {
-                            <a href="https://wa.me/@settings.WhatsAppNumber" target="_blank" rel="noopener"
-                               class="cta-btn cta-whatsapp">@L["Detail_WhatsApp"]</a>
-                        }
-
-                        <button class="cta-btn cta-credit" onclick="document.getElementById('calculator')?.scrollIntoView({behavior:'smooth'})">@L["Detail_CalcCredit"]</button>
-
-                        <div class="cta-actions">
-                            <button class="cta-fav" onclick="toggleFav(event, @car.Id, this)">@L["Detail_Favorite"]</button>
-                            <button class="cta-compare" onclick="toggleCompare(event, @car.Id, this)">@L["Detail_Compare"]</button>
-                        </div>
-
-                        <div class="mt-4">
-                            <h5 class="fw-bold mb-3">@L["Detail_LeaveRequest"]</h5>
-                            <form class="lead-form" method="post" action="/leads">
-                                @Html.AntiForgeryToken()
-                                <input type="hidden" name="CarId" value="@car.Id" />
-                                <input type="hidden" name="LeadType" value="Call" />
-                                <input type="text" name="Website" style="display:none" tabindex="-1" autocomplete="off" />
-                                <div class="mb-2">
-                                    <input type="text" name="Name" class="form-control form-control-sm" placeholder="@L["Detail_Form_Name"]" required maxlength="100" />
-                                </div>
-                                <div class="mb-2">
-                                    <input type="tel" name="Phone" class="form-control form-control-sm" placeholder="@L["Detail_Form_Phone"]" required />
-                                </div>
-                                <div class="mb-2">
-                                    <textarea name="Message" class="form-control form-control-sm" rows="2" placeholder="@L["Detail_Form_Comment"]"></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary w-100">@L["Detail_Form_Submit"]</button>
-                            </form>
-                        </div>
-                    </div>
-                }
-                else
-                {
-                    <div class="alert alert-secondary text-center">
-                        @(isSold ? L["Detail_Status_Sold"] : L["Detail_Status_Reserved"])
-                    </div>
-                    <a href="/catalog" class="btn btn-primary w-100">@L["Detail_Other_Cars"]</a>
-                }
-
-                <div class="fraud-warning mt-3">
-                    <strong>@L["Detail_Fraud_Title"]</strong>
-                    @L["Detail_Fraud_Text"]
-                </div>
-
-                @if (settings != null)
-                {
-                    <div class="mt-3 small text-muted">
-                        <div>📍 @settings.Address</div>
-                        <div>⏰ @settings.WorkingHours</div>
-                    </div>
-                }
-            </div>
-        </div>
-
     </div>
+
 </div>
 
 @section Scripts {
-    <script>
-        (function () {
-            var box = document.getElementById('calculator');
-            if (box) {
-                var price = parseFloat(box.dataset.price) || 0;
-                var downSlider = document.getElementById('calc-down');
-                var monthsSlider = document.getElementById('calc-months');
-                var downLabel = document.getElementById('down-label');
-                var monthsLabel = document.getElementById('months-label');
-                var rMonthly = document.getElementById('r-monthly');
-                var rDown = document.getElementById('r-down');
-                var rOver = document.getElementById('r-over');
-                var ctaMonthly = document.getElementById('cta-monthly');
-                var monthsSuffix = '@L["Detail_Calc_Months_Label"]';
+<script>
+(function () {
+    // ── CALCULATOR ──
+    var box = document.getElementById('calculator');
+    if (box) {
+        var price = parseFloat(box.dataset.price) || 0;
+        var downSlider = document.getElementById('calc-down');
+        var monthsSlider = document.getElementById('calc-months');
+        var downLabel = document.getElementById('down-label');
+        var monthsLabel = document.getElementById('months-label');
+        var rMonthly = document.getElementById('r-monthly');
+        var rDown = document.getElementById('r-down');
+        var rOver = document.getElementById('r-over');
+        var ctaMonthly = document.getElementById('cta-monthly');
+        var monthsSuffix = '@L["Detail_Calc_Months_Label"]';
+        function fmt(n) { return Number(n).toLocaleString('ru-RU') + ' ₸'; }
+        async function recalc() {
+            var downPct = parseInt(downSlider.value);
+            var months = parseInt(monthsSlider.value);
+            downLabel.textContent = downPct + '%';
+            monthsLabel.textContent = months + ' ' + monthsSuffix;
+            try {
+                var res = await fetch('/api/calculator?price=' + price + '&downPct=' + downPct + '&months=' + months);
+                if (!res.ok) return;
+                var d = await res.json();
+                if (rMonthly) rMonthly.textContent = fmt(d.monthly);
+                if (rDown) rDown.textContent = fmt(d.downAmount);
+                if (rOver) rOver.textContent = fmt(d.overpay);
+                if (ctaMonthly) ctaMonthly.textContent = fmt(d.monthly);
+            } catch(e) {}
+        }
+        downSlider.addEventListener('input', recalc);
+        monthsSlider.addEventListener('input', recalc);
+        recalc();
+    }
 
-                function fmt(n) { return Number(n).toLocaleString('ru-RU') + ' ₸'; }
+    // ── GALLERY ──
+    var photos = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(photos.Select(p => p.FilePath).ToList()));
+    var currentIdx = 0;
+    function setPhoto(idx) {
+        if (idx < 0) idx = photos.length - 1;
+        if (idx >= photos.length) idx = 0;
+        currentIdx = idx;
+        var mainImg = document.getElementById('main-photo');
+        var idxEl = document.getElementById('photo-idx');
+        if (mainImg) mainImg.src = photos[idx];
+        if (idxEl) idxEl.textContent = idx + 1;
+        document.querySelectorAll('.gallery-thumb').forEach(function(t, i) {
+            t.classList.toggle('active', i === idx);
+        });
+    }
+    window.galleryPrev = function() { setPhoto(currentIdx - 1); };
+    window.galleryNext = function() { setPhoto(currentIdx + 1); };
+    document.querySelectorAll('.gallery-thumb').forEach(function(t) {
+        t.addEventListener('click', function() { setPhoto(parseInt(this.dataset.idx)); });
+    });
 
-                async function recalc() {
-                    var downPct = parseInt(downSlider.value);
-                    var months = parseInt(monthsSlider.value);
-                    downLabel.textContent = downPct + '%';
-                    monthsLabel.textContent = months + ' ' + monthsSuffix;
-                    try {
-                        var res = await fetch('/api/calculator?price=' + price + '&downPct=' + downPct + '&months=' + months);
-                        if (!res.ok) return;
-                        var d = await res.json();
-                        if (rMonthly) rMonthly.textContent = fmt(d.monthly);
-                        if (rDown) rDown.textContent = fmt(d.downAmount);
-                        if (rOver) rOver.textContent = fmt(d.overpay);
-                        if (ctaMonthly) ctaMonthly.textContent = fmt(d.monthly);
-                    } catch(e) { console.error('Calc error', e); }
+    // ── SYNC FAV/COMPARE STATE ──
+    (async function() {
+        try {
+            var carId = @car.Id;
+            var [favRes, cmpRes] = await Promise.all([
+                fetch('/favorites/ids'),
+                fetch('/compare/ids')
+            ]);
+            if (favRes.ok) {
+                var favIds = await favRes.json();
+                if (favIds.includes(carId)) {
+                    document.querySelectorAll('.fav-btn').forEach(function(b) {
+                        b.classList.add('active');
+                        if (b.innerHTML.includes('♡')) b.innerHTML = b.innerHTML.replace('♡','♥');
+                    });
                 }
-
-                downSlider.addEventListener('input', recalc);
-                monthsSlider.addEventListener('input', recalc);
-                recalc();
             }
-
-            var photos = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(photos.Select(p => p.FilePath).ToList()));
-            var currentIdx = 0;
-
-            function setPhoto(idx) {
-                if (idx < 0) idx = photos.length - 1;
-                if (idx >= photos.length) idx = 0;
-                currentIdx = idx;
-                var mainImg = document.getElementById('main-photo');
-                var idxEl = document.getElementById('photo-idx');
-                if (mainImg) mainImg.src = photos[idx];
-                if (idxEl) idxEl.textContent = idx + 1;
-                document.querySelectorAll('.gallery-thumb').forEach(function(t, i) {
-                    t.classList.toggle('active', i === idx);
-                });
+            if (cmpRes.ok) {
+                var cmpIds = await cmpRes.json();
+                if (cmpIds.includes(carId)) {
+                    document.querySelectorAll('.compare-btn').forEach(function(b) {
+                        b.classList.add('active');
+                    });
+                }
             }
-
-            window.galleryPrev = function() { setPhoto(currentIdx - 1); };
-            window.galleryNext = function() { setPhoto(currentIdx + 1); };
-            document.querySelectorAll('.gallery-thumb').forEach(function(t) {
-                t.addEventListener('click', function() { setPhoto(parseInt(this.dataset.idx)); });
-            });
-        })();
-    </script>
+        } catch(e) {}
+    })();
+})();
+</script>
 }

@@ -1,4 +1,6 @@
 @model AutoSalon.Models.Car
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<AutoSalon.Resources.SharedResource> L
 
 @{
     var isSold = Model.Status == AutoSalon.Models.CarStatus.Sold;
@@ -15,7 +17,7 @@
             }
             else
             {
-                <div class="no-photo">@L["Card_NoPhoto"]</div>
+                <div class="no-photo">🚗 @L["Card_NoPhoto"]</div>
             }
 
             @if (isSold)
@@ -29,12 +31,19 @@
 
             @if (!isSold)
             {
-                <button class="fav-btn" data-car-id="@Model.Id" onclick="toggleFav(event, @Model.Id, this)" title="@L["Detail_Favorite"]">♡</button>
+                <button class="fav-btn" data-car-id="@Model.Id"
+                        onclick="toggleFav(event, @Model.Id, this)"
+                        title="@L["Detail_Favorite"]">
+                    ♡
+                </button>
             }
 
             @if (!isSold)
             {
-                <button class="compare-btn" onclick="toggleCompare(event, @Model.Id, this)">@L["Card_Compare"]</button>
+                <button class="compare-btn"
+                        onclick="toggleCompare(event, @Model.Id, this)">
+                    ⚖ @L["Card_Compare"]
+                </button>
             }
         </div>
     </a>
@@ -45,27 +54,27 @@
             <div class="car-badges">
                 @if (Model.Badge.IsVerified)
                 {
-                    <span class="car-badge badge-verified">@L["Card_Verified"]</span>
+                    <span class="car-badge badge-verified">✓ @L["Card_Verified"]</span>
                 }
                 @if (Model.Badge.HasWarranty)
                 {
-                    <span class="car-badge badge-warranty">@L["Card_Warranty"]</span>
+                    <span class="car-badge badge-warranty">🛡 @L["Card_Warranty"]</span>
                 }
                 @if (Model.Badge.HasExchange)
                 {
-                    <span class="car-badge badge-exchange">@L["Card_Exchange"]</span>
+                    <span class="car-badge badge-exchange">🔄 @L["Card_Exchange"]</span>
                 }
             </div>
         }
 
-        <a href="/car/@Model.Slug" class="car-card-title d-block text-decoration-none text-dark">
+        <a href="/car/@Model.Slug" class="car-card-title">
             @Model.Brand @Model.Model
         </a>
 
         <div class="car-card-price">
             @if (isSold)
             {
-                <span class="text-muted text-decoration-line-through">@Model.DisplayPrice</span>
+                <span style="text-decoration:line-through; opacity:.5">@Model.DisplayPrice</span>
             }
             else
             {
@@ -83,15 +92,15 @@
         <div class="car-card-footer">
             @if (!isSold && !isReserved)
             {
-                <a href="/car/@Model.Slug" class="btn btn-primary btn-sm flex-fill">@L["Card_Details"]</a>
+                <a href="/car/@Model.Slug" class="btn-card-detail">@L["Card_Details"] →</a>
             }
             else if (isReserved)
             {
-                <a href="/car/@Model.Slug" class="btn btn-outline-warning btn-sm flex-fill">@L["Card_Details_Reserved"]</a>
+                <a href="/car/@Model.Slug" class="btn-card-reserved">@L["Card_Details_Reserved"]</a>
             }
             else
             {
-                <span class="btn btn-outline-secondary btn-sm flex-fill disabled">@L["Card_Sold"]</span>
+                <span class="btn-card-sold">@L["Card_Sold"]</span>
             }
         </div>
     </div>

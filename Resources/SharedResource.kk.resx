@@ -241,4 +241,31 @@
 <data name="Card_Details" xml:space="preserve"><value>Толығырақ</value></data>
 <data name="Card_Details_Reserved" xml:space="preserve"><value>Толығырақ білу</value></data>
 <data name="Card_Compare" xml:space="preserve"><value>⚖ Салыстыру</value></data>
+<data name="Site_Name" xml:space="preserve"><value>АвтоСалон</value></data>
+<data name="Site_Brand_1" xml:space="preserve"><value>Авто</value></data>
+<data name="Site_Brand_2" xml:space="preserve"><value>Салон</value></data>
+<data name="Compare_Title" xml:space="preserve"><value>Автомобильдерді салыстыру</value></data>
+<data name="Compare_Empty" xml:space="preserve"><value>Салыстыру тізімі бос</value></data>
+<data name="Compare_Empty_Sub" xml:space="preserve"><value>Салыстыру үшін 3 автомобильге дейін қосыңыз</value></data>
+<data name="Compare_ToCatalog" xml:space="preserve"><value>Каталогқа өту</value></data>
+<data name="Compare_Spec" xml:space="preserve"><value>Сипаттама</value></data>
+<data name="Compare_Details" xml:space="preserve"><value>Толығырақ</value></data>
+<data name="Compare_Remove" xml:space="preserve"><value>Алып тастау</value></data>
+<data name="Compare_Price" xml:space="preserve"><value>Бағасы</value></data>
+<data name="Compare_Year" xml:space="preserve"><value>Жылы</value></data>
+<data name="Compare_Mileage" xml:space="preserve"><value>Жүрісі</value></data>
+<data name="Compare_Engine" xml:space="preserve"><value>Қозғалтқыш</value></data>
+<data name="Compare_Fuel" xml:space="preserve"><value>Отын</value></data>
+<data name="Compare_Transmission" xml:space="preserve"><value>Қорап</value></data>
+<data name="Compare_Drive" xml:space="preserve"><value>Жетек</value></data>
+<data name="Compare_Body" xml:space="preserve"><value>Кузов</value></data>
+<data name="Compare_Color" xml:space="preserve"><value>Түсі</value></data>
+<data name="Compare_City" xml:space="preserve"><value>Қала</value></data>
+<data name="Compare_CanAdd" xml:space="preserve"><value>Салыстыруға тағы {0} авто қосуға болады.</value></data>
+<data name="Compare_Clear" xml:space="preserve"><value>🗑 Тізімді тазалау</value></data>
+<data name="Fav_Title" xml:space="preserve"><value>Таңдаулылар</value></data>
+<data name="Fav_Empty" xml:space="preserve"><value>Таңдаулылар тізімі бос</value></data>
+<data name="Fav_Empty_Sub" xml:space="preserve"><value>Сақтау үшін автомобиль картасындағы ♡ басыңыз</value></data>
+<data name="Fav_ToCatalog" xml:space="preserve"><value>Каталогқа өту</value></data>
+<data name="Fav_Count" xml:space="preserve"><value>{0} авто таңдаулыларда</value></data>
 </root>

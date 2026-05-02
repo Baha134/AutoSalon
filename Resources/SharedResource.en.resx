@@ -241,4 +241,31 @@
 <data name="Card_Details" xml:space="preserve"><value>View details</value></data>
 <data name="Card_Details_Reserved" xml:space="preserve"><value>Learn more</value></data>
 <data name="Card_Compare" xml:space="preserve"><value>⚖ Compare</value></data>
+<data name="Site_Name" xml:space="preserve"><value>AutoSalon</value></data>
+<data name="Site_Brand_1" xml:space="preserve"><value>Auto</value></data>
+<data name="Site_Brand_2" xml:space="preserve"><value>Salon</value></data>
+<data name="Compare_Title" xml:space="preserve"><value>Car Comparison</value></data>
+<data name="Compare_Empty" xml:space="preserve"><value>Comparison list is empty</value></data>
+<data name="Compare_Empty_Sub" xml:space="preserve"><value>Add up to 3 cars to compare</value></data>
+<data name="Compare_ToCatalog" xml:space="preserve"><value>Go to catalog</value></data>
+<data name="Compare_Spec" xml:space="preserve"><value>Specification</value></data>
+<data name="Compare_Details" xml:space="preserve"><value>View details</value></data>
+<data name="Compare_Remove" xml:space="preserve"><value>Remove</value></data>
+<data name="Compare_Price" xml:space="preserve"><value>Price</value></data>
+<data name="Compare_Year" xml:space="preserve"><value>Year</value></data>
+<data name="Compare_Mileage" xml:space="preserve"><value>Mileage</value></data>
+<data name="Compare_Engine" xml:space="preserve"><value>Engine</value></data>
+<data name="Compare_Fuel" xml:space="preserve"><value>Fuel type</value></data>
+<data name="Compare_Transmission" xml:space="preserve"><value>Transmission</value></data>
+<data name="Compare_Drive" xml:space="preserve"><value>Drive</value></data>
+<data name="Compare_Body" xml:space="preserve"><value>Body type</value></data>
+<data name="Compare_Color" xml:space="preserve"><value>Color</value></data>
+<data name="Compare_City" xml:space="preserve"><value>City</value></data>
+<data name="Compare_CanAdd" xml:space="preserve"><value>You can add {0} more car(s) to compare.</value></data>
+<data name="Compare_Clear" xml:space="preserve"><value>🗑 Clear list</value></data>
+<data name="Fav_Title" xml:space="preserve"><value>Favorites</value></data>
+<data name="Fav_Empty" xml:space="preserve"><value>Your favorites list is empty</value></data>
+<data name="Fav_Empty_Sub" xml:space="preserve"><value>Click ♡ on a car card to save it</value></data>
+<data name="Fav_ToCatalog" xml:space="preserve"><value>Go to catalog</value></data>
+<data name="Fav_Count" xml:space="preserve"><value>{0} cars in favorites</value></data>
 </root>

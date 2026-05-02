@@ -12,7 +12,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>@ViewData["Title"] — АвтоСалон</title>
+    <title>@ViewData["Title"] — @L["Site_Name"]</title>
     <meta name="description" content="@(ViewData["Description"] ?? "Продажа автомобилей с пробегом и новых. Каталог, кредит, обмен.")" />
     @if (ViewData["NoIndex"] != null)
     {
@@ -61,7 +61,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="/">Авто<span>Салон</span></a>
+            <a class="navbar-brand" href="/">@L["Site_Brand_1"]<span>@L["Site_Brand_2"]</span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -115,7 +115,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <div class="fw-bold mb-2">Авто<span style="color:#f0ad00">Салон</span></div>
+                    <div class="fw-bold mb-2">@L["Site_Brand_1"]<span style="color:#f0ad00">@L["Site_Brand_2"]</span></div>
                     <div class="text-muted small">@L["Home_Hero_Subtitle"]</div>
                 </div>
                 <div class="col-md-4">

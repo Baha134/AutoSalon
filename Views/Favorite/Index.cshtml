@@ -1,24 +1,24 @@
 @model AutoSalon.ViewModels.FavoriteViewModel
 @{
-    ViewData["Title"] = "Избранное";
+    ViewData["Title"] = L["Fav_Title"];
 }
 
 <div class="container mt-4">
-    <h1 class="h3 fw-bold mb-4">Избранное</h1>
+    <h1 class="h3 fw-bold mb-4">@L["Fav_Title"]</h1>
 
     @if (!Model.Cars.Any())
     {
         <div class="empty-state py-5 text-center">
             <div class="empty-icon">❤️</div>
-            <h3>Список избранного пуст</h3>
-            <p>Нажмите ♡ на карточке автомобиля, чтобы сохранить</p>
-            <a href="/catalog" class="btn btn-primary">Перейти в каталог</a>
+            <h3>@L["Fav_Empty"]</h3>
+            <p>@L["Fav_Empty_Sub"]</p>
+            <a href="/catalog" class="btn btn-primary">@L["Fav_ToCatalog"]</a>
         </div>
     }
     else
     {
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <div class="text-muted">@Model.Cars.Count авто в избранном</div>
+            <div class="text-muted">@string.Format(L["Fav_Count"], Model.Cars.Count)</div>
         </div>
         <div class="car-grid">
             @foreach (var car in Model.Cars)

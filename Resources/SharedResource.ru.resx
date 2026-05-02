@@ -230,4 +230,31 @@
 <data name="Card_Details" xml:space="preserve"><value>Подробнее</value></data>
 <data name="Card_Details_Reserved" xml:space="preserve"><value>Узнать подробнее</value></data>
 <data name="Card_Compare" xml:space="preserve"><value>⚖ Сравнить</value></data>
+<data name="Site_Name" xml:space="preserve"><value>АвтоСалон</value></data>
+<data name="Site_Brand_1" xml:space="preserve"><value>Авто</value></data>
+<data name="Site_Brand_2" xml:space="preserve"><value>Салон</value></data>
+<data name="Compare_Title" xml:space="preserve"><value>Сравнение автомобилей</value></data>
+<data name="Compare_Empty" xml:space="preserve"><value>Список сравнения пуст</value></data>
+<data name="Compare_Empty_Sub" xml:space="preserve"><value>Добавьте до 3 автомобилей для сравнения</value></data>
+<data name="Compare_ToCatalog" xml:space="preserve"><value>Перейти в каталог</value></data>
+<data name="Compare_Spec" xml:space="preserve"><value>Характеристика</value></data>
+<data name="Compare_Details" xml:space="preserve"><value>Подробнее</value></data>
+<data name="Compare_Remove" xml:space="preserve"><value>Убрать</value></data>
+<data name="Compare_Price" xml:space="preserve"><value>Цена</value></data>
+<data name="Compare_Year" xml:space="preserve"><value>Год</value></data>
+<data name="Compare_Mileage" xml:space="preserve"><value>Пробег</value></data>
+<data name="Compare_Engine" xml:space="preserve"><value>Двигатель</value></data>
+<data name="Compare_Fuel" xml:space="preserve"><value>Топливо</value></data>
+<data name="Compare_Transmission" xml:space="preserve"><value>Коробка</value></data>
+<data name="Compare_Drive" xml:space="preserve"><value>Привод</value></data>
+<data name="Compare_Body" xml:space="preserve"><value>Кузов</value></data>
+<data name="Compare_Color" xml:space="preserve"><value>Цвет</value></data>
+<data name="Compare_City" xml:space="preserve"><value>Город</value></data>
+<data name="Compare_CanAdd" xml:space="preserve"><value>Можно добавить ещё {0} авто для сравнения.</value></data>
+<data name="Compare_Clear" xml:space="preserve"><value>🗑 Очистить список</value></data>
+<data name="Fav_Title" xml:space="preserve"><value>Избранное</value></data>
+<data name="Fav_Empty" xml:space="preserve"><value>Список избранного пуст</value></data>
+<data name="Fav_Empty_Sub" xml:space="preserve"><value>Нажмите ♡ на карточке автомобиля, чтобы сохранить</value></data>
+<data name="Fav_ToCatalog" xml:space="preserve"><value>Перейти в каталог</value></data>
+<data name="Fav_Count" xml:space="preserve"><value>{0} авто в избранном</value></data>
 </root>

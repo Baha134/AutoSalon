@@ -151,4 +151,83 @@
   <data name="Home_Cars_In_Stock" xml:space="preserve">
     <value>{0} автомобилей в наличии · Кредит · Обмен</value>
   </data>
+  <data name="Catalog_Title" xml:space="preserve"><value>Каталог автомобилей</value></data>
+<data name="Catalog_Filters" xml:space="preserve"><value>🔍 Фильтры</value></data>
+<data name="Catalog_Search_Placeholder" xml:space="preserve"><value>Поиск по марке или модели...</value></data>
+<data name="Catalog_Search_Button" xml:space="preserve"><value>Найти</value></data>
+<data name="Catalog_Reset" xml:space="preserve"><value>Сбросить</value></data>
+<data name="Catalog_Brand" xml:space="preserve"><value>Марка</value></data>
+<data name="Catalog_AllBrands" xml:space="preserve"><value>Все марки</value></data>
+<data name="Catalog_Price" xml:space="preserve"><value>Цена, ₸</value></data>
+<data name="Catalog_Year" xml:space="preserve"><value>Год выпуска</value></data>
+<data name="Catalog_Body" xml:space="preserve"><value>Кузов</value></data>
+<data name="Catalog_All" xml:space="preserve"><value>Все</value></data>
+<data name="Catalog_Transmission" xml:space="preserve"><value>Коробка</value></data>
+<data name="Catalog_Fuel" xml:space="preserve"><value>Топливо</value></data>
+<data name="Catalog_Apply" xml:space="preserve"><value>Применить</value></data>
+<data name="Catalog_ResetFilters" xml:space="preserve"><value>Сбросить фильтры</value></data>
+<data name="Catalog_Sort_New" xml:space="preserve"><value>Сначала новые</value></data>
+<data name="Catalog_Sort_PriceAsc" xml:space="preserve"><value>Цена ↑</value></data>
+<data name="Catalog_Sort_PriceDesc" xml:space="preserve"><value>Цена ↓</value></data>
+<data name="Catalog_Sort_Popular" xml:space="preserve"><value>Популярные</value></data>
+<data name="Catalog_Empty" xml:space="preserve"><value>Ничего не нашлось</value></data>
+<data name="Catalog_Empty_Filter" xml:space="preserve"><value>Попробуйте изменить параметры фильтра</value></data>
+<data name="Catalog_Empty_Soon" xml:space="preserve"><value>Скоро здесь появятся новые автомобили</value></data>
+<data name="Catalog_LeaveRequest" xml:space="preserve"><value>Оставить заявку</value></data>
+<data name="Catalog_From" xml:space="preserve"><value>от</value></data>
+<data name="Catalog_To" xml:space="preserve"><value>до</value></data>
+<data name="Catalog_PriceFrom" xml:space="preserve"><value>Цена от, ₸</value></data>
+<data name="Catalog_PriceTo" xml:space="preserve"><value>Цена до, ₸</value></data>
+<data name="Detail_Home" xml:space="preserve"><value>Главная</value></data>
+<data name="Detail_Catalog" xml:space="preserve"><value>Каталог</value></data>
+<data name="Detail_Sold_Alert" xml:space="preserve"><value>Этот автомобиль уже продан. Посмотрите похожие варианты ниже.</value></data>
+<data name="Detail_Reserved_Alert" xml:space="preserve"><value>Этот автомобиль находится в резерве. Свяжитесь с нами для уточнения.</value></data>
+<data name="Detail_NoPhoto" xml:space="preserve"><value>Нет фото</value></data>
+<data name="Detail_Verified" xml:space="preserve"><value>✔ Проверено</value></data>
+<data name="Detail_Warranty" xml:space="preserve"><value>🛡 Гарантия {0} дн.</value></data>
+<data name="Detail_Exchange" xml:space="preserve"><value>🔄 Обмен</value></data>
+<data name="Detail_History" xml:space="preserve"><value>📄 История авто</value></data>
+<data name="Detail_Year" xml:space="preserve"><value>Год</value></data>
+<data name="Detail_Mileage" xml:space="preserve"><value>Пробег</value></data>
+<data name="Detail_Engine" xml:space="preserve"><value>Двигатель</value></data>
+<data name="Detail_Transmission" xml:space="preserve"><value>Коробка</value></data>
+<data name="Detail_Drive" xml:space="preserve"><value>Привод</value></data>
+<data name="Detail_Body" xml:space="preserve"><value>Кузов</value></data>
+<data name="Detail_Color" xml:space="preserve"><value>Цвет</value></data>
+<data name="Detail_City" xml:space="preserve"><value>Город</value></data>
+<data name="Detail_Description" xml:space="preserve"><value>Описание</value></data>
+<data name="Detail_Calc_Title" xml:space="preserve"><value>💳 Кредитный калькулятор</value></data>
+<data name="Detail_Calc_Down" xml:space="preserve"><value>Первоначальный взнос:</value></data>
+<data name="Detail_Calc_Months" xml:space="preserve"><value>Срок кредита:</value></data>
+<data name="Detail_Calc_Monthly" xml:space="preserve"><value>Платёж/мес.</value></data>
+<data name="Detail_Calc_Downpay" xml:space="preserve"><value>Взнос</value></data>
+<data name="Detail_Calc_Overpay" xml:space="preserve"><value>Переплата</value></data>
+<data name="Detail_Similar" xml:space="preserve"><value>Похожие автомобили</value></data>
+<data name="Detail_Monthly_From" xml:space="preserve"><value>от</value></data>
+<data name="Detail_Monthly_Suffix" xml:space="preserve"><value>в месяц</value></data>
+<data name="Detail_Call" xml:space="preserve"><value>📞 Позвонить</value></data>
+<data name="Detail_WhatsApp" xml:space="preserve"><value>💬 WhatsApp</value></data>
+<data name="Detail_CalcCredit" xml:space="preserve"><value>🏦 Рассчитать кредит</value></data>
+<data name="Detail_Favorite" xml:space="preserve"><value>♡ Избранное</value></data>
+<data name="Detail_Compare" xml:space="preserve"><value>⚖ Сравнить</value></data>
+<data name="Detail_LeaveRequest" xml:space="preserve"><value>Оставить заявку</value></data>
+<data name="Detail_Form_Name" xml:space="preserve"><value>Ваше имя</value></data>
+<data name="Detail_Form_Phone" xml:space="preserve"><value>+7 (___) ___-__-__</value></data>
+<data name="Detail_Form_Comment" xml:space="preserve"><value>Комментарий (необязательно)</value></data>
+<data name="Detail_Form_Submit" xml:space="preserve"><value>Отправить заявку</value></data>
+<data name="Detail_Status_Sold" xml:space="preserve"><value>Этот автомобиль продан</value></data>
+<data name="Detail_Status_Reserved" xml:space="preserve"><value>Этот автомобиль в резерве</value></data>
+<data name="Detail_Other_Cars" xml:space="preserve"><value>Смотреть другие авто</value></data>
+<data name="Detail_Fraud_Title" xml:space="preserve"><value>⚠️ Защита от мошенников</value></data>
+<data name="Detail_Fraud_Text" xml:space="preserve"><value>Мы никогда не просим предоплату онлайн. Все сделки оформляются только в нашем офисе.</value></data>
+<data name="Detail_Calc_Months_Label" xml:space="preserve"><value>мес.</value></data>
+<data name="Card_NoPhoto" xml:space="preserve"><value>Нет фото</value></data>
+<data name="Card_Sold" xml:space="preserve"><value>Продано</value></data>
+<data name="Card_Reserved" xml:space="preserve"><value>Резерв</value></data>
+<data name="Card_Verified" xml:space="preserve"><value>✔ Проверено</value></data>
+<data name="Card_Warranty" xml:space="preserve"><value>🛡 Гарантия</value></data>
+<data name="Card_Exchange" xml:space="preserve"><value>🔄 Обмен</value></data>
+<data name="Card_Details" xml:space="preserve"><value>Подробнее</value></data>
+<data name="Card_Details_Reserved" xml:space="preserve"><value>Узнать подробнее</value></data>
+<data name="Card_Compare" xml:space="preserve"><value>⚖ Сравнить</value></data>
 </root>

@@ -162,4 +162,83 @@
 <data name="Home_Why_4_Title" xml:space="preserve"><value>Warranty</value></data>
 <data name="Home_Why_4_Sub" xml:space="preserve"><value>Up to 12 months on all cars</value></data>
 <data name="Home_Cars_In_Stock" xml:space="preserve"><value>{0} cars available · Credit · Trade-in</value></data>
+<data name="Catalog_Title" xml:space="preserve"><value>Car Catalog</value></data>
+<data name="Catalog_Filters" xml:space="preserve"><value>🔍 Filters</value></data>
+<data name="Catalog_Search_Placeholder" xml:space="preserve"><value>Search by make or model...</value></data>
+<data name="Catalog_Search_Button" xml:space="preserve"><value>Search</value></data>
+<data name="Catalog_Reset" xml:space="preserve"><value>Reset</value></data>
+<data name="Catalog_Brand" xml:space="preserve"><value>Brand</value></data>
+<data name="Catalog_AllBrands" xml:space="preserve"><value>All brands</value></data>
+<data name="Catalog_Price" xml:space="preserve"><value>Price, ₸</value></data>
+<data name="Catalog_Year" xml:space="preserve"><value>Year</value></data>
+<data name="Catalog_Body" xml:space="preserve"><value>Body type</value></data>
+<data name="Catalog_All" xml:space="preserve"><value>All</value></data>
+<data name="Catalog_Transmission" xml:space="preserve"><value>Transmission</value></data>
+<data name="Catalog_Fuel" xml:space="preserve"><value>Fuel type</value></data>
+<data name="Catalog_Apply" xml:space="preserve"><value>Apply</value></data>
+<data name="Catalog_ResetFilters" xml:space="preserve"><value>Reset filters</value></data>
+<data name="Catalog_Sort_New" xml:space="preserve"><value>Newest first</value></data>
+<data name="Catalog_Sort_PriceAsc" xml:space="preserve"><value>Price ↑</value></data>
+<data name="Catalog_Sort_PriceDesc" xml:space="preserve"><value>Price ↓</value></data>
+<data name="Catalog_Sort_Popular" xml:space="preserve"><value>Popular</value></data>
+<data name="Catalog_Empty" xml:space="preserve"><value>Nothing found</value></data>
+<data name="Catalog_Empty_Filter" xml:space="preserve"><value>Try changing the filter parameters</value></data>
+<data name="Catalog_Empty_Soon" xml:space="preserve"><value>New cars coming soon</value></data>
+<data name="Catalog_LeaveRequest" xml:space="preserve"><value>Leave a request</value></data>
+<data name="Catalog_From" xml:space="preserve"><value>from</value></data>
+<data name="Catalog_To" xml:space="preserve"><value>to</value></data>
+<data name="Catalog_PriceFrom" xml:space="preserve"><value>Price from, ₸</value></data>
+<data name="Catalog_PriceTo" xml:space="preserve"><value>Price to, ₸</value></data>
+<data name="Detail_Home" xml:space="preserve"><value>Home</value></data>
+<data name="Detail_Catalog" xml:space="preserve"><value>Catalog</value></data>
+<data name="Detail_Sold_Alert" xml:space="preserve"><value>This car has already been sold. See similar options below.</value></data>
+<data name="Detail_Reserved_Alert" xml:space="preserve"><value>This car is reserved. Contact us for details.</value></data>
+<data name="Detail_NoPhoto" xml:space="preserve"><value>No photo</value></data>
+<data name="Detail_Verified" xml:space="preserve"><value>✔ Verified</value></data>
+<data name="Detail_Warranty" xml:space="preserve"><value>🛡 Warranty {0} days</value></data>
+<data name="Detail_Exchange" xml:space="preserve"><value>🔄 Trade-in</value></data>
+<data name="Detail_History" xml:space="preserve"><value>📄 Car history</value></data>
+<data name="Detail_Year" xml:space="preserve"><value>Year</value></data>
+<data name="Detail_Mileage" xml:space="preserve"><value>Mileage</value></data>
+<data name="Detail_Engine" xml:space="preserve"><value>Engine</value></data>
+<data name="Detail_Transmission" xml:space="preserve"><value>Transmission</value></data>
+<data name="Detail_Drive" xml:space="preserve"><value>Drive</value></data>
+<data name="Detail_Body" xml:space="preserve"><value>Body type</value></data>
+<data name="Detail_Color" xml:space="preserve"><value>Color</value></data>
+<data name="Detail_City" xml:space="preserve"><value>City</value></data>
+<data name="Detail_Description" xml:space="preserve"><value>Description</value></data>
+<data name="Detail_Calc_Title" xml:space="preserve"><value>💳 Loan Calculator</value></data>
+<data name="Detail_Calc_Down" xml:space="preserve"><value>Down payment:</value></data>
+<data name="Detail_Calc_Months" xml:space="preserve"><value>Loan term:</value></data>
+<data name="Detail_Calc_Monthly" xml:space="preserve"><value>Monthly payment</value></data>
+<data name="Detail_Calc_Downpay" xml:space="preserve"><value>Down payment</value></data>
+<data name="Detail_Calc_Overpay" xml:space="preserve"><value>Overpayment</value></data>
+<data name="Detail_Similar" xml:space="preserve"><value>Similar cars</value></data>
+<data name="Detail_Monthly_From" xml:space="preserve"><value>from</value></data>
+<data name="Detail_Monthly_Suffix" xml:space="preserve"><value>per month</value></data>
+<data name="Detail_Call" xml:space="preserve"><value>📞 Call</value></data>
+<data name="Detail_WhatsApp" xml:space="preserve"><value>💬 WhatsApp</value></data>
+<data name="Detail_CalcCredit" xml:space="preserve"><value>🏦 Calculate loan</value></data>
+<data name="Detail_Favorite" xml:space="preserve"><value>♡ Favorites</value></data>
+<data name="Detail_Compare" xml:space="preserve"><value>⚖ Compare</value></data>
+<data name="Detail_LeaveRequest" xml:space="preserve"><value>Leave a request</value></data>
+<data name="Detail_Form_Name" xml:space="preserve"><value>Your name</value></data>
+<data name="Detail_Form_Phone" xml:space="preserve"><value>Phone number</value></data>
+<data name="Detail_Form_Comment" xml:space="preserve"><value>Comment (optional)</value></data>
+<data name="Detail_Form_Submit" xml:space="preserve"><value>Send request</value></data>
+<data name="Detail_Status_Sold" xml:space="preserve"><value>This car is sold</value></data>
+<data name="Detail_Status_Reserved" xml:space="preserve"><value>This car is reserved</value></data>
+<data name="Detail_Other_Cars" xml:space="preserve"><value>View other cars</value></data>
+<data name="Detail_Fraud_Title" xml:space="preserve"><value>⚠️ Fraud protection</value></data>
+<data name="Detail_Fraud_Text" xml:space="preserve"><value>We never ask for prepayment online. All deals are made in our office only.</value></data>
+<data name="Detail_Calc_Months_Label" xml:space="preserve"><value>mo.</value></data>
+<data name="Card_NoPhoto" xml:space="preserve"><value>No photo</value></data>
+<data name="Card_Sold" xml:space="preserve"><value>Sold</value></data>
+<data name="Card_Reserved" xml:space="preserve"><value>Reserved</value></data>
+<data name="Card_Verified" xml:space="preserve"><value>✔ Verified</value></data>
+<data name="Card_Warranty" xml:space="preserve"><value>🛡 Warranty</value></data>
+<data name="Card_Exchange" xml:space="preserve"><value>🔄 Trade-in</value></data>
+<data name="Card_Details" xml:space="preserve"><value>View details</value></data>
+<data name="Card_Details_Reserved" xml:space="preserve"><value>Learn more</value></data>
+<data name="Card_Compare" xml:space="preserve"><value>⚖ Compare</value></data>
 </root>

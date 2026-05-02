@@ -1,9 +1,11 @@
 @model AutoSalon.Models.Car
+
 @{
     var isSold = Model.Status == AutoSalon.Models.CarStatus.Sold;
     var isReserved = Model.Status == AutoSalon.Models.CarStatus.Reserved;
     var mainPhoto = Model.MainPhoto;
 }
+
 <div class="car-card">
     <a href="/car/@Model.Slug" class="car-card-img-link">
         <div class="car-card-img">
@@ -13,48 +15,45 @@
             }
             else
             {
-                <div class="no-photo">Нет фото</div>
+                <div class="no-photo">@L["Card_NoPhoto"]</div>
             }
 
-            @* Статус *@
             @if (isSold)
             {
-                <div class="status-badge status-sold">Продано</div>
+                <div class="status-badge status-sold">@L["Card_Sold"]</div>
             }
             else if (isReserved)
             {
-                <div class="status-badge status-reserved">Резерв</div>
+                <div class="status-badge status-reserved">@L["Card_Reserved"]</div>
             }
 
-            @* Избранное *@
             @if (!isSold)
             {
-                <button class="fav-btn" data-car-id="@Model.Id" onclick="toggleFav(event, @Model.Id, this)" title="В избранное">♡</button>
+                <button class="fav-btn" data-car-id="@Model.Id" onclick="toggleFav(event, @Model.Id, this)" title="@L["Detail_Favorite"]">♡</button>
             }
 
-            @* Сравнить *@
             @if (!isSold)
             {
-                <button class="compare-btn" onclick="toggleCompare(event, @Model.Id, this)">⚖ Сравнить</button>
+                <button class="compare-btn" onclick="toggleCompare(event, @Model.Id, this)">@L["Card_Compare"]</button>
             }
         </div>
     </a>
+
     <div class="car-card-body">
-        @* Бейджи *@
         @if (Model.Badge != null)
         {
             <div class="car-badges">
                 @if (Model.Badge.IsVerified)
                 {
-                    <span class="car-badge badge-verified">✔ Проверено</span>
+                    <span class="car-badge badge-verified">@L["Card_Verified"]</span>
                 }
                 @if (Model.Badge.HasWarranty)
                 {
-                    <span class="car-badge badge-warranty">🛡 Гарантия</span>
+                    <span class="car-badge badge-warranty">@L["Card_Warranty"]</span>
                 }
                 @if (Model.Badge.HasExchange)
                 {
-                    <span class="car-badge badge-exchange">🔄 Обмен</span>
+                    <span class="car-badge badge-exchange">@L["Card_Exchange"]</span>
                 }
             </div>
         }
@@ -62,6 +61,7 @@
         <a href="/car/@Model.Slug" class="car-card-title d-block text-decoration-none text-dark">
             @Model.Brand @Model.Model
         </a>
+
         <div class="car-card-price">
             @if (isSold)
             {
@@ -72,24 +72,26 @@
                 @Model.DisplayPrice
             }
         </div>
+
         <div class="car-card-specs">
             <span>@Model.Year г.</span>
             <span>@Model.DisplayMileage</span>
             <span>@Model.EngineVolume л</span>
             <span>@Model.Transmission</span>
         </div>
+
         <div class="car-card-footer">
             @if (!isSold && !isReserved)
             {
-                <a href="/car/@Model.Slug" class="btn btn-primary btn-sm flex-fill">Подробнее</a>
+                <a href="/car/@Model.Slug" class="btn btn-primary btn-sm flex-fill">@L["Card_Details"]</a>
             }
             else if (isReserved)
             {
-                <a href="/car/@Model.Slug" class="btn btn-outline-warning btn-sm flex-fill">Узнать подробнее</a>
+                <a href="/car/@Model.Slug" class="btn btn-outline-warning btn-sm flex-fill">@L["Card_Details_Reserved"]</a>
             }
             else
             {
-                <span class="btn btn-outline-secondary btn-sm flex-fill disabled">Продано</span>
+                <span class="btn btn-outline-secondary btn-sm flex-fill disabled">@L["Card_Sold"]</span>
             }
         </div>
     </div>

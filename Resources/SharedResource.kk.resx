@@ -162,4 +162,83 @@
 <data name="Home_Why_4_Title" xml:space="preserve"><value>Кепілдік</value></data>
 <data name="Home_Why_4_Sub" xml:space="preserve"><value>Барлық автомобильдерге 12 айға дейін</value></data>
 <data name="Home_Cars_In_Stock" xml:space="preserve"><value>{0} автомобиль бар · Кредит · Айырбас</value></data>
+<data name="Catalog_Title" xml:space="preserve"><value>Автомобильдер каталогы</value></data>
+<data name="Catalog_Filters" xml:space="preserve"><value>🔍 Сүзгілер</value></data>
+<data name="Catalog_Search_Placeholder" xml:space="preserve"><value>Маркасы немесе моделі бойынша іздеу...</value></data>
+<data name="Catalog_Search_Button" xml:space="preserve"><value>Іздеу</value></data>
+<data name="Catalog_Reset" xml:space="preserve"><value>Тазалау</value></data>
+<data name="Catalog_Brand" xml:space="preserve"><value>Марка</value></data>
+<data name="Catalog_AllBrands" xml:space="preserve"><value>Барлық маркалар</value></data>
+<data name="Catalog_Price" xml:space="preserve"><value>Бағасы, ₸</value></data>
+<data name="Catalog_Year" xml:space="preserve"><value>Шығарылған жылы</value></data>
+<data name="Catalog_Body" xml:space="preserve"><value>Кузов</value></data>
+<data name="Catalog_All" xml:space="preserve"><value>Барлығы</value></data>
+<data name="Catalog_Transmission" xml:space="preserve"><value>Қорап</value></data>
+<data name="Catalog_Fuel" xml:space="preserve"><value>Отын</value></data>
+<data name="Catalog_Apply" xml:space="preserve"><value>Қолдану</value></data>
+<data name="Catalog_ResetFilters" xml:space="preserve"><value>Сүзгілерді тазалау</value></data>
+<data name="Catalog_Sort_New" xml:space="preserve"><value>Алдымен жаңалары</value></data>
+<data name="Catalog_Sort_PriceAsc" xml:space="preserve"><value>Баға ↑</value></data>
+<data name="Catalog_Sort_PriceDesc" xml:space="preserve"><value>Баға ↓</value></data>
+<data name="Catalog_Sort_Popular" xml:space="preserve"><value>Танымал</value></data>
+<data name="Catalog_Empty" xml:space="preserve"><value>Ештеңе табылмады</value></data>
+<data name="Catalog_Empty_Filter" xml:space="preserve"><value>Сүзгі параметрлерін өзгертіп көріңіз</value></data>
+<data name="Catalog_Empty_Soon" xml:space="preserve"><value>Жақында жаңа автомобильдер пайда болады</value></data>
+<data name="Catalog_LeaveRequest" xml:space="preserve"><value>Өтініш қалдыру</value></data>
+<data name="Catalog_From" xml:space="preserve"><value>бастап</value></data>
+<data name="Catalog_To" xml:space="preserve"><value>дейін</value></data>
+<data name="Catalog_PriceFrom" xml:space="preserve"><value>Бағасы бастап, ₸</value></data>
+<data name="Catalog_PriceTo" xml:space="preserve"><value>Бағасы дейін, ₸</value></data>
+<data name="Detail_Home" xml:space="preserve"><value>Басты бет</value></data>
+<data name="Detail_Catalog" xml:space="preserve"><value>Каталог</value></data>
+<data name="Detail_Sold_Alert" xml:space="preserve"><value>Бұл автомобиль сатылып кетті. Төменде ұқсас нұсқаларды қараңыз.</value></data>
+<data name="Detail_Reserved_Alert" xml:space="preserve"><value>Бұл автомобиль резервте. Толығырақ бізге хабарласыңыз.</value></data>
+<data name="Detail_NoPhoto" xml:space="preserve"><value>Фото жоқ</value></data>
+<data name="Detail_Verified" xml:space="preserve"><value>✔ Тексерілген</value></data>
+<data name="Detail_Warranty" xml:space="preserve"><value>🛡 Кепілдік {0} күн</value></data>
+<data name="Detail_Exchange" xml:space="preserve"><value>🔄 Айырбас</value></data>
+<data name="Detail_History" xml:space="preserve"><value>📄 Көлік тарихы</value></data>
+<data name="Detail_Year" xml:space="preserve"><value>Жылы</value></data>
+<data name="Detail_Mileage" xml:space="preserve"><value>Жүрісі</value></data>
+<data name="Detail_Engine" xml:space="preserve"><value>Қозғалтқыш</value></data>
+<data name="Detail_Transmission" xml:space="preserve"><value>Қорап</value></data>
+<data name="Detail_Drive" xml:space="preserve"><value>Жетек</value></data>
+<data name="Detail_Body" xml:space="preserve"><value>Кузов</value></data>
+<data name="Detail_Color" xml:space="preserve"><value>Түсі</value></data>
+<data name="Detail_City" xml:space="preserve"><value>Қала</value></data>
+<data name="Detail_Description" xml:space="preserve"><value>Сипаттама</value></data>
+<data name="Detail_Calc_Title" xml:space="preserve"><value>💳 Кредит калькуляторы</value></data>
+<data name="Detail_Calc_Down" xml:space="preserve"><value>Бастапқы жарна:</value></data>
+<data name="Detail_Calc_Months" xml:space="preserve"><value>Кредит мерзімі:</value></data>
+<data name="Detail_Calc_Monthly" xml:space="preserve"><value>Ай сайынғы төлем</value></data>
+<data name="Detail_Calc_Downpay" xml:space="preserve"><value>Жарна</value></data>
+<data name="Detail_Calc_Overpay" xml:space="preserve"><value>Артық төлем</value></data>
+<data name="Detail_Similar" xml:space="preserve"><value>Ұқсас автомобильдер</value></data>
+<data name="Detail_Monthly_From" xml:space="preserve"><value>бастап</value></data>
+<data name="Detail_Monthly_Suffix" xml:space="preserve"><value>айына</value></data>
+<data name="Detail_Call" xml:space="preserve"><value>📞 Қоңырау шалу</value></data>
+<data name="Detail_WhatsApp" xml:space="preserve"><value>💬 WhatsApp</value></data>
+<data name="Detail_CalcCredit" xml:space="preserve"><value>🏦 Кредит есептеу</value></data>
+<data name="Detail_Favorite" xml:space="preserve"><value>♡ Таңдаулы</value></data>
+<data name="Detail_Compare" xml:space="preserve"><value>⚖ Салыстыру</value></data>
+<data name="Detail_LeaveRequest" xml:space="preserve"><value>Өтініш қалдыру</value></data>
+<data name="Detail_Form_Name" xml:space="preserve"><value>Атыңыз</value></data>
+<data name="Detail_Form_Phone" xml:space="preserve"><value>Телефон нөмірі</value></data>
+<data name="Detail_Form_Comment" xml:space="preserve"><value>Пікір (міндетті емес)</value></data>
+<data name="Detail_Form_Submit" xml:space="preserve"><value>Өтініш жіберу</value></data>
+<data name="Detail_Status_Sold" xml:space="preserve"><value>Бұл автомобиль сатылды</value></data>
+<data name="Detail_Status_Reserved" xml:space="preserve"><value>Бұл автомобиль резервте</value></data>
+<data name="Detail_Other_Cars" xml:space="preserve"><value>Басқа автомобильдерді қарау</value></data>
+<data name="Detail_Fraud_Title" xml:space="preserve"><value>⚠️ Алаяқтардан қорғаныс</value></data>
+<data name="Detail_Fraud_Text" xml:space="preserve"><value>Біз ешқашан онлайн алдын ала төлем сұрамаймыз. Барлық мәмілелер тек біздің кеңседе жасалады.</value></data>
+<data name="Detail_Calc_Months_Label" xml:space="preserve"><value>ай.</value></data>
+<data name="Card_NoPhoto" xml:space="preserve"><value>Фото жоқ</value></data>
+<data name="Card_Sold" xml:space="preserve"><value>Сатылды</value></data>
+<data name="Card_Reserved" xml:space="preserve"><value>Резерв</value></data>
+<data name="Card_Verified" xml:space="preserve"><value>✔ Тексерілген</value></data>
+<data name="Card_Warranty" xml:space="preserve"><value>🛡 Кепілдік</value></data>
+<data name="Card_Exchange" xml:space="preserve"><value>🔄 Айырбас</value></data>
+<data name="Card_Details" xml:space="preserve"><value>Толығырақ</value></data>
+<data name="Card_Details_Reserved" xml:space="preserve"><value>Толығырақ білу</value></data>
+<data name="Card_Compare" xml:space="preserve"><value>⚖ Салыстыру</value></data>
 </root>

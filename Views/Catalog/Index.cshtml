@@ -1,4 +1,5 @@
 @model AutoSalon.ViewModels.CarListViewModel
+
 @functions {
     string PageUrl(AutoSalon.ViewModels.CarFilterViewModel f, int page)
     {
@@ -18,38 +19,37 @@
         return "/catalog?" + string.Join("&", parts);
     }
 }
+
 @{
-    ViewData["Title"] = "Каталог автомобилей";
-    ViewData["Description"] = "Каталог автомобилей. " + Model.TotalCount + " авто в наличии.";
+    ViewData["Title"] = L["Catalog_Title"];
+    ViewData["Description"] = L["Catalog_Title"] + ". " + Model.TotalCount + " авто.";
 }
 
 <div class="container mt-4">
 
-    <!-- Мобильная кнопка фильтров -->
     <button class="filters-drawer-btn d-lg-none mb-3 btn btn-outline-secondary w-100" id="drawer-open-btn">
-        🔍 Фильтры
+        @L["Catalog_Filters"]
     </button>
 
-    <!-- Поиск -->
     <form method="get" action="/catalog" class="d-flex gap-2 mb-4">
         <input type="text" name="Search" value="@Model.Filter.Search"
-               class="form-control" placeholder="Поиск по марке или модели..."
+               class="form-control" placeholder="@L["Catalog_Search_Placeholder"]"
                autocomplete="off" maxlength="100" />
-        <button type="submit" class="btn btn-primary px-4">Найти</button>
+        <button type="submit" class="btn btn-primary px-4">@L["Catalog_Search_Button"]</button>
         @if (Model.Filter.HasActiveFilters)
         {
-            <a href="/catalog" class="btn btn-outline-secondary">Сбросить</a>
+            <a href="/catalog" class="btn btn-outline-secondary">@L["Catalog_Reset"]</a>
         }
     </form>
 
     <div class="catalog-wrap">
 
-        <!-- Фильтры (sidebar на десктопе) -->
+        <!-- Sidebar фильтры -->
         <form method="get" action="/catalog" class="filters-sidebar d-none d-lg-block">
             <div class="filter-group">
-                <div class="filter-label">Марка</div>
+                <div class="filter-label">@L["Catalog_Brand"]</div>
                 <select name="Brand" class="form-select form-select-sm" onchange="this.form.submit()">
-                    <option value="">Все марки</option>
+                    <option value="">@L["Catalog_AllBrands"]</option>
                     @foreach (var b in Model.Brands)
                     {
                         <option value="@b" selected="@(Model.Filter.Brand == b ? "selected" : null)">@b</option>
@@ -58,31 +58,31 @@
             </div>
 
             <div class="filter-group">
-                <div class="filter-label">Цена, ₸</div>
+                <div class="filter-label">@L["Catalog_Price"]</div>
                 <div class="filter-row">
                     <input type="number" name="PriceMin" value="@Model.Filter.PriceMin"
-                           placeholder="от" class="form-control form-control-sm" min="0" />
+                           placeholder="@L["Catalog_From"]" class="form-control form-control-sm" min="0" />
                     <input type="number" name="PriceMax" value="@Model.Filter.PriceMax"
-                           placeholder="до" class="form-control form-control-sm" min="0" />
+                           placeholder="@L["Catalog_To"]" class="form-control form-control-sm" min="0" />
                 </div>
             </div>
 
             <div class="filter-group">
-                <div class="filter-label">Год выпуска</div>
+                <div class="filter-label">@L["Catalog_Year"]</div>
                 <div class="filter-row">
                     <input type="number" name="YearMin" value="@Model.Filter.YearMin"
-                           placeholder="от" class="form-control form-control-sm"
+                           placeholder="@L["Catalog_From"]" class="form-control form-control-sm"
                            min="1990" max="@DateTime.Now.Year" />
                     <input type="number" name="YearMax" value="@Model.Filter.YearMax"
-                           placeholder="до" class="form-control form-control-sm"
+                           placeholder="@L["Catalog_To"]" class="form-control form-control-sm"
                            min="1990" max="@DateTime.Now.Year" />
                 </div>
             </div>
 
             <div class="filter-group">
-                <div class="filter-label">Кузов</div>
+                <div class="filter-label">@L["Catalog_Body"]</div>
                 <select name="BodyType" class="form-select form-select-sm">
-                    <option value="">Все</option>
+                    <option value="">@L["Catalog_All"]</option>
                     @if (Model.BodyTypes != null)
                     {
                         foreach (var bt in Model.BodyTypes)
@@ -94,9 +94,9 @@
             </div>
 
             <div class="filter-group">
-                <div class="filter-label">Коробка</div>
+                <div class="filter-label">@L["Catalog_Transmission"]</div>
                 <select name="Transmission" class="form-select form-select-sm">
-                    <option value="">Все</option>
+                    <option value="">@L["Catalog_All"]</option>
                     <option value="Автомат" selected="@(Model.Filter.Transmission == "Автомат" ? "selected" : null)">Автомат</option>
                     <option value="Механика" selected="@(Model.Filter.Transmission == "Механика" ? "selected" : null)">Механика</option>
                     <option value="Вариатор" selected="@(Model.Filter.Transmission == "Вариатор" ? "selected" : null)">Вариатор</option>
@@ -105,9 +105,9 @@
             </div>
 
             <div class="filter-group">
-                <div class="filter-label">Топливо</div>
+                <div class="filter-label">@L["Catalog_Fuel"]</div>
                 <select name="FuelType" class="form-select form-select-sm">
-                    <option value="">Все</option>
+                    <option value="">@L["Catalog_All"]</option>
                     <option value="Бензин" selected="@(Model.Filter.FuelType == "Бензин" ? "selected" : null)">Бензин</option>
                     <option value="Дизель" selected="@(Model.Filter.FuelType == "Дизель" ? "selected" : null)">Дизель</option>
                     <option value="Гибрид" selected="@(Model.Filter.FuelType == "Гибрид" ? "selected" : null)">Гибрид</option>
@@ -116,11 +116,10 @@
             </div>
 
             <input type="hidden" name="Page" value="1" />
-            <button type="submit" class="filter-apply">Применить</button>
-
+            <button type="submit" class="filter-apply">@L["Catalog_Apply"]</button>
             @if (Model.Filter.HasActiveFilters)
             {
-                <a href="/catalog" class="filter-reset d-block text-center mt-2">Сбросить фильтры</a>
+                <a href="/catalog" class="filter-reset d-block text-center mt-2">@L["Catalog_ResetFilters"]</a>
             }
         </form>
 
@@ -135,7 +134,6 @@
                     }
                 </div>
 
-                <!-- Сортировка -->
                 <div class="catalog-sort">
                     <form method="get" action="/catalog" id="sort-form">
                         @if (!string.IsNullOrEmpty(Model.Filter.Brand))
@@ -174,12 +172,13 @@
                         {
                             <input type="hidden" name="YearMax" value="@Model.Filter.YearMax" />
                         }
+
                         <select name="Sort" class="form-select form-select-sm" style="width:auto"
                                 onchange="document.getElementById('sort-form').submit()">
-                            <option value="new" selected="@(Model.Filter.Sort == "new" ? "selected" : null)">Сначала новые</option>
-                            <option value="price_asc" selected="@(Model.Filter.Sort == "price_asc" ? "selected" : null)">Цена ↑</option>
-                            <option value="price_desc" selected="@(Model.Filter.Sort == "price_desc" ? "selected" : null)">Цена ↓</option>
-                            <option value="popular" selected="@(Model.Filter.Sort == "popular" ? "selected" : null)">Популярные</option>
+                            <option value="new" selected="@(Model.Filter.Sort == "new" ? "selected" : null)">@L["Catalog_Sort_New"]</option>
+                            <option value="price_asc" selected="@(Model.Filter.Sort == "price_asc" ? "selected" : null)">@L["Catalog_Sort_PriceAsc"]</option>
+                            <option value="price_desc" selected="@(Model.Filter.Sort == "price_desc" ? "selected" : null)">@L["Catalog_Sort_PriceDesc"]</option>
+                            <option value="popular" selected="@(Model.Filter.Sort == "popular" ? "selected" : null)">@L["Catalog_Sort_Popular"]</option>
                         </select>
                     </form>
                 </div>
@@ -194,20 +193,16 @@
                     }
                 </div>
 
-                <!-- Пагинация -->
                 @if (Model.TotalPages > 1)
                 {
                     <nav class="mt-4" aria-label="Страницы каталога">
                         <ul class="pagination justify-content-center flex-wrap">
-                            @* Кнопка «Назад» *@
                             @if (Model.Filter.Page > 1)
                             {
                                 <li class="page-item">
                                     <a class="page-link" href="@PageUrl(Model.Filter, Model.Filter.Page - 1)">←</a>
                                 </li>
                             }
-
-                            @* Номера страниц *@
                             @for (var p = 1; p <= Model.TotalPages; p++)
                             {
                                 var isActive = p == Model.Filter.Page;
@@ -218,12 +213,11 @@
                                     }
                                     else
                                     {
+
                                         <a class="page-link" href="@PageUrl(Model.Filter, p)">@p</a>
                                     }
                                 </li>
                             }
-
-                            @* Кнопка «Вперёд» *@
                             @if (Model.Filter.Page < Model.TotalPages)
                             {
                                 <li class="page-item">
@@ -238,37 +232,37 @@
             {
                 <div class="empty-state py-5">
                     <div class="empty-icon">🚗</div>
-                    <h3>Ничего не нашлось</h3>
+                    <h3>@L["Catalog_Empty"]</h3>
                     @if (Model.Filter.HasActiveFilters)
                     {
-                        <p>Попробуйте изменить параметры фильтра</p>
-                        <a href="/catalog" class="btn btn-primary mt-2">Сбросить фильтры</a>
+                        <p>@L["Catalog_Empty_Filter"]</p>
+                        <a href="/catalog" class="btn btn-primary mt-2">@L["Catalog_ResetFilters"]</a>
                     }
                     else
                     {
-                        <p>Скоро здесь появятся новые автомобили</p>
+                        <p>@L["Catalog_Empty_Soon"]</p>
                     }
-                    <a href="#lead-anchor" class="btn btn-outline-secondary mt-2">Оставить заявку</a>
+                    <a href="#lead-anchor" class="btn btn-outline-secondary mt-2">@L["Catalog_LeaveRequest"]</a>
                 </div>
             }
         </div>
     </div>
 </div>
 
-<!-- Мобильный Drawer-фильтр -->
+<!-- Мобильный Drawer -->
 <div class="filters-drawer" id="filters-drawer">
     <div class="drawer-backdrop" id="drawer-backdrop"></div>
     <div class="drawer-panel">
         <div class="drawer-handle"></div>
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <strong>Фильтры</strong>
+            <strong>@L["Catalog_Filters"]</strong>
             <button type="button" class="btn btn-sm btn-outline-secondary" id="drawer-close-btn">✕</button>
         </div>
         <form method="get" action="/catalog">
             <div class="mb-3">
-                <label class="form-label small text-muted">Марка</label>
+                <label class="form-label small text-muted">@L["Catalog_Brand"]</label>
                 <select name="Brand" class="form-select form-select-sm">
-                    <option value="">Все марки</option>
+                    <option value="">@L["Catalog_AllBrands"]</option>
                     @foreach (var b in Model.Brands)
                     {
                         <option value="@b" selected="@(Model.Filter.Brand == b ? "selected" : null)">@b</option>
@@ -276,19 +270,19 @@
                 </select>
             </div>
             <div class="mb-3">
-                <label class="form-label small text-muted">Цена от, ₸</label>
+                <label class="form-label small text-muted">@L["Catalog_PriceFrom"]</label>
                 <input type="number" name="PriceMin" value="@Model.Filter.PriceMin"
-                       class="form-control form-control-sm" placeholder="от ₸" min="0" />
+                       class="form-control form-control-sm" placeholder="@L["Catalog_From"]" min="0" />
             </div>
             <div class="mb-3">
-                <label class="form-label small text-muted">Цена до, ₸</label>
+                <label class="form-label small text-muted">@L["Catalog_PriceTo"]</label>
                 <input type="number" name="PriceMax" value="@Model.Filter.PriceMax"
-                       class="form-control form-control-sm" placeholder="до ₸" min="0" />
+                       class="form-control form-control-sm" placeholder="@L["Catalog_To"]" min="0" />
             </div>
             <div class="mb-3">
-                <label class="form-label small text-muted">Кузов</label>
+                <label class="form-label small text-muted">@L["Catalog_Body"]</label>
                 <select name="BodyType" class="form-select form-select-sm">
-                    <option value="">Все</option>
+                    <option value="">@L["Catalog_All"]</option>
                     <option value="Седан" selected="@(Model.Filter.BodyType == "Седан" ? "selected" : null)">Седан</option>
                     <option value="Кроссовер" selected="@(Model.Filter.BodyType == "Кроссовер" ? "selected" : null)">Кроссовер</option>
                     <option value="Внедорожник" selected="@(Model.Filter.BodyType == "Внедорожник" ? "selected" : null)">Внедорожник</option>
@@ -299,9 +293,9 @@
                 </select>
             </div>
             <div class="mb-3">
-                <label class="form-label small text-muted">Коробка</label>
+                <label class="form-label small text-muted">@L["Catalog_Transmission"]</label>
                 <select name="Transmission" class="form-select form-select-sm">
-                    <option value="">Все</option>
+                    <option value="">@L["Catalog_All"]</option>
                     <option value="Автомат" selected="@(Model.Filter.Transmission == "Автомат" ? "selected" : null)">Автомат</option>
                     <option value="Механика" selected="@(Model.Filter.Transmission == "Механика" ? "selected" : null)">Механика</option>
                     <option value="Вариатор" selected="@(Model.Filter.Transmission == "Вариатор" ? "selected" : null)">Вариатор</option>
@@ -309,10 +303,10 @@
                 </select>
             </div>
             <input type="hidden" name="Page" value="1" />
-            <button type="submit" class="btn btn-primary w-100">Применить</button>
+            <button type="submit" class="btn btn-primary w-100">@L["Catalog_Apply"]</button>
             @if (Model.Filter.HasActiveFilters)
             {
-                <a href="/catalog" class="btn btn-outline-secondary w-100 mt-2">Сбросить</a>
+                <a href="/catalog" class="btn btn-outline-secondary w-100 mt-2">@L["Catalog_Reset"]</a>
             }
         </form>
     </div>
@@ -320,17 +314,14 @@
 
 @section Scripts {
     <script>
-        // Drawer-фильтр на мобильном
         (function () {
-            var openBtn    = document.getElementById('drawer-open-btn');
-            var closeBtn   = document.getElementById('drawer-close-btn');
-            var backdrop   = document.getElementById('drawer-backdrop');
-            var drawer     = document.getElementById('filters-drawer');
-
-            function open()  { drawer.classList.add('open');  document.body.style.overflow = 'hidden'; }
+            var openBtn = document.getElementById('drawer-open-btn');
+            var closeBtn = document.getElementById('drawer-close-btn');
+            var backdrop = document.getElementById('drawer-backdrop');
+            var drawer = document.getElementById('filters-drawer');
+            function open() { drawer.classList.add('open'); document.body.style.overflow = 'hidden'; }
             function close() { drawer.classList.remove('open'); document.body.style.overflow = ''; }
-
-            if (openBtn)  openBtn.addEventListener('click', open);
+            if (openBtn) openBtn.addEventListener('click', open);
             if (closeBtn) closeBtn.addEventListener('click', close);
             if (backdrop) backdrop.addEventListener('click', close);
         })();

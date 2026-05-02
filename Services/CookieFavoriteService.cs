@@ -43,7 +43,9 @@ public class CookieFavoriteService : IFavoriteService
         {
             Expires = DateTimeOffset.UtcNow.AddDays(30),
             HttpOnly = true,
-            SameSite = SameSiteMode.Lax
+            IsEssential = true,
+            SameSite = SameSiteMode.Lax,
+            Path = "/"
         });
     }
 }

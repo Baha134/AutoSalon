@@ -27,14 +27,6 @@ public class CarsAdminController : Controller
     [HttpGet("")]
     public async Task<IActionResult> Index()
     {
-        // Показываем все авто включая проданные — это админка
-        var filter = new CarFilterViewModel
-        {
-            PageSize = 50,
-            Status = null   // без фильтра по статусу — видим всё
-        };
-
-        // Напрямую запрашиваем все IsActive авто без фильтра Status
         var items = await _db.Cars
             .Include(c => c.Photos)
             .Include(c => c.Badge)
@@ -46,7 +38,12 @@ public class CarsAdminController : Controller
         var total = await _db.Cars.CountAsync(c => c.IsActive);
 
         return View("~/Areas/Admin/Views/CarsAdmin/Index.cshtml",
-            new CarListViewModel { Cars = items, TotalCount = total, Filter = filter });
+            new CarListViewModel
+            {
+                Cars = items,
+                TotalCount = total,
+                Filter = new CarFilterViewModel { PageSize = 50, Status = null }
+            });
     }
 
     [HttpGet("create")]
@@ -57,13 +54,16 @@ public class CarsAdminController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(AdminCarViewModel vm)
     {
+        ModelState.Remove("Photos");
+        ModelState.Remove("ExistingPhotos");
+
         if (!ModelState.IsValid)
             return View("~/Areas/Admin/Views/CarsAdmin/Create.cshtml", vm);
 
         var car = MapToModel(vm);
         var id = await _cars.CreateAsync(car);
 
-        if (vm.Photos.Count > 0)
+        if (vm.Photos != null && vm.Photos.Count > 0)
             await _photos.SavePhotosAsync(vm.Photos, id);
 
         await SaveBadgeAsync(id, vm);
@@ -87,8 +87,16 @@ public class CarsAdminController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, AdminCarViewModel vm)
     {
+        ModelState.Remove("Photos");
+        ModelState.Remove("ExistingPhotos");
+
         if (!ModelState.IsValid)
+        {
+            var car2 = await _cars.GetByIdAsync(id);
+            if (car2 != null)
+                vm.ExistingPhotos = car2.Photos.OrderBy(p => p.SortOrder).ToList();
             return View("~/Areas/Admin/Views/CarsAdmin/Edit.cshtml", vm);
+        }
 
         var car = await _cars.GetByIdAsync(id);
         if (car == null) return NotFound();
@@ -96,7 +104,7 @@ public class CarsAdminController : Controller
         ApplyToModel(car, vm);
         await _cars.UpdateAsync(car);
 
-        if (vm.Photos.Count > 0)
+        if (vm.Photos != null && vm.Photos.Count > 0)
             await _photos.SavePhotosAsync(vm.Photos, id);
 
         await SaveBadgeAsync(id, vm);

@@ -26,13 +26,22 @@ public class FavoriteController : Controller
     [HttpPost("/favorites/toggle/{id:int}")]
     public IActionResult Toggle(int id)
     {
-        if (_fav.Contains(HttpContext, id))
-            _fav.Remove(HttpContext, id);
-        else
-            _fav.Add(HttpContext, id);
+        bool isNow;
 
-        var count = _fav.Count(HttpContext);
-        var isNow = _fav.Contains(HttpContext, id);
+        if (_fav.Contains(HttpContext, id))
+        {
+            _fav.Remove(HttpContext, id);
+            isNow = false;
+        }
+        else
+        {
+            _fav.Add(HttpContext, id);
+            isNow = true;
+        }
+
+        var ids = _fav.GetIds(HttpContext);
+        var count = isNow ? ids.Count + 1 : ids.Count - 1;
+        if (count < 0) count = 0;
 
         if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
             return Ok(new { count, isFavorite = isNow });

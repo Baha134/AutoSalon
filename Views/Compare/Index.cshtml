@@ -42,7 +42,6 @@
     }
     .btn-clear:hover { border-color: #ef4444; color: #ef4444; }
 
-    /* EMPTY */
     .empty-state {
         text-align: center; padding: 80px 20px;
         background: var(--dark2); border: 1px solid var(--border);
@@ -60,7 +59,6 @@
     }
     .btn-gold:hover { background: var(--gold-dark); color: #000; }
 
-    /* COMPARE GRID */
     .compare-grid {
         display: grid;
         gap: 0;
@@ -69,7 +67,6 @@
         overflow: hidden;
     }
 
-    /* Шапка с машинами */
     .cars-header {
         display: grid;
         background: var(--dark2);
@@ -125,7 +122,6 @@
     }
     .btn-remove:hover { border-color: rgba(239,68,68,0.4); color: #f87171; }
 
-    /* Слот для добавления машины */
     .add-car-slot {
         padding: 20px 16px;
         border-right: 1px solid var(--border);
@@ -146,7 +142,6 @@
         font-size: 12px; color: var(--muted); text-align: center;
     }
 
-    /* СТРОКИ ТАБЛИЦЫ */
     .compare-row {
         display: grid;
         border-bottom: 1px solid var(--border);
@@ -177,7 +172,6 @@
     }
     .spec-val.diff { background: rgba(245,166,35,0.05); }
 
-    /* ПОИСК МАШИНЫ */
     .search-box {
         background: var(--dark2); border: 1px solid var(--border);
         border-radius: var(--radius); padding: 20px;
@@ -233,7 +227,6 @@
     .search-empty { color: var(--muted); font-size: 13px; padding: 12px 0; }
     .search-loading { color: var(--muted); font-size: 13px; padding: 12px 0; }
 
-    /* HINT */
     .compare-hint {
         background: rgba(245,166,35,0.06);
         border: 1px solid rgba(245,166,35,0.15);
@@ -275,14 +268,11 @@
     }
     else
     {
-        @{
-            var totalCols = cars.Count + 1; // +1 для колонки labels
-            var slotsNeeded = 3 - cars.Count; // сколько пустых слотов добавить
-            var gridCols = $"180px repeat({cars.Count + slotsNeeded}, 1fr)";
-            var minPrice = cars.Min(c => c.Price);
-            var minMileage = cars.Min(c => c.Mileage);
-            var maxYear = cars.Max(c => c.Year);
-        }
+        var slotsNeeded = 3 - cars.Count;
+        var gridCols = $"180px repeat({cars.Count + slotsNeeded}, 1fr)";
+        var minPrice = cars.Min(c => c.Price);
+        var minMileage = cars.Min(c => c.Mileage);
+        var maxYear = cars.Max(c => c.Year);
 
         <div class="compare-grid" style="--cols: @gridCols">
 
@@ -315,50 +305,71 @@
 
                 @for (var s = 0; s < slotsNeeded; s++)
                 {
-                    <div class="add-car-slot @(s == slotsNeeded - 1 ? "" : "")">
+                    <div class="add-car-slot">
                         <div class="add-placeholder">+</div>
                         <div class="add-car-label">Добавить авто для сравнения</div>
                     </div>
                 }
             </div>
 
-            <!-- СТРОКИ ХАРАКТЕРИСТИК -->
+            <!-- ЦЕНА -->
             <div class="compare-row" style="display:grid; grid-template-columns: @gridCols">
                 <div class="spec-label">@L["Compare_Price"]</div>
                 @foreach (var car in cars)
                 {
                     <div class="spec-val @(car.Price == minPrice ? "best" : "")">
                         @car.DisplayPrice
-                        @if (car.Price == minPrice && cars.Count > 1) { <span style="margin-left:6px;font-size:10px">✓</span> }
+                        @if (car.Price == minPrice && cars.Count > 1)
+                        {
+                            <span style="margin-left:6px;font-size:10px">✓</span>
+                        }
                     </div>
                 }
-                @for (var s = 0; s < slotsNeeded; s++) { <div class="spec-val" style="color:var(--border)">—</div> }
+                @for (var s = 0; s < slotsNeeded; s++)
+                {
+                    <div class="spec-val" style="color:var(--border)">—</div>
+                }
             </div>
 
+            <!-- ГОД -->
             <div class="compare-row" style="display:grid; grid-template-columns: @gridCols">
                 <div class="spec-label">@L["Compare_Year"]</div>
                 @foreach (var car in cars)
                 {
                     <div class="spec-val @(car.Year == maxYear ? "best" : "")">
                         @car.Year
-                        @if (car.Year == maxYear && cars.Count > 1) { <span style="margin-left:6px;font-size:10px">✓</span> }
+                        @if (car.Year == maxYear && cars.Count > 1)
+                        {
+                            <span style="margin-left:6px;font-size:10px">✓</span>
+                        }
                     </div>
                 }
-                @for (var s = 0; s < slotsNeeded; s++) { <div class="spec-val" style="color:var(--border)">—</div> }
+                @for (var s = 0; s < slotsNeeded; s++)
+                {
+                    <div class="spec-val" style="color:var(--border)">—</div>
+                }
             </div>
 
+            <!-- ПРОБЕГ -->
             <div class="compare-row" style="display:grid; grid-template-columns: @gridCols">
                 <div class="spec-label">@L["Compare_Mileage"]</div>
                 @foreach (var car in cars)
                 {
                     <div class="spec-val @(car.Mileage == minMileage ? "best" : "")">
                         @car.DisplayMileage
-                        @if (car.Mileage == minMileage && cars.Count > 1) { <span style="margin-left:6px;font-size:10px">✓</span> }
+                        @if (car.Mileage == minMileage && cars.Count > 1)
+                        {
+                            <span style="margin-left:6px;font-size:10px">✓</span>
+                        }
                     </div>
                 }
-                @for (var s = 0; s < slotsNeeded; s++) { <div class="spec-val" style="color:var(--border)">—</div> }
+                @for (var s = 0; s < slotsNeeded; s++)
+                {
+                    <div class="spec-val" style="color:var(--border)">—</div>
+                }
             </div>
 
+            <!-- ОСТАЛЬНЫЕ СТРОКИ -->
             @{
                 var plainRows = new[]
                 {
@@ -383,7 +394,10 @@
                             @(i < values.Length ? values[i] : "—")
                         </div>
                     }
-                    @for (var s = 0; s < slotsNeeded; s++) { <div class="spec-val" style="color:var(--border)">—</div> }
+                    @for (var s = 0; s < slotsNeeded; s++)
+                    {
+                        <div class="spec-val" style="color:var(--border)">—</div>
+                    }
                 </div>
             }
 
@@ -396,7 +410,6 @@
                 <span>@string.Format(L["Compare_CanAdd"], 3 - cars.Count) — <a href="/catalog">@L["Compare_ToCatalog"]</a> или найди ниже</span>
             </div>
 
-            <!-- БЛОК ПОИСКА -->
             <div class="search-box">
                 <h3>🔍 Добавить авто для сравнения</h3>
                 <div class="search-input-wrap">

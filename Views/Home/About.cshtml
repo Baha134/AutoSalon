@@ -1,0 +1,297 @@
+@model AutoSalon.Models.SalonSettings
+@{
+    ViewData["Title"] = "О нас";
+}
+
+<style>
+    :root {
+        --gold: #F5A623;
+        --gold-dark: #D4861A;
+        --dark: #0d0d0d;
+        --dark2: #141414;
+        --dark3: #1c1c1c;
+        --text: #ffffff;
+        --muted: rgba(255,255,255,0.5);
+        --border: rgba(255,255,255,0.07);
+        --radius: 14px;
+    }
+
+    body { background: var(--dark) !important; color: var(--text) !important; }
+
+    .about-page { max-width: 1000px; margin: 0 auto; padding: 48px 24px 80px; }
+
+    .about-hero {
+        text-align: center;
+        margin-bottom: 56px;
+    }
+    .about-hero h1 {
+        font-size: 38px; font-weight: 900;
+        margin-bottom: 16px; line-height: 1.15;
+    }
+    .about-hero h1 span { color: var(--gold); }
+    .about-hero p {
+        font-size: 16px; color: var(--muted);
+        max-width: 580px; margin: 0 auto;
+        line-height: 1.8;
+    }
+
+    .about-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 16px;
+        margin-bottom: 48px;
+    }
+    .stat-card {
+        background: var(--dark2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 28px 20px;
+        text-align: center;
+        transition: border-color .2s, transform .2s;
+    }
+    .stat-card:hover { border-color: rgba(245,166,35,0.3); transform: translateY(-3px); }
+    .stat-num {
+        font-size: 36px; font-weight: 900;
+        color: var(--gold); margin-bottom: 6px;
+    }
+    .stat-label {
+        font-size: 13px; color: var(--muted); font-weight: 600;
+    }
+
+    .about-section {
+        background: var(--dark2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 32px;
+        margin-bottom: 20px;
+    }
+    .about-section h2 {
+        font-size: 18px; font-weight: 800;
+        margin-bottom: 16px; color: var(--gold);
+        text-transform: uppercase; letter-spacing: .06em; font-size: 13px;
+    }
+    .about-section p {
+        font-size: 15px; color: var(--muted);
+        line-height: 1.8; margin: 0;
+    }
+
+    .about-features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 16px;
+        margin-bottom: 20px;
+    }
+    .feature-card {
+        background: var(--dark2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 24px;
+        display: flex; gap: 16px; align-items: flex-start;
+        transition: border-color .2s, transform .2s;
+    }
+    .feature-card:hover { border-color: rgba(245,166,35,0.3); transform: translateY(-3px); }
+    .feature-icon { font-size: 28px; flex-shrink: 0; }
+    .feature-text h3 {
+        font-size: 15px; font-weight: 700;
+        margin-bottom: 6px;
+    }
+    .feature-text p {
+        font-size: 13px; color: var(--muted);
+        line-height: 1.6; margin: 0;
+    }
+
+    .contacts-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+        margin-bottom: 20px;
+    }
+    .contact-card {
+        background: var(--dark2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 24px;
+        display: flex; gap: 14px; align-items: flex-start;
+    }
+    .contact-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+    .contact-label {
+        font-size: 11px; font-weight: 700; letter-spacing: .08em;
+        text-transform: uppercase; color: var(--muted); margin-bottom: 4px;
+    }
+    .contact-value {
+        font-size: 15px; font-weight: 600; color: var(--text);
+    }
+    .contact-value a {
+        color: var(--gold); text-decoration: none;
+    }
+    .contact-value a:hover { text-decoration: underline; }
+
+    .about-cta {
+        text-align: center;
+        background: linear-gradient(135deg, rgba(245,166,35,0.08), rgba(245,166,35,0.02));
+        border: 1px solid rgba(245,166,35,0.2);
+        border-radius: var(--radius);
+        padding: 48px 24px;
+        margin-top: 40px;
+    }
+    .about-cta h2 { font-size: 24px; font-weight: 900; margin-bottom: 10px; }
+    .about-cta p { color: var(--muted); margin-bottom: 28px; font-size: 15px; line-height: 1.7; }
+    .btn-gold {
+        background: var(--gold); color: #000;
+        border: none; border-radius: 50px;
+        padding: 14px 32px; font-weight: 700; font-size: 15px;
+        text-decoration: none; display: inline-block;
+        transition: background .2s, transform .15s;
+    }
+    .btn-gold:hover { background: var(--gold-dark); color: #000; transform: translateY(-1px); }
+</style>
+
+<div class="about-page">
+
+    <div class="about-hero">
+        <h1>О салоне <span>@(Model?.SalonName ?? "АвтоСалон")</span></h1>
+        <p>
+            Мы помогаем найти автомобиль мечты — быстро, честно и без лишних хлопот.
+            Широкий выбор, прозрачные цены и профессиональный подход к каждому клиенту.
+        </p>
+    </div>
+
+    <div class="about-stats">
+        <div class="stat-card">
+            <div class="stat-num">500+</div>
+            <div class="stat-label">Автомобилей продано</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-num">12 лет</div>
+            <div class="stat-label">На рынке</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-num">8 000+</div>
+            <div class="stat-label">Довольных клиентов</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-num">100%</div>
+            <div class="stat-label">Легальных сделок</div>
+        </div>
+    </div>
+
+    <div class="about-section">
+        <h2>🏢 О компании</h2>
+        <p>
+            @(Model?.SalonName ?? "АвтоСалон") — современная площадка по продаже автомобилей в Казахстане.
+            Мы работаем с проверенными продавцами и предлагаем только качественные автомобили
+            с полной историей обслуживания. Наша цель — сделать покупку автомобиля простой,
+            прозрачной и приятной для каждого клиента.
+        </p>
+    </div>
+
+    <div class="about-features">
+        <div class="feature-card">
+            <div class="feature-icon">🛡</div>
+            <div class="feature-text">
+                <h3>Официальная гарантия</h3>
+                <p>Все автомобили проходят полную проверку и имеют официальную гарантию производителя.</p>
+            </div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">📄</div>
+            <div class="feature-text">
+                <h3>Юридическая чистота</h3>
+                <p>Проверяем каждый автомобиль по всем базам данных. Никаких скрытых проблем.</p>
+            </div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">💳</div>
+            <div class="feature-text">
+                <h3>Кредит от 0.1%</h3>
+                <p>Партнёрство с ведущими банками. Одобрение за 30 минут прямо в салоне.</p>
+            </div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🔄</div>
+            <div class="feature-text">
+                <h3>Трейд-ин</h3>
+                <p>Обменяйте ваш автомобиль на новый. Оценка и оформление за один визит.</p>
+            </div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">⚖️</div>
+            <div class="feature-text">
+                <h3>Сравнение авто</h3>
+                <p>Сравнивайте до 3 автомобилей одновременно по всем ключевым характеристикам.</p>
+            </div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🌐</div>
+            <div class="feature-text">
+                <h3>Три языка</h3>
+                <p>Сайт доступен на русском, казахском и английском языках.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- КОНТАКТЫ ИЗ БД -->
+    <div class="contacts-grid">
+        @if (!string.IsNullOrEmpty(Model?.Phone))
+        {
+            <div class="contact-card">
+                <div class="contact-icon">📞</div>
+                <div>
+                    <div class="contact-label">Телефон</div>
+                    <div class="contact-value">
+                        <a href="tel:@Model.Phone">@Model.Phone</a>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model?.Email))
+        {
+            <div class="contact-card">
+                <div class="contact-icon">✉️</div>
+                <div>
+                    <div class="contact-label">Email</div>
+                    <div class="contact-value">
+                        <a href="mailto:@Model.Email">@Model.Email</a>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model?.Address))
+        {
+            <div class="contact-card">
+                <div class="contact-icon">📍</div>
+                <div>
+                    <div class="contact-label">Адрес</div>
+                    <div class="contact-value">@Model.Address</div>
+                </div>
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model?.WorkingHours))
+        {
+            <div class="contact-card">
+                <div class="contact-icon">⏰</div>
+                <div>
+                    <div class="contact-label">Режим работы</div>
+                    <div class="contact-value">@Model.WorkingHours</div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="contact-card">
+                <div class="contact-icon">⏰</div>
+                <div>
+                    <div class="contact-label">Режим работы</div>
+                    <div class="contact-value">Пн–Пт: 9:00–20:00<br>Сб–Вс: 10:00–18:00</div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="about-cta">
+        <h2>Готовы найти свой автомобиль?</h2>
+        <p>Просмотрите каталог и выберите из сотен предложений.<br>Наши специалисты помогут с выбором.</p>
+        <a href="/catalog" class="btn-gold">Перейти в каталог →</a>
+    </div>
+
+</div>

@@ -30,4 +30,30 @@ public class CatalogController : Controller
 
         return View(vm);
     }
+
+    /// <summary>
+    /// GET /catalog/search-json?q=toyota&limit=9
+    /// Используется на странице сравнения для быстрого поиска авто.
+    /// </summary>
+    [HttpGet("/catalog/search-json")]
+    public async Task<IActionResult> SearchJson(string q, int limit = 9)
+    {
+        if (string.IsNullOrWhiteSpace(q) || q.Length < 2)
+            return Json(Array.Empty<object>());
+
+        var cars = await _cars.SearchAsync(q.Trim(), limit);
+
+        var result = cars.Select(c => new
+        {
+            id = c.Id,
+            name = $"{c.Brand} {c.Model} {c.Year}",
+            price = c.DisplayPrice,
+            year = c.Year,
+            mileage = c.DisplayMileage,
+            photoPath = c.Photos.FirstOrDefault(p => p.IsMain)?.FilePath
+                        ?? c.Photos.OrderBy(p => p.SortOrder).FirstOrDefault()?.FilePath
+        });
+
+        return Json(result);
+    }
 }

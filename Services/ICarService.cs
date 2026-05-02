@@ -11,6 +11,7 @@ public interface ICarService
     Task<Car?> GetByIdAsync(int id);
     Task<List<Car>> GetByIdsAsync(IEnumerable<int> ids);
     Task<List<Car>> GetSimilarAsync(int carId, string brand, int count = 4);
+    Task<List<Car>> SearchAsync(string query, int limit = 9);
     Task<int> CreateAsync(Car car);
     Task UpdateAsync(Car car);
     Task DeleteAsync(int id);

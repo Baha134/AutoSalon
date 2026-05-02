@@ -438,12 +438,12 @@
 
                 <div id="lead-anchor">
                     <a href="tel:@(settings?.PhoneNumber?.Replace(" ","").Replace("(","").Replace(")","").Replace("-",""))"
-                       class="btn-cta btn-call">📞 @L["Detail_Call"]</a>
+                       class="btn-cta btn-call">@L["Detail_Call"]</a>
 
                     @if (!string.IsNullOrEmpty(settings?.WhatsAppNumber))
                     {
                         <a href="https://wa.me/@settings.WhatsAppNumber" target="_blank" rel="noopener"
-                           class="btn-cta btn-whatsapp">💬 @L["Detail_WhatsApp"]</a>
+                           class="btn-cta btn-whatsapp">@L["Detail_WhatsApp"]</a>
                     }
 
                     <button class="btn-cta btn-credit"
@@ -452,13 +452,16 @@
                     </button>
 
                     <div class="cta-actions">
-                        <button class="btn-action fav-btn"
-                                data-car-id="@car.Id"
-                                onclick="toggleFav(event, @car.Id, this)">
-                            ♡ @L["Detail_Favorite"]
+                        <button class="btn-action btn-favorite"
+                                data-id="@car.Id"
+                                data-is-fav="0"
+                                title="@L["Detail_Favorite"]">
+                            <span class="fav-icon">♡</span> @L["Detail_Favorite"]
                         </button>
-                        <button class="btn-action compare-btn"
-                                onclick="toggleCompare(event, @car.Id, this)">
+                        <button class="btn-action btn-compare"
+                                data-id="@car.Id"
+                                data-in-compare="0"
+                                title="@L["Detail_Compare"]">
                             ⚖ @L["Detail_Compare"]
                         </button>
                     </div>
@@ -579,17 +582,20 @@
             if (favRes.ok) {
                 var favIds = await favRes.json();
                 if (favIds.includes(carId)) {
-                    document.querySelectorAll('.fav-btn').forEach(function(b) {
+                    document.querySelectorAll('.btn-favorite').forEach(function(b) {
                         b.classList.add('active');
-                        if (b.innerHTML.includes('♡')) b.innerHTML = b.innerHTML.replace('♡','♥');
+                        b.dataset.isFav = '1';
+                        var icon = b.querySelector('.fav-icon');
+                        if (icon) icon.textContent = '♥';
                     });
                 }
             }
             if (cmpRes.ok) {
                 var cmpIds = await cmpRes.json();
                 if (cmpIds.includes(carId)) {
-                    document.querySelectorAll('.compare-btn').forEach(function(b) {
+                    document.querySelectorAll('.btn-compare').forEach(function(b) {
                         b.classList.add('active');
+                        b.dataset.inCompare = '1';
                     });
                 }
             }

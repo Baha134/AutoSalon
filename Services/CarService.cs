@@ -25,7 +25,6 @@ public class CarService : ICarService
             .Where(c => c.IsActive)
             .AsQueryable();
 
-        // --- Фильтры ---
         if (!string.IsNullOrWhiteSpace(filter.Brand))
             q = q.Where(c => c.Brand == filter.Brand);
 
@@ -53,7 +52,6 @@ public class CarService : ICarService
         if (filter.MileageMax.HasValue)
             q = q.Where(c => c.Mileage <= filter.MileageMax.Value);
 
-        // --- Поиск по тексту: Brand + Model + Description (≥2 символов) ---
         if (!string.IsNullOrWhiteSpace(filter.Search) && filter.Search.Length >= 2)
         {
             var term = filter.Search.Trim().ToLower();
@@ -63,20 +61,18 @@ public class CarService : ICarService
                 (c.Description != null && c.Description.ToLower().Contains(term)));
         }
 
-        // --- Статус: по умолчанию только Active (не показываем Sold) ---
         if (filter.Status.HasValue)
             q = q.Where(c => c.Status == filter.Status.Value);
         else
             q = q.Where(c => c.Status == CarStatus.Active);
 
-        // --- Сортировка ---
         q = filter.Sort switch
         {
             "price_asc" => q.OrderBy(c => c.Price),
             "price_desc" => q.OrderByDescending(c => c.Price),
             "year_desc" => q.OrderByDescending(c => c.Year),
             "popular" => q.OrderByDescending(c => c.ViewCount),
-            _ => q.OrderByDescending(c => c.CreatedAt) // "new" — по умолчанию
+            _ => q.OrderByDescending(c => c.CreatedAt)
         };
 
         var total = await q.CountAsync();
@@ -88,7 +84,6 @@ public class CarService : ICarService
         return (items, total);
     }
 
-    // Список брендов с кешированием на 5 минут
     public async Task<List<string>> GetBrandsAsync()
     {
         const string cacheKey = "brands_list";
@@ -133,13 +128,33 @@ public class CarService : ICarService
             .Take(count)
             .ToListAsync();
 
+    /// <summary>
+    /// Быстрый поиск по марке и модели — используется на странице сравнения.
+    /// </summary>
+    public async Task<List<Car>> SearchAsync(string query, int limit = 9)
+    {
+        var term = query.Trim().ToLower();
+
+        return await _db.Cars
+            .Include(c => c.Photos)
+            .Where(c =>
+                c.IsActive &&
+                c.Status == CarStatus.Active &&
+                (c.Brand.ToLower().Contains(term) ||
+                 c.Model.ToLower().Contains(term) ||
+                 (c.Brand + " " + c.Model).ToLower().Contains(term)))
+            .OrderByDescending(c => c.CreatedAt)
+            .Take(limit)
+            .ToListAsync();
+    }
+
     public async Task<int> CreateAsync(Car car)
     {
         car.Slug = await GenerateSlugAsync(car);
         car.CreatedAt = DateTime.UtcNow;
         _db.Cars.Add(car);
         await _db.SaveChangesAsync();
-        _cache.Remove("brands_list"); // сбрасываем кеш брендов
+        _cache.Remove("brands_list");
         return car.Id;
     }
 
@@ -155,7 +170,7 @@ public class CarService : ICarService
         var car = await _db.Cars.FindAsync(id);
         if (car != null)
         {
-            car.IsActive = false; // мягкое удаление
+            car.IsActive = false;
             await _db.SaveChangesAsync();
             _cache.Remove("brands_list");
         }
@@ -171,7 +186,6 @@ public class CarService : ICarService
     public async Task<int> GetTotalCountAsync() =>
         await _db.Cars.CountAsync(c => c.IsActive && c.Status == CarStatus.Active);
 
-    // --- Генерация уникального slug ---
     private async Task<string> GenerateSlugAsync(Car car)
     {
         var baseSlug = $"{car.Brand}-{car.Model}-{car.Year}"

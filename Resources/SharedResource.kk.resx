@@ -138,4 +138,28 @@
   <data name="Nav_Favorites" xml:space="preserve">
     <value>Таңдаулылар</value>
   </data>
+  <data name="Home_Title" xml:space="preserve"><value>Көлігіңізді табыңыз</value></data>
+<data name="Home_Search_Placeholder" xml:space="preserve"><value>Маркасы немесе моделі...</value></data>
+<data name="Home_Search_Button" xml:space="preserve"><value>Іздеу</value></data>
+<data name="Home_Recent" xml:space="preserve"><value>Жаңа түсімдер</value></data>
+<data name="Home_AllCatalog" xml:space="preserve"><value>Барлық каталог →</value></data>
+<data name="Home_NoCars" xml:space="preserve"><value>Жақында жаңа автомобильдер пайда болады</value></data>
+<data name="Home_LeaveRequest" xml:space="preserve"><value>Өтініш қалдыру</value></data>
+<data name="Home_NotFound" xml:space="preserve"><value>Қажетті автомобильді таппадыңыз ба?</value></data>
+<data name="Home_NotFound_Sub" xml:space="preserve"><value>Өтініш қалдырыңыз — бюджетіңізге сай таңдаймыз</value></data>
+<data name="Home_Form_Name" xml:space="preserve"><value>Атыңыз</value></data>
+<data name="Home_Form_Phone" xml:space="preserve"><value>Телефон нөмірі</value></data>
+<data name="Home_Form_Message" xml:space="preserve"><value>Не іздейсіз? (міндетті емес)</value></data>
+<data name="Home_Form_Submit" xml:space="preserve"><value>Өтініш жіберу</value></data>
+<data name="Home_Form_Agree" xml:space="preserve"><value>Түймені басу арқылы дербес деректерді өңдеуге келісесіз</value></data>
+<data name="Home_Why_Title" xml:space="preserve"><value>Неліктен бізді таңдайды</value></data>
+<data name="Home_Why_1_Title" xml:space="preserve"><value>Тексерілген автомобильдер</value></data>
+<data name="Home_Why_1_Sub" xml:space="preserve"><value>ДТП тарихы бойынша тексерілген</value></data>
+<data name="Home_Why_2_Title" xml:space="preserve"><value>Кредит және бөліп төлеу</value></data>
+<data name="Home_Why_2_Sub" xml:space="preserve"><value>15 минутта мақұлдау, {0}%-дан бастап</value></data>
+<data name="Home_Why_3_Title" xml:space="preserve"><value>Trade-in</value></data>
+<data name="Home_Why_3_Sub" xml:space="preserve"><value>Ескі көлігіңізді жаңасына есепке беріңіз</value></data>
+<data name="Home_Why_4_Title" xml:space="preserve"><value>Кепілдік</value></data>
+<data name="Home_Why_4_Sub" xml:space="preserve"><value>Барлық автомобильдерге 12 айға дейін</value></data>
+<data name="Home_Cars_In_Stock" xml:space="preserve"><value>{0} автомобиль бар · Кредит · Айырбас</value></data>
 </root>

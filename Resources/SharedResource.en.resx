@@ -138,4 +138,28 @@
   <data name="Nav_Favorites" xml:space="preserve">
     <value>Favorites</value>
   </data>
+  <data name="Home_Title" xml:space="preserve"><value>Find Your Car</value></data>
+<data name="Home_Search_Placeholder" xml:space="preserve"><value>Make or model...</value></data>
+<data name="Home_Search_Button" xml:space="preserve"><value>Search</value></data>
+<data name="Home_Recent" xml:space="preserve"><value>Recent Arrivals</value></data>
+<data name="Home_AllCatalog" xml:space="preserve"><value>All catalog →</value></data>
+<data name="Home_NoCars" xml:space="preserve"><value>New cars coming soon</value></data>
+<data name="Home_LeaveRequest" xml:space="preserve"><value>Leave a Request</value></data>
+<data name="Home_NotFound" xml:space="preserve"><value>Didn't find what you need?</value></data>
+<data name="Home_NotFound_Sub" xml:space="preserve"><value>Leave a request — we'll find it for your budget</value></data>
+<data name="Home_Form_Name" xml:space="preserve"><value>Your name</value></data>
+<data name="Home_Form_Phone" xml:space="preserve"><value>Phone number</value></data>
+<data name="Home_Form_Message" xml:space="preserve"><value>What are you looking for? (optional)</value></data>
+<data name="Home_Form_Submit" xml:space="preserve"><value>Send Request</value></data>
+<data name="Home_Form_Agree" xml:space="preserve"><value>By clicking, you agree to personal data processing</value></data>
+<data name="Home_Why_Title" xml:space="preserve"><value>Why Choose Us</value></data>
+<data name="Home_Why_1_Title" xml:space="preserve"><value>Verified Cars</value></data>
+<data name="Home_Why_1_Sub" xml:space="preserve"><value>Checked against accident history databases</value></data>
+	<data name="Home_Why_2_Title" xml:space="preserve"><value>Credit &amp; Installments</value></data>
+<data name="Home_Why_2_Sub" xml:space="preserve"><value>Approval in 15 minutes, rate from {0}%</value></data>
+<data name="Home_Why_3_Title" xml:space="preserve"><value>Trade-in</value></data>
+<data name="Home_Why_3_Sub" xml:space="preserve"><value>Trade in your old car for a new one</value></data>
+<data name="Home_Why_4_Title" xml:space="preserve"><value>Warranty</value></data>
+<data name="Home_Why_4_Sub" xml:space="preserve"><value>Up to 12 months on all cars</value></data>
+<data name="Home_Cars_In_Stock" xml:space="preserve"><value>{0} cars available · Credit · Trade-in</value></data>
 </root>

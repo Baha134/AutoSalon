@@ -4,6 +4,7 @@ using AutoSalon.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,8 +26,13 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<AppDbContext>();
 
+// ===== ЛОКАЛИЗАЦИЯ =====
+
+
 // MVC
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddViewLocalization()
+    .AddDataAnnotationsLocalization();
 builder.Services.AddRazorPages();
 
 // Кеш
@@ -53,9 +59,6 @@ builder.Services.AddSession(o =>
     o.Cookie.IsEssential = true;
 });
 
-// ===== ЛОКАЛИЗАЦИЯ =====
-builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
-
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
     var supportedCultures = new[]
@@ -79,7 +82,6 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 
 var app = builder.Build();
 
-// Seed
 using (var scope = app.Services.CreateScope())
 {
     await SeedData.InitAsync(scope.ServiceProvider);
@@ -92,25 +94,14 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRequestLocalization();
-
 app.UseRouting();
-
 app.UseMiddleware<RateLimitMiddleware>();
-
 app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
-
-// Маршруты
-app.MapControllerRoute(
-    name: "language",
-    pattern: "language/set",
-    defaults: new { controller = "Language", action = "Set" });
 
 app.MapControllerRoute(
     name: "areas",
@@ -121,5 +112,10 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
+app.MapGet("/debug-resx", (IStringLocalizer<AutoSalon.Resources.SharedResource> loc) =>
+{
+    var val = loc["Nav_Catalog"];
+    return $"Value: {val}, NotFound: {val.ResourceNotFound}, SearchedLocation: {val.SearchedLocation}";
+});
 
 app.Run();

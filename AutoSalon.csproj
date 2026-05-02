@@ -36,4 +36,11 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\SharedResource.ru.resx" LogicalName="AutoSalon.Resources.SharedResource.ru.resources" />
+    <EmbeddedResource Update="Resources\SharedResource.kk.resx" LogicalName="AutoSalon.Resources.SharedResource.kk.resources" />
+    <EmbeddedResource Update="Resources\SharedResource.en.resx" LogicalName="AutoSalon.Resources.SharedResource.en.resources" />
+  </ItemGroup>
 </Project>
+
+

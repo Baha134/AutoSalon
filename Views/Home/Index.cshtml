@@ -1,21 +1,21 @@
 @model AutoSalon.ViewModels.HomeViewModel
+
 @{
-    ViewData["Title"] = "Главная";
+    ViewData["Title"] = L["Home_Title"];
     ViewData["Description"] = "Продажа автомобилей с пробегом и новых. " + Model.TotalCars + " автомобилей в наличии.";
 }
 
 <!-- HERO -->
 <section class="hero">
     <div class="container">
-        <h1 class="hero-title">Найдите свой автомобиль</h1>
-        <p class="hero-sub">@Model.TotalCars автомобилей в наличии · Кредит · Обмен</p>
+        <h1 class="hero-title">@L["Home_Title"]</h1>
+        <p class="hero-sub">@string.Format(L["Home_Cars_In_Stock"], Model.TotalCars)</p>
 
         <form class="hero-search" action="/catalog" method="get">
-            <input type="text" name="Search" placeholder="Марка или модель..." autocomplete="off" />
-            <button type="submit">Найти</button>
+            <input type="text" name="Search" placeholder="@L["Home_Search_Placeholder"]" autocomplete="off" />
+            <button type="submit">@L["Home_Search_Button"]</button>
         </form>
 
-        <!-- Быстрые бюджеты -->
         <div class="budget-btns">
             <a class="budget-btn" href="/catalog?PriceMax=5000000">до 5 млн ₸</a>
             <a class="budget-btn" href="/catalog?PriceMin=5000000&PriceMax=10000000">5–10 млн ₸</a>
@@ -23,7 +23,6 @@
             <a class="budget-btn" href="/catalog?PriceMin=20000000">от 20 млн ₸</a>
         </div>
 
-        <!-- Бренды -->
         @if (Model.TopBrands.Any())
         {
             <div class="brand-grid">
@@ -39,8 +38,8 @@
 <!-- РЕКОМЕНДУЕМЫЕ АВТО -->
 <div class="container mt-5">
     <div class="d-flex align-items-center justify-content-between mb-3">
-        <h2 class="section-title mb-0">Свежие поступления</h2>
-        <a href="/catalog" class="btn btn-outline-primary btn-sm">Весь каталог →</a>
+        <h2 class="section-title mb-0">@L["Home_Recent"]</h2>
+        <a href="/catalog" class="btn btn-outline-primary btn-sm">@L["Home_AllCatalog"]</a>
     </div>
 
     @if (Model.FeaturedCars.Any())
@@ -56,35 +55,34 @@
     {
         <div class="empty-state py-5">
             <div class="empty-icon">🚗</div>
-            <h3>Скоро здесь появятся новые автомобили</h3>
-            <a href="#lead-anchor" class="btn btn-secondary">Оставить заявку</a>
+            <h3>@L["Home_NoCars"]</h3>
+            <a href="#lead-anchor" class="btn btn-secondary">@L["Home_LeaveRequest"]</a>
         </div>
     }
 </div>
 
-<!-- ФОРМА ЗАЯВКИ (якорь для sticky CTA) -->
+<!-- ФОРМА ЗАЯВКИ -->
 <div class="container mt-5" id="lead-anchor">
     <div class="row justify-content-center">
         <div class="col-lg-6">
             <div class="card border-0 shadow-sm p-4">
-                <h3 class="fw-bold mb-1">Не нашли нужный автомобиль?</h3>
-                <p class="text-muted small mb-4">Оставьте заявку — подберём под ваш бюджет</p>
+                <h3 class="fw-bold mb-1">@L["Home_NotFound"]</h3>
+                <p class="text-muted small mb-4">@L["Home_NotFound_Sub"]</p>
                 <form class="lead-form" method="post" action="/leads">
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="LeadType" value="Call" />
-                    <!-- Honeypot -->
                     <input type="text" name="Website" style="display:none" tabindex="-1" autocomplete="off" />
                     <div class="mb-3">
-                        <input type="text" name="Name" class="form-control" placeholder="Ваше имя" required maxlength="100" />
+                        <input type="text" name="Name" class="form-control" placeholder="@L["Home_Form_Name"]" required maxlength="100" />
                     </div>
                     <div class="mb-3">
-                        <input type="tel" name="Phone" class="form-control" placeholder="+7 (___) ___-__-__" required />
+                        <input type="tel" name="Phone" class="form-control" placeholder="@L["Home_Form_Phone"]" required />
                     </div>
                     <div class="mb-3">
-                        <textarea name="Message" class="form-control" rows="2" placeholder="Что ищете? (необязательно)"></textarea>
+                        <textarea name="Message" class="form-control" rows="2" placeholder="@L["Home_Form_Message"]"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Отправить заявку</button>
-                    <p class="text-muted text-center mt-2" style="font-size:11px">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных</p>
+                    <button type="submit" class="btn btn-primary w-100">@L["Home_Form_Submit"]</button>
+                    <p class="text-muted text-center mt-2" style="font-size:11px">@L["Home_Form_Agree"]</p>
                 </form>
             </div>
         </div>
@@ -93,34 +91,34 @@
 
 <!-- ПРЕИМУЩЕСТВА -->
 <div class="container mt-5 mb-5">
-    <h2 class="section-title text-center mb-4">Почему выбирают нас</h2>
+    <h2 class="section-title text-center mb-4">@L["Home_Why_Title"]</h2>
     <div class="row g-4 text-center">
         <div class="col-md-3">
             <div class="p-3">
                 <div style="font-size:40px;margin-bottom:12px">✅</div>
-                <div class="fw-bold mb-1">Проверенные авто</div>
-                <div class="text-muted small">Проверка по базам ГИБДД и истории ДТП</div>
+                <div class="fw-bold mb-1">@L["Home_Why_1_Title"]</div>
+                <div class="text-muted small">@L["Home_Why_1_Sub"]</div>
             </div>
         </div>
         <div class="col-md-3">
             <div class="p-3">
                 <div style="font-size:40px;margin-bottom:12px">🏦</div>
-                <div class="fw-bold mb-1">Кредит и рассрочка</div>
-                <div class="text-muted small">Одобрение за 15 минут, ставка от @(Model.Settings?.CreditRate ?? 18)%</div>
+                <div class="fw-bold mb-1">@L["Home_Why_2_Title"]</div>
+                <div class="text-muted small">@string.Format(L["Home_Why_2_Sub"], Model.Settings?.CreditRate ?? 18)</div>
             </div>
         </div>
         <div class="col-md-3">
             <div class="p-3">
                 <div style="font-size:40px;margin-bottom:12px">🔄</div>
-                <div class="fw-bold mb-1">Trade-in</div>
-                <div class="text-muted small">Сдайте свой автомобиль в зачёт нового</div>
+                <div class="fw-bold mb-1">@L["Home_Why_3_Title"]</div>
+                <div class="text-muted small">@L["Home_Why_3_Sub"]</div>
             </div>
         </div>
         <div class="col-md-3">
             <div class="p-3">
                 <div style="font-size:40px;margin-bottom:12px">🛡</div>
-                <div class="fw-bold mb-1">Гарантия</div>
-                <div class="text-muted small">На все автомобили до 12 месяцев</div>
+                <div class="fw-bold mb-1">@L["Home_Why_4_Title"]</div>
+                <div class="text-muted small">@L["Home_Why_4_Sub"]</div>
             </div>
         </div>
     </div>

@@ -31,13 +31,7 @@
 </head>
 <body>
 
-<!-- Скрытая форма Logout — вне основного контента -->
-<form id="logout-form" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/" method="post" style="display:none">
-    @Html.AntiForgeryToken()
-</form>
-
 <div class="d-flex">
-    <!-- Сайдбар -->
     <div class="admin-sidebar">
         <div class="brand">Авто<span>Салон</span> <small style="font-size:10px;opacity:.5">Admin</small></div>
         <nav class="admin-nav mt-2">
@@ -58,13 +52,13 @@
         </nav>
     </div>
 
-    <!-- Контент -->
     <div class="admin-main">
         <div class="admin-topbar">
             <div class="page-title">@ViewData["Title"]</div>
-            <a href="#" 
-               onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-               class="btn btn-sm btn-outline-secondary">Выйти</a>
+            <form method="post" action="/admin/logout" style="margin:0">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-sm btn-outline-secondary">Выйти</button>
+            </form>
         </div>
 
         <div class="admin-content">

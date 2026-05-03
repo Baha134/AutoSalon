@@ -22,7 +22,7 @@ public class SettingsService : ISettingsService
         if (_cache.TryGetValue(CacheKey, out SalonSettings? cached) && cached != null)
             return cached;
 
-        var settings = await _db.SalonSettings.FirstOrDefaultAsync();
+        var settings = await _db.SalonSettings.AsNoTracking().FirstOrDefaultAsync();
 
         if (settings == null)
         {
@@ -46,8 +46,21 @@ public class SettingsService : ISettingsService
 
     public async Task UpdateAsync(SalonSettings settings)
     {
-        _db.SalonSettings.Update(settings);
+        var existing = await _db.SalonSettings.FirstOrDefaultAsync();
+        if (existing == null) return;
+
+        existing.SalonName = settings.SalonName ?? "";
+        existing.Phone = settings.Phone ?? "";
+        existing.Email = settings.Email ?? "";
+        existing.PhoneNumber = settings.PhoneNumber ?? "";
+        existing.WhatsAppNumber = settings.WhatsAppNumber ?? "";
+        existing.Address = settings.Address ?? "";
+        existing.WorkingHours = settings.WorkingHours ?? "";
+        existing.TelegramBotToken = settings.TelegramBotToken ?? "";
+        existing.TelegramChatId = settings.TelegramChatId ?? "";
+        existing.CreditRate = settings.CreditRate;
+
         await _db.SaveChangesAsync();
-        _cache.Remove(CacheKey); // сбрасываем кеш после сохранения
+        _cache.Remove(CacheKey);
     }
 }

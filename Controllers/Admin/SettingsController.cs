@@ -22,11 +22,9 @@ public class SettingsController : Controller
     }
 
     [HttpPost("")]
-    [ValidateAntiForgeryToken]
+    [IgnoreAntiforgeryToken]
     public async Task<IActionResult> Index(SalonSettings model)
     {
-        if (!ModelState.IsValid)
-            return View("~/Areas/Admin/Views/Settings/Index.cshtml", model);
         await _settings.UpdateAsync(model);
         TempData["Success"] = "Настройки сохранены";
         return RedirectToAction("Index");

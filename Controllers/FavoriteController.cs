@@ -39,9 +39,8 @@ public class FavoriteController : Controller
             isNow = true;
         }
 
-        var ids = _fav.GetIds(HttpContext);
-        var count = isNow ? ids.Count + 1 : ids.Count - 1;
-        if (count < 0) count = 0;
+        // После Add/Remove счётчик уже актуален — просто читаем его
+        var count = _fav.Count(HttpContext);
 
         if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
             return Ok(new { count, isFavorite = isNow });

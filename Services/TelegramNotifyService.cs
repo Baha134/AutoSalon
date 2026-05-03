@@ -19,16 +19,17 @@ public class TelegramNotifyService : INotifyService
         _http = httpFactory.CreateClient();
     }
 
-    public async Task<bool> SendLeadAsync(Lead lead)
+    public async Task<NotifyResult> SendLeadAsync(Lead lead)
     {
         try
         {
             var s = await _settings.GetAsync();
 
+            // Telegram не настроен — это нормально, не ошибка
             if (string.IsNullOrEmpty(s.TelegramBotToken) || string.IsNullOrEmpty(s.TelegramChatId))
             {
-                _logger.LogWarning("Telegram не настроен (токен или ChatId пустые)");
-                return false;
+                _logger.LogInformation("Telegram не настроен, уведомление пропущено");
+                return NotifyResult.NotConfigured;
             }
 
             var leadTypeLabel = lead.LeadType switch
@@ -61,12 +62,17 @@ public class TelegramNotifyService : INotifyService
             };
 
             var response = await _http.PostAsJsonAsync(url, payload);
-            return response.IsSuccessStatusCode;
+
+            if (response.IsSuccessStatusCode)
+                return NotifyResult.Sent;
+
+            _logger.LogWarning("Telegram вернул ошибку: {StatusCode}", response.StatusCode);
+            return NotifyResult.Failed;
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Ошибка отправки уведомления в Telegram");
-            return false;
+            return NotifyResult.Failed;
         }
     }
 }

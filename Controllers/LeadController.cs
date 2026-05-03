@@ -45,13 +45,14 @@ public class LeadController : Controller
 
         // Загружаем с авто для уведомления
         var full = await _leads.GetByIdAsync(id);
-        bool notified = false;
         if (full != null)
-            notified = await _notify.SendLeadAsync(full);
+        {
+            var result = await _notify.SendLeadAsync(full);
 
-        // Если уведомление не отправлено — помечаем
-        if (!notified)
-            await _leads.MarkNotifyFailedAsync(id);
+            // Помечаем только реальную ошибку отправки, не "не настроен"
+            if (result == NotifyResult.Failed)
+                await _leads.MarkNotifyFailedAsync(id);
+        }
 
         if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
             return Ok(new { success = true });

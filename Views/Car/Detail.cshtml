@@ -123,7 +123,7 @@
     .badge-warranty { background: rgba(59,130,246,0.12); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); }
     .badge-exchange { background: rgba(168,85,247,0.12); color: #c084fc; border: 1px solid rgba(168,85,247,0.3); }
 
-    /* SPECS GRID — ИСПРАВЛЕНО: добавлены !important чтобы Bootstrap не перебивал цвет */
+    /* SPECS GRID */
     .specs-grid {
         display: grid; grid-template-columns: 1fr 1fr;
         gap: 1px; background: var(--border);
@@ -260,6 +260,23 @@
         transition: background .2s;
     }
     .btn-submit:hover { background: var(--gold-dark); }
+    .btn-submit:disabled { opacity: .6; cursor: not-allowed; }
+
+    /* ИСПРАВЛЕНО: стили для AJAX-ответов формы заявки */
+    .lead-success {
+        background: rgba(34,197,94,0.1);
+        border: 1px solid rgba(34,197,94,0.3);
+        border-radius: 10px; padding: 20px;
+        text-align: center; color: #4ade80;
+        font-size: 14px; font-weight: 600;
+    }
+    .lead-success span { font-size: 28px; display: block; margin-bottom: 10px; }
+    .lead-errors {
+        background: rgba(239,68,68,0.1);
+        border: 1px solid rgba(239,68,68,0.3);
+        border-radius: 8px; padding: 12px 14px;
+        color: #f87171; font-size: 13px; margin-bottom: 12px;
+    }
 
     /* FRAUD */
     .fraud-box {
@@ -467,7 +484,9 @@
                     </div>
 
                     <div class="lead-title">@L["Detail_LeaveRequest"]</div>
-                    <form method="post" action="/leads">
+
+                  
+                    <form method="post" action="/leads" class="lead-form">
                         @Html.AntiForgeryToken()
                         <input type="hidden" name="CarId" value="@car.Id" />
                         <input type="hidden" name="LeadType" value="Call" />
@@ -475,7 +494,7 @@
                         <input type="text" name="Name" class="lead-input"
                                placeholder="@L["Detail_Form_Name"]" required maxlength="100" />
                         <input type="tel" name="Phone" class="lead-input"
-                               placeholder="@L["Detail_Form_Phone"]" required />
+                               placeholder="@L["Detail_Form_Phone"]" required maxlength="20" />
                         <textarea name="Message" class="lead-input"
                                   placeholder="@L["Detail_Form_Comment"]"></textarea>
                         <button type="submit" class="btn-submit">@L["Detail_Form_Submit"]</button>
@@ -572,12 +591,13 @@
     });
 
     // ── SYNC FAV/COMPARE STATE ──
+    // БАГ ИСПРАВЛЕН: теперь эндпоинты /favorites/ids и /compare/ids существуют
     (async function() {
         try {
             var carId = @car.Id;
             var [favRes, cmpRes] = await Promise.all([
-                fetch('/favorites/ids'),
-                fetch('/compare/ids')
+                fetch('/favorites/ids', { headers: { 'X-Requested-With': 'XMLHttpRequest' } }),
+                fetch('/compare/ids',   { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
             ]);
             if (favRes.ok) {
                 var favIds = await favRes.json();
@@ -587,6 +607,7 @@
                         b.dataset.isFav = '1';
                         var icon = b.querySelector('.fav-icon');
                         if (icon) icon.textContent = '♥';
+                        b.title = 'Убрать из избранного';
                     });
                 }
             }
@@ -596,11 +617,57 @@
                     document.querySelectorAll('.btn-compare').forEach(function(b) {
                         b.classList.add('active');
                         b.dataset.inCompare = '1';
+                        b.title = 'Убрать из сравнения';
                     });
                 }
             }
         } catch(e) {}
     })();
+
+    // ── AJAX ФОРМА ЗАЯВКИ ──
+    // БАГ ИСПРАВЛЕН: форма теперь имеет класс lead-form, обработчик ниже срабатывает корректно.
+    // Дополнительно обрабатываем ответы сервера — сервер всегда возвращает 200 + {success, errors}.
+    var leadForms = document.querySelectorAll('.lead-form');
+    leadForms.forEach(function(form) {
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            var btn = form.querySelector('[type="submit"]');
+            if (btn) { btn.disabled = true; btn.textContent = 'Отправляем...'; }
+
+            // Убираем старые ошибки
+            var existing = form.querySelector('.lead-errors');
+            if (existing) existing.remove();
+
+            var data = new FormData(form);
+
+            try {
+                var res = await fetch('/leads', {
+                    method: 'POST',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                    body: data
+                });
+
+                var json = await res.json();
+
+                if (json.success) {
+                    form.innerHTML = '<div class="lead-success"><span>✅</span><p>Заявка принята! Мы свяжемся с вами в ближайшее время.</p></div>';
+                } else {
+                    // Показываем ошибки валидации
+                    if (json.errors && json.errors.length) {
+                        var errDiv = document.createElement('div');
+                        errDiv.className = 'lead-errors';
+                        errDiv.textContent = json.errors.join(' ');
+                        form.prepend(errDiv);
+                    }
+                    if (btn) { btn.disabled = false; btn.textContent = '@L["Detail_Form_Submit"]'; }
+                }
+            } catch (err) {
+                console.error('Lead submit error', err);
+                if (btn) { btn.disabled = false; btn.textContent = '@L["Detail_Form_Submit"]'; }
+            }
+        });
+    });
 })();
 </script>
 }

@@ -29,19 +29,26 @@
                 <div class="status-badge status-reserved">@L["Card_Reserved"]</div>
             }
 
+            @* ИСПРАВЛЕНО: заменён onclick="toggleFav(...)" на class="btn-favorite"
+               Теперь favorite.js подхватывает кнопку через делегирование на document *@
             @if (!isSold)
             {
-                <button class="fav-btn" data-car-id="@Model.Id"
-                        onclick="toggleFav(event, @Model.Id, this)"
+                <button class="fav-btn btn-favorite"
+                        data-id="@Model.Id"
+                        data-is-fav="0"
                         title="@L["Detail_Favorite"]">
-                    ♡
+                    <span class="fav-icon">♡</span>
                 </button>
             }
 
+            @* ИСПРАВЛЕНО: заменён onclick="toggleCompare(...)" на class="btn-compare"
+               Теперь compare.js подхватывает кнопку через делегирование на document *@
             @if (!isSold)
             {
-                <button class="compare-btn"
-                        onclick="toggleCompare(event, @Model.Id, this)">
+                <button class="compare-btn btn-compare"
+                        data-id="@Model.Id"
+                        data-in-compare="0"
+                        title="@L["Card_Compare"]">
                     ⚖ @L["Card_Compare"]
                 </button>
             }

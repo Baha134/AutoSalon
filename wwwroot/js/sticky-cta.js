@@ -1,5 +1,5 @@
 /**
- * sticky-cta.js — Мобильная «липкая» кнопка + Drawer-фильтр
+ * sticky-cta.js — Мобильная «липкая» кнопка + Drawer-фильтр + AJAX-форма заявки
  *
  * 1. Sticky CTA скрывается, когда основная кнопка заявки видима на экране.
  *    <div class="sticky-cta" id="sticky-cta"> ... </div>
@@ -14,6 +14,10 @@
  *        ... фильтры ...
  *      </div>
  *    </div>
+ *
+ * 3. AJAX-форма заявки:
+ *    <form class="lead-form" method="post" action="/leads">
+ *    Сервер всегда возвращает 200 + { success: bool, errors?: string[] }
  */
 (function () {
     'use strict';
@@ -61,6 +65,8 @@
     });
 
     /* ===== ФОРМА ЗАЯВКИ — AJAX SUBMIT ===== */
+    // ИСПРАВЛЕНО: сервер теперь всегда возвращает 200 + { success, errors }
+    // Поэтому проверяем json.success, а не res.ok для логики успеха/ошибки.
     var leadForms = document.querySelectorAll('.lead-form');
 
     leadForms.forEach(function (form) {
@@ -68,7 +74,13 @@
             e.preventDefault();
 
             var btn = form.querySelector('[type="submit"]');
+            var originalBtnText = btn ? btn.textContent : 'Отправить заявку';
+
             if (btn) { btn.disabled = true; btn.textContent = 'Отправляем...'; }
+
+            // Убираем предыдущие ошибки
+            var existing = form.querySelector('.lead-errors');
+            if (existing) existing.remove();
 
             var data = new FormData(form);
 
@@ -79,17 +91,26 @@
                     body: data
                 });
 
+                // Сервер всегда отвечает 200, даже при ошибке валидации
+                if (!res.ok) {
+                    // Непредвиденная серверная ошибка (500 и т.п.)
+                    resetBtn(btn, originalBtnText);
+                    showFormErrors(form, ['Ошибка сервера. Попробуйте ещё раз.']);
+                    return;
+                }
+
                 var json = await res.json();
 
                 if (json.success) {
                     form.innerHTML = '<div class="lead-success"><span>✅</span><p>Заявка принята! Мы свяжемся с вами в ближайшее время.</p></div>';
                 } else {
                     showFormErrors(form, json.errors);
-                    resetBtn(btn);
+                    resetBtn(btn, originalBtnText);
                 }
             } catch (err) {
                 console.error('Lead submit error', err);
-                resetBtn(btn);
+                resetBtn(btn, originalBtnText);
+                showFormErrors(form, ['Не удалось отправить заявку. Проверьте соединение.']);
             }
         });
     });
@@ -99,16 +120,17 @@
         if (existing) existing.remove();
 
         if (!errors || !errors.length) return;
+
         var div = document.createElement('div');
         div.className = 'lead-errors alert alert-danger';
         div.textContent = errors.join('. ');
         form.prepend(div);
     }
 
-    function resetBtn(btn) {
+    function resetBtn(btn, originalText) {
         if (!btn) return;
         btn.disabled = false;
-        btn.textContent = 'Отправить заявку';
+        btn.textContent = originalText || 'Отправить заявку';
     }
 
 })();

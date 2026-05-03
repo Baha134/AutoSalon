@@ -45,10 +45,16 @@ public class FavoriteController : Controller
         if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
             return Ok(new { count, isFavorite = isNow });
 
-        return Redirect(Request.Headers["Referer"].ToString() ?? "/");
+        return Redirect(Request.Headers["Referer"].ToString() is { Length: > 0 } r ? r : "/");
     }
 
     [HttpGet("/favorites/count")]
     public IActionResult Count() =>
         Ok(new { count = _fav.Count(HttpContext) });
+
+    // БАГ ИСПРАВЛЕН: добавлен эндпоинт GET /favorites/ids
+    // Используется в Detail.cshtml для подсветки кнопки "В избранное" при загрузке страницы
+    [HttpGet("/favorites/ids")]
+    public IActionResult Ids() =>
+        Ok(_fav.GetIds(HttpContext));
 }

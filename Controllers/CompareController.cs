@@ -46,7 +46,7 @@ public class CompareController : Controller
         if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
             return Ok(new { count = ids.Count });
 
-        return Redirect(Request.Headers["Referer"].ToString() ?? "/");
+        return Redirect(Request.Headers["Referer"].ToString() is { Length: > 0 } r ? r : "/");
     }
 
     [HttpPost("/compare/remove/{id:int}")]
@@ -71,4 +71,9 @@ public class CompareController : Controller
 
     [HttpGet("/compare/count")]
     public IActionResult Count() => Ok(new { count = GetIds().Count });
+
+    // БАГ ИСПРАВЛЕН: добавлен эндпоинт GET /compare/ids
+    // Используется в Detail.cshtml для подсветки кнопки "Сравнить" при загрузке страницы
+    [HttpGet("/compare/ids")]
+    public IActionResult Ids() => Ok(GetIds());
 }

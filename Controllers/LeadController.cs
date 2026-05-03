@@ -20,15 +20,30 @@ public class LeadController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(LeadFormViewModel vm)
     {
-        // Honeypot — бот заполнил скрытое поле
+        bool isAjax = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+
+        // Honeypot — бот заполнил скрытое поле, тихо игнорируем
         if (!string.IsNullOrEmpty(vm.Website))
-            return Ok(new { success = true }); // тихо игнорируем
+        {
+            if (isAjax)
+                return Ok(new { success = true });
+            TempData["LeadSuccess"] = true;
+            return Redirect(Request.Headers["Referer"].ToString() is { Length: > 0 } r ? r : "/");
+        }
 
         if (!ModelState.IsValid)
         {
-            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-                return BadRequest(new { errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
-            return Redirect(Request.Headers["Referer"].ToString() ?? "/");
+            var errors = ModelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage)
+                .ToList();
+
+            // БАГ ИСПРАВЛЕН: вместо BadRequest всегда возвращаем 200 + {success:false, errors}
+            // чтобы JS-обработчик корректно показал ошибки пользователю
+            if (isAjax)
+                return Ok(new { success = false, errors });
+
+            return Redirect(Request.Headers["Referer"].ToString() is { Length: > 0 } r2 ? r2 : "/");
         }
 
         var lead = new Lead
@@ -54,10 +69,10 @@ public class LeadController : Controller
                 await _leads.MarkNotifyFailedAsync(id);
         }
 
-        if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+        if (isAjax)
             return Ok(new { success = true });
 
         TempData["LeadSuccess"] = true;
-        return Redirect(Request.Headers["Referer"].ToString() ?? "/");
+        return Redirect(Request.Headers["Referer"].ToString() is { Length: > 0 } referer ? referer : "/");
     }
 }

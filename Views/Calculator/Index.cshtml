@@ -1,0 +1,545 @@
+@using AutoSalon.Models
+@model SalonSettings
+@{
+    ViewData["Title"] = "Кредитный калькулятор";
+    ViewData["Description"] = "Рассчитайте ежемесячный платёж по автокредиту онлайн. График погашения с разбивкой по месяцам.";
+    var defaultRate = Model?.CreditRate ?? 18m;
+}
+
+@section Styles {
+<style>
+/* ===== CALCULATOR PAGE STYLES ===== */
+.calc-page-hero {
+    background: linear-gradient(135deg, var(--slate-900) 0%, var(--slate-800) 100%);
+    padding: 48px 0 40px;
+    color: #fff;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.calc-page-hero h1 {
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+}
+.calc-page-hero h1 span { color: var(--amber); }
+.calc-page-hero p { color: rgba(255,255,255,.6); font-size: 15px; max-width: 480px; }
+
+.calc-body { padding: 40px 0 60px; }
+
+/* --- Layout --- */
+.calc-layout {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 28px;
+    align-items: start;
+}
+@@media (max-width: 900px) {
+    .calc-layout { grid-template-columns: 1fr; }
+}
+
+/* --- Input panel --- */
+.calc-panel {
+    background: #fff;
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-xl);
+    padding: 28px 24px;
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 16px;
+}
+.calc-panel-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--slate-900);
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--slate-100);
+}
+
+.fc-field { margin-bottom: 20px; }
+.fc-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--slate-400);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+    display: block;
+}
+
+/* Text input with unit badge */
+.fc-input-wrap { position: relative; }
+.fc-input-wrap input[type="text"],
+.fc-input-wrap input[type="number"] {
+    width: 100%;
+    padding: 11px 44px 11px 14px;
+    border: 1.5px solid var(--slate-200);
+    border-radius: var(--radius-md);
+    font-size: 15px;
+    font-weight: 700;
+    font-family: inherit;
+    color: var(--slate-900);
+    background: var(--slate-50);
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+}
+.fc-input-wrap input:focus {
+    border-color: var(--amber);
+    background: #fff;
+    box-shadow: 0 0 0 3px var(--amber-glow);
+}
+.fc-input-unit {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--slate-400);
+    pointer-events: none;
+}
+
+/* Range slider */
+.fc-range-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 6px;
+}
+.fc-range-row input[type="range"] { flex: 1; accent-color: var(--amber); cursor: pointer; }
+.fc-range-label { font-size: 12px; font-weight: 600; color: var(--slate-400); min-width: 42px; text-align: right; white-space: nowrap; }
+
+/* Period buttons */
+.fc-periods {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+}
+.fc-period-btn {
+    padding: 7px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    border: 1.5px solid var(--slate-200);
+    border-radius: var(--radius-md);
+    background: var(--slate-50);
+    color: var(--slate-600);
+    cursor: pointer;
+    transition: all .15s;
+}
+.fc-period-btn:hover { border-color: var(--amber); color: var(--slate-900); }
+.fc-period-btn.fc-active {
+    background: var(--amber);
+    border-color: var(--amber);
+    color: var(--slate-900);
+}
+
+/* --- Result metrics --- */
+.calc-results {
+    background: #fff;
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-xl);
+    padding: 28px 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
+}
+.calc-results-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--slate-400);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 16px;
+}
+
+.fc-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 0;
+}
+@@media (max-width: 640px) { .fc-metrics { grid-template-columns: 1fr 1fr; } }
+
+.fc-metric {
+    padding: 16px;
+    border-radius: var(--radius-lg);
+    background: var(--slate-50);
+    border: 1px solid var(--slate-100);
+}
+.fc-metric.fc-metric-highlight {
+    background: var(--slate-900);
+    border-color: var(--slate-900);
+}
+.fc-metric-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--slate-400);
+    margin-bottom: 6px;
+}
+.fc-metric.fc-metric-highlight .fc-metric-label { color: rgba(255,255,255,.5); }
+.fc-metric-value {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--slate-900);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+.fc-metric.fc-metric-highlight .fc-metric-value { color: var(--amber); font-size: 22px; }
+.fc-metric-sub { font-size: 11px; color: var(--slate-400); margin-top: 3px; }
+.fc-metric.fc-metric-highlight .fc-metric-sub { color: rgba(255,255,255,.4); }
+
+/* --- Chart section --- */
+.calc-chart-section {
+    background: #fff;
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-xl);
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
+}
+.calc-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+.calc-section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--slate-900);
+}
+.fc-tabs { display: flex; gap: 4px; }
+.fc-tab {
+    padding: 5px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    border: 1.5px solid var(--slate-200);
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--slate-400);
+    cursor: pointer;
+    transition: all .15s;
+}
+.fc-tab:hover { color: var(--slate-900); }
+.fc-tab.fc-tab-active { background: var(--slate-900); border-color: var(--slate-900); color: #fff; }
+
+.fc-legend {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+.fc-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--slate-500);
+}
+.fc-legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+/* --- Payment table --- */
+.fc-table-wrap {
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+.fc-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+.fc-table thead th {
+    background: var(--slate-50);
+    padding: 10px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--slate-400);
+    border-bottom: 1px solid var(--slate-200);
+    white-space: nowrap;
+}
+.fc-table tbody td { padding: 8px 14px; border-bottom: 1px solid var(--slate-100); color: var(--slate-700); vertical-align: middle; }
+.fc-table tbody tr:last-child td { border-bottom: none; }
+.fc-table tbody tr:hover td { background: var(--slate-50); }
+.fc-td-date { color: var(--slate-400) !important; white-space: nowrap; }
+.fc-td-principal { color: #1a5fb4 !important; }
+.fc-td-interest  { color: #c0392b !important; }
+
+.fc-prog-wrap {
+    height: 3px;
+    background: rgba(26,95,180,0.1);
+    border-radius: 2px;
+    margin-top: 4px;
+    overflow: hidden;
+}
+.fc-prog-bar {
+    height: 100%;
+    background: #1a5fb4;
+    border-radius: 2px;
+    transition: width .3s;
+}
+
+.fc-table-scroll { max-height: 400px; overflow-y: auto; }
+
+/* Donut section */
+.fc-donut-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: center;
+}
+@@media (max-width: 640px) { .fc-donut-grid { grid-template-columns: 1fr; } }
+</style>
+}
+
+<!-- HERO -->
+<div class="calc-page-hero">
+    <div class="container">
+        <h1>Кредитный <span>калькулятор</span></h1>
+        <p>Рассчитайте ежемесячный платёж и посмотрите полный график погашения по месяцам.</p>
+    </div>
+</div>
+
+<!-- BODY -->
+<div class="calc-body">
+    <div class="container">
+
+        <div id="full-calculator">
+            <div class="calc-layout">
+
+                <!-- ===== LEFT: INPUT PANEL ===== -->
+                <div>
+                    <div class="calc-panel">
+                        <div class="calc-panel-title">⚙️ Параметры кредита</div>
+
+                        <!-- Price -->
+                        <div class="fc-field">
+                            <label class="fc-label">Стоимость автомобиля</label>
+                            <div class="fc-input-wrap">
+                                <input type="text" id="fc-price" value="3 000 000" autocomplete="off" />
+                                <span class="fc-input-unit">₸</span>
+                            </div>
+                            <div class="fc-range-row">
+                                <input type="range" id="fc-price-range" min="500000" max="50000000" step="100000" value="3000000" />
+                                <span class="fc-range-label">50M</span>
+                            </div>
+                        </div>
+
+                        <!-- Down payment -->
+                        <div class="fc-field">
+                            <label class="fc-label">Первоначальный взнос</label>
+                            <div class="fc-input-wrap">
+                                <input type="text" id="fc-down" value="600 000" autocomplete="off" />
+                                <span class="fc-input-unit">₸</span>
+                            </div>
+                            <div class="fc-range-row">
+                                <input type="range" id="fc-down-range" min="0" max="80" step="1" value="20" />
+                                <span class="fc-range-label" id="fc-down-pct-label">20%</span>
+                            </div>
+                        </div>
+
+                        <!-- Rate -->
+                        <div class="fc-field">
+                            <label class="fc-label">Годовая ставка</label>
+                            <div class="fc-input-wrap">
+                                <input type="number" id="fc-rate" value="@defaultRate" min="1" max="60" step="0.5" />
+                                <span class="fc-input-unit">%</span>
+                            </div>
+                            <div class="fc-range-row">
+                                <input type="range" id="fc-rate-range" min="1" max="60" step="0.5" value="@defaultRate" />
+                                <span class="fc-range-label" id="fc-rate-label">@defaultRate%</span>
+                            </div>
+                        </div>
+
+                        <!-- Period -->
+                        <div class="fc-field">
+                            <label class="fc-label">Срок кредита</label>
+                            <div class="fc-periods">
+                                <button class="fc-period-btn" data-months="12">12 мес</button>
+                                <button class="fc-period-btn" data-months="24">24 мес</button>
+                                <button class="fc-period-btn fc-active" data-months="36">36 мес</button>
+                                <button class="fc-period-btn" data-months="48">48 мес</button>
+                                <button class="fc-period-btn" data-months="60">60 мес</button>
+                                <button class="fc-period-btn" data-months="84">84 мес</button>
+                            </div>
+                        </div>
+
+                        <!-- Insurance -->
+                        <div class="fc-field" style="margin-bottom:0">
+                            <label class="fc-label">КАСКО / доп. услуги <small style="font-weight:400;text-transform:none;letter-spacing:0">(включается в кредит)</small></label>
+                            <div class="fc-input-wrap">
+                                <input type="text" id="fc-insurance" value="0" autocomplete="off" />
+                                <span class="fc-input-unit">₸</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== RIGHT: RESULTS ===== -->
+                <div>
+                    <!-- Metrics -->
+                    <div class="calc-results">
+                        <div class="calc-results-title">Результат расчёта</div>
+                        <div class="fc-metrics">
+                            <div class="fc-metric fc-metric-highlight" style="grid-column: span 1">
+                                <div class="fc-metric-label">Ежемесячный платёж</div>
+                                <div class="fc-metric-value" id="fc-monthly">—</div>
+                                <div class="fc-metric-sub">аннуитетный</div>
+                            </div>
+                            <div class="fc-metric">
+                                <div class="fc-metric-label">Сумма кредита</div>
+                                <div class="fc-metric-value" id="fc-loan-amt">—</div>
+                                <div class="fc-metric-sub" id="fc-down-pct">взнос —%</div>
+                            </div>
+                            <div class="fc-metric">
+                                <div class="fc-metric-label">Переплата</div>
+                                <div class="fc-metric-value" id="fc-overpay">—</div>
+                                <div class="fc-metric-sub" id="fc-overpay-pct">— от суммы</div>
+                            </div>
+                        </div>
+                        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--slate-100);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+                            <span style="font-size:13px;color:var(--slate-400);font-weight:500;">Всего выплат:</span>
+                            <span style="font-size:16px;font-weight:800;color:var(--slate-900)" id="fc-total">—</span>
+                        </div>
+                        <p style="font-size:11px;color:var(--slate-400);margin-top:10px;font-style:italic">* Расчёт носит информационный характер. Точные условия уточняйте в банке.</p>
+                    </div>
+
+                    <!-- Chart / Table tabs -->
+                    <div class="calc-chart-section">
+                        <div class="calc-section-header">
+                            <div class="calc-section-title">Структура платежей</div>
+                            <div class="fc-tabs">
+                                <button class="fc-tab fc-tab-active" id="fc-tab-chart">График</button>
+                                <button class="fc-tab" id="fc-tab-table">Таблица</button>
+                            </div>
+                        </div>
+
+                        <!-- Chart view -->
+                        <div id="fc-view-chart">
+                            <div class="fc-legend">
+                                <div class="fc-legend-item"><div class="fc-legend-dot" style="background:#1a5fb4"></div>Основной долг</div>
+                                <div class="fc-legend-item"><div class="fc-legend-dot" style="background:#c0392b"></div>Проценты</div>
+                                <div class="fc-legend-item"><div class="fc-legend-dot" style="background:#27ae60;border-radius:50%"></div>Остаток долга</div>
+                            </div>
+                            <div style="position:relative;width:100%;height:280px;">
+                                <canvas id="fc-bar-chart" role="img" aria-label="График платежей по кредиту">Загрузка...</canvas>
+                            </div>
+                        </div>
+
+                        <!-- Table view -->
+                        <div id="fc-view-table" style="display:none;">
+                            <div class="fc-table-wrap">
+                                <div class="fc-table-scroll">
+                                    <table class="fc-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Дата</th>
+                                                <th class="text-end">Платёж</th>
+                                                <th class="text-end">Осн. долг</th>
+                                                <th class="text-end">Проценты</th>
+                                                <th class="text-end">Остаток</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="fc-sched-body">
+                                            <tr><td colspan="5" class="text-center" style="padding:20px;color:var(--slate-400)">Загрузка...</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Donut -->
+                    <div class="calc-chart-section">
+                        <div class="calc-section-title" style="margin-bottom:16px">Соотношение долга и переплаты</div>
+                        <div class="fc-donut-grid">
+                            <div style="position:relative;height:160px;">
+                                <canvas id="fc-donut-chart" role="img" aria-label="Соотношение тела кредита и переплаты">Загрузка...</canvas>
+                            </div>
+                            <div>
+                                <div style="display:flex;flex-direction:column;gap:12px;">
+                                    <div>
+                                        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--slate-400);font-weight:600;margin-bottom:4px">Тело кредита</div>
+                                        <div style="font-size:20px;font-weight:800;color:#1a5fb4" id="fc-loan-amt2">—</div>
+                                    </div>
+                                    <div>
+                                        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--slate-400);font-weight:600;margin-bottom:4px">Переплата</div>
+                                        <div style="font-size:20px;font-weight:800;color:#c0392b" id="fc-overpay2">—</div>
+                                    </div>
+                                    <div>
+                                        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--slate-400);font-weight:600;margin-bottom:4px">Итого выплат</div>
+                                        <div style="font-size:20px;font-weight:800;color:var(--slate-900)" id="fc-total2">—</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+    // Sync down range label
+    var downRange = document.getElementById('fc-down-range');
+    var downLabel = document.getElementById('fc-down-pct-label');
+    if (downRange && downLabel) {
+        downRange.addEventListener('input', function() {
+            downLabel.textContent = downRange.value + '%';
+        });
+    }
+    var rateRange2 = document.getElementById('fc-rate-range');
+    var rateLabel2 = document.getElementById('fc-rate-label');
+    if (rateRange2 && rateLabel2) {
+        rateRange2.addEventListener('input', function() {
+            rateLabel2.textContent = parseFloat(rateRange2.value).toFixed(1) + '%';
+        });
+    }
+
+    // Extra donut metric mirrors
+    var origRenderMetrics = null;
+    document.addEventListener('DOMContentLoaded', function() {
+        // hook into calculator after it initialises
+    });
+</script>
+<script src="~/js/calculator.js" asp-append-version="true"></script>
+<script>
+    // Patch to also update secondary metric displays
+    (function() {
+        var origFetch = window.fetch;
+        // Mirror fc-loan-amt -> fc-loan-amt2, etc. after any update
+        var observer = new MutationObserver(function() {
+            var a = document.getElementById('fc-loan-amt');
+            var b = document.getElementById('fc-loan-amt2');
+            if (a && b && b.textContent !== a.textContent) b.textContent = a.textContent;
+
+            var c = document.getElementById('fc-overpay');
+            var d = document.getElementById('fc-overpay2');
+            if (c && d && d.textContent !== c.textContent) d.textContent = c.textContent;
+
+            var e = document.getElementById('fc-total');
+            var f = document.getElementById('fc-total2');
+            if (e && f && f.textContent !== e.textContent) f.textContent = e.textContent;
+        });
+        var targets = ['fc-loan-amt','fc-overpay','fc-total'].map(function(id) {
+            return document.getElementById(id);
+        }).filter(Boolean);
+        targets.forEach(function(t) { observer.observe(t, { childList: true, characterData: true, subtree: true }); });
+    })();
+</script>
+}

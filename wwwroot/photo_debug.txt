@@ -1,0 +1,234 @@
+=== SavePhotosAsync called at 5/3/2026 1:46:37 PM for carId=5 ===
+uploadsPath=C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\5
+Files count: 1
+  File: Без названия.jpg, Size: 73748, ContentType: image/jpeg
+  Saving to: C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\5\74a0842eaf874fa1b7bba4b95743e803.webp
+  Image loaded: 666x500
+  Saved to disk OK
+  Added to DB context
+SaveChangesAsync OK, saved 1 photos
+=== SavePhotosAsync called at 5/3/2026 1:49:59 PM for carId=22 ===
+uploadsPath=C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\22
+Files count: 1
+  File: 456x342 (1).webp, Size: 40476, ContentType: image/webp
+  Saving to: C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\22\c146f4cb624c4f248d95bb12058579de.webp
+  Image loaded: 456x342
+  Saved to disk OK
+  Added to DB context
+SaveChangesAsync OK, saved 1 photos
+=== SavePhotosAsync called at 5/3/2026 1:51:03 PM for carId=10 ===
+uploadsPath=C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\10
+Files count: 1
+  File: 456x342 (2).webp, Size: 25090, ContentType: image/webp
+  Saving to: C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\10\43a91ffbf5d846819cc0e66946abf0ca.webp
+  Image loaded: 456x342
+  Saved to disk OK
+  Added to DB context
+SaveChangesAsync OK, saved 1 photos
+=== SavePhotosAsync called at 5/3/2026 1:52:08 PM for carId=27 ===
+uploadsPath=C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\27
+Files count: 1
+  File: images.jpg, Size: 10066, ContentType: image/jpeg
+  Saving to: C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\27\640aa315d09647f591adbed660b0f171.webp
+  Image loaded: 284x177
+  Saved to disk OK
+  Added to DB context
+SaveChangesAsync OK, saved 1 photos
+=== SavePhotosAsync called at 5/3/2026 1:52:47 PM for carId=14 ===
+uploadsPath=C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\14
+Files count: 1
+  File: img-6688-1404x1112.jpg, Size: 336167, ContentType: image/jpeg
+  Saving to: C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\14\1e6a03b678014f7188401e78fe02bee8.webp
+  Image loaded: 1404x1112
+  Saved to disk OK
+  Added to DB context
+SaveChangesAsync OK, saved 1 photos
+=== SavePhotosAsync called at 5/3/2026 1:53:24 PM for carId=21 ===
+uploadsPath=C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\21
+Files count: 1
+  File: 456x342 (3).webp, Size: 30524, ContentType: image/webp
+  Saving to: C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\21\83ffd2d9ec0e4826b89ba653d077b131.webp
+  Image loaded: 456x342
+  Saved to disk OK
+  Added to DB context
+SaveChangesAsync OK, saved 1 photos
+=== SavePhotosAsync called at 5/3/2026 1:54:04 PM for carId=9 ===
+uploadsPath=C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\9
+Files count: 1
+  File: toyota-rav4.webp, Size: 245242, ContentType: image/webp
+  Saving to: C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\9\ac8bc7c4207e490bbaabaa6980342234.webp
+  Image loaded: 1944x924
+  Saved to disk OK
+  Added to DB context
+SaveChangesAsync OK, saved 1 photos
+=== SavePhotosAsync called at 5/3/2026 1:54:54 PM for carId=23 ===
+uploadsPath=C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\23
+Files count: 1
+  File: chery_tiggo_7_pro_max_1110763.jpg, Size: 187452, ContentType: image/jpeg
+  Saving to: C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\23\fcd37929b6314ead81c2807d04631320.webp
+  Image loaded: 1024x768
+  Saved to disk OK
+  Added to DB context
+SaveChangesAsync OK, saved 1 photos
+=== SavePhotosAsync called at 5/3/2026 1:55:26 PM for carId=6 ===
+uploadsPath=C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\6
+Files count: 1
+  File: images (1).jpg, Size: 8227, ContentType: image/jpeg
+  Saving to: C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\6\e3339239b8ab4d4b8ce1f669d4c6e40b.webp
+  Image loaded: 259x194
+  Saved to disk OK
+  Added to DB context
+SaveChangesAsync OK, saved 1 photos
+=== SavePhotosAsync called at 5/3/2026 1:55:58 PM for carId=28 ===
+uploadsPath=C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\28
+Files count: 1
+  File: ceb62e6796faba6dfcfe6e1e7065fb44.png, Size: 1611593, ContentType: image/png
+  Saving to: C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\28\24d36520b1944afea191fbc8c4b60f39.webp
+  Image loaded: 1110x832
+  Saved to disk OK
+  Added to DB context
+SaveChangesAsync OK, saved 1 photos
+=== SavePhotosAsync called at 5/3/2026 1:56:37 PM for carId=20 ===
+uploadsPath=C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\20
+Files count: 1
+  File: null_4806b5f3-8f61-4f9e-9df6-b2bde343db5a_L_blur_blur_resolution1920x1230.webp, Size: 586902, ContentType: image/webp
+  Saving to: C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\20\7e547e42031f4cacae6c35b6fd7b82f1.webp
+  Image loaded: 1920x1230
+  Saved to disk OK
+  Added to DB context
+SaveChangesAsync OK, saved 1 photos
+=== SavePhotosAsync called at 5/3/2026 1:57:09 PM for carId=8 ===
+uploadsPath=C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\8
+Files count: 1
+  File: images (2).jpg, Size: 8461, ContentType: image/jpeg
+  Saving to: C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\8\8c9368f321e64086bbbfa47ee6012b59.webp
+  Image loaded: 259x194
+  Saved to disk OK
+  Added to DB context
+SaveChangesAsync OK, saved 1 photos
+=== SavePhotosAsync called at 5/3/2026 1:57:38 PM for carId=26 ===
+uploadsPath=C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\26
+Files count: 1
+  File: 456x342 (4).webp, Size: 42982, ContentType: image/webp
+  Saving to: C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\26\d7de585f9c3041ab977dbe6c5df87e24.webp
+  Image loaded: 456x342
+  Saved to disk OK
+  Added to DB context
+SaveChangesAsync OK, saved 1 photos
+=== SavePhotosAsync called at 5/3/2026 1:58:29 PM for carId=2 ===
+uploadsPath=C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\2
+Files count: 1
+  File: hyundai_tucson__582935217m.jpg, Size: 22405, ContentType: image/jpeg
+  Saving to: C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\2\91d3a99f87574187b4dd87caf809c447.webp
+  Image loaded: 380x250
+  Saved to disk OK
+  Added to DB context
+SaveChangesAsync OK, saved 1 photos
+=== SavePhotosAsync called at 5/3/2026 1:59:05 PM for carId=30 ===
+uploadsPath=C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\30
+Files count: 1
+  File: 456x342 (5).webp, Size: 19246, ContentType: image/webp
+  Saving to: C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\30\b59f047b8b714374922a77d0804afcca.webp
+  Image loaded: 456x342
+  Saved to disk OK
+  Added to DB context
+SaveChangesAsync OK, saved 1 photos
+=== SavePhotosAsync called at 5/3/2026 1:59:37 PM for carId=7 ===
+uploadsPath=C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\7
+Files count: 1
+  File: 456x342 (6).webp, Size: 49560, ContentType: image/webp
+  Saving to: C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\7\42d0644059604b989049fc055053c41e.webp
+  Image loaded: 456x342
+  Saved to disk OK
+  Added to DB context
+SaveChangesAsync OK, saved 1 photos
+=== SavePhotosAsync called at 5/3/2026 2:00:16 PM for carId=25 ===
+uploadsPath=C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\25
+Files count: 1
+  File: 456x342 (7).webp, Size: 18560, ContentType: image/webp
+  Saving to: C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\25\35ac8927d2814bc2b723581587e83ea8.webp
+  Image loaded: 456x342
+  Saved to disk OK
+  Added to DB context
+SaveChangesAsync OK, saved 1 photos
+=== SavePhotosAsync called at 5/3/2026 2:00:51 PM for carId=11 ===
+uploadsPath=C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\11
+Files count: 1
+  File: 1-440x330.webp, Size: 18616, ContentType: image/webp
+  Saving to: C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\11\30dfb50e139e4ac5bf568e22544206a5.webp
+  Image loaded: 440x330
+  Saved to disk OK
+  Added to DB context
+SaveChangesAsync OK, saved 1 photos
+=== SavePhotosAsync called at 5/3/2026 2:01:20 PM for carId=1 ===
+uploadsPath=C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\1
+Files count: 1
+  File: c846049_46adfe5c-a577-46af-9729-58829d858f4b_L_blur_resolution1920x1920.webp, Size: 398720, ContentType: image/webp
+  Saving to: C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\1\8d5c6b050e374b498964a99d01105f34.webp
+  Image loaded: 1920x1920
+  Saved to disk OK
+  Added to DB context
+SaveChangesAsync OK, saved 1 photos
+=== SavePhotosAsync called at 5/3/2026 2:01:50 PM for carId=29 ===
+uploadsPath=C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\29
+Files count: 1
+  File: 20241120014248-c7092251-aa51-45bc-9312-df5f47751264.webp, Size: 31564, ContentType: image/webp
+  Saving to: C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\29\6e053114c703449a97b6a8b30eba952b.webp
+  Image loaded: 640x480
+  Saved to disk OK
+  Added to DB context
+SaveChangesAsync OK, saved 1 photos
+=== SavePhotosAsync called at 5/3/2026 2:02:23 PM for carId=15 ===
+uploadsPath=C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\15
+Files count: 1
+  File: images (3).jpg, Size: 10441, ContentType: image/jpeg
+  Saving to: C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\15\99f653e942eb400fbd4d2ecce0328052.webp
+  Image loaded: 275x183
+  Saved to disk OK
+  Added to DB context
+SaveChangesAsync OK, saved 1 photos
+=== SavePhotosAsync called at 5/3/2026 2:02:53 PM for carId=12 ===
+uploadsPath=C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\12
+Files count: 1
+  File: h938157_b9f53b25-c3d5-42ab-8a89-56e3aed31c71_L_blur_resolution1920x1920.webp, Size: 67800, ContentType: image/webp
+  Saving to: C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\12\650b85cf17604431aa6f8e1e437d6b48.webp
+  Image loaded: 1920x1920
+  Saved to disk OK
+  Added to DB context
+SaveChangesAsync OK, saved 1 photos
+=== SavePhotosAsync called at 5/3/2026 2:03:32 PM for carId=18 ===
+uploadsPath=C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\18
+Files count: 1
+  File: gen1200.jpg, Size: 172694, ContentType: image/jpeg
+  Saving to: C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\18\abd7294f64264960bef9fe2173a33558.webp
+  Image loaded: 1200x900
+  Saved to disk OK
+  Added to DB context
+SaveChangesAsync OK, saved 1 photos
+=== SavePhotosAsync called at 5/3/2026 2:04:11 PM for carId=13 ===
+uploadsPath=C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\13
+Files count: 1
+  File: 456x342 (8).webp, Size: 49080, ContentType: image/webp
+  Saving to: C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\13\56de023a427742b295dbb5779016dbc2.webp
+  Image loaded: 456x342
+  Saved to disk OK
+  Added to DB context
+SaveChangesAsync OK, saved 1 photos
+=== SavePhotosAsync called at 5/3/2026 2:05:40 PM for carId=16 ===
+uploadsPath=C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\16
+Files count: 1
+  File: hq720.jpg, Size: 34779, ContentType: image/jpeg
+  Saving to: C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\16\4b2faa53c95444109d72e4569739fc9f.webp
+  Image loaded: 686x386
+  Saved to disk OK
+  Added to DB context
+SaveChangesAsync OK, saved 1 photos
+=== SavePhotosAsync called at 5/3/2026 2:06:27 PM for carId=4 ===
+uploadsPath=C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\4
+Files count: 1
+  File: 20241029071716-2715abb9-c47e-4e4c-b80f-2c06f9e0fe23.jpg, Size: 115383, ContentType: image/jpeg
+  Saving to: C:\Users\Бакдаулет\source\repos\AutoSalon\wwwroot\uploads\4\c9496c3d7fe84aad9dcd10364c83b04e.webp
+  Image loaded: 1600x1200
+  Saved to disk OK
+  Added to DB context
+SaveChangesAsync OK, saved 1 photos

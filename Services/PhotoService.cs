@@ -12,7 +12,7 @@ public class PhotoService : IPhotoService
     private readonly AppDbContext _db;
     private readonly IWebHostEnvironment _env;
     private const int MaxWidth = 1200;
-    private const long MaxFileSize = 10 * 1024 * 1024; // 10 МБ
+    private const long MaxFileSize = 10 * 1024 * 1024;
 
     public PhotoService(AppDbContext db, IWebHostEnvironment env)
     {
@@ -22,32 +22,37 @@ public class PhotoService : IPhotoService
 
     public async Task<List<CarPhoto>> SavePhotosAsync(IEnumerable<IFormFile> files, int carId)
     {
+        var logPath = Path.Combine(_env.WebRootPath, "photo_debug.txt");
+        var log = new System.Text.StringBuilder();
+        log.AppendLine($"=== SavePhotosAsync called at {DateTime.Now} for carId={carId} ===");
+
         var uploadsPath = Path.Combine(_env.WebRootPath, "uploads", carId.ToString());
+        log.AppendLine($"uploadsPath={uploadsPath}");
         Directory.CreateDirectory(uploadsPath);
 
         var existingCount = await _db.CarPhotos.CountAsync(p => p.CarId == carId);
         var result = new List<CarPhoto>();
         var sortOrder = existingCount;
 
-        var allowedTypes = new[] { "image/jpeg", "image/jpg", "image/png", "image/webp", "image/gif" };
+        var filesList = files.ToList();
+        log.AppendLine($"Files count: {filesList.Count}");
 
-        foreach (var file in files)
+        foreach (var file in filesList)
         {
-            if (file.Length == 0) continue;
+            log.AppendLine($"  File: {file.FileName}, Size: {file.Length}, ContentType: {file.ContentType}");
 
-            // Проверка размера файла
-            if (file.Length > MaxFileSize) continue;
-
-            // Проверка MIME-типа
-            if (!allowedTypes.Contains(file.ContentType.ToLower())) continue;
+            if (file.Length == 0) { log.AppendLine("  SKIP: empty"); continue; }
+            if (file.Length > MaxFileSize) { log.AppendLine("  SKIP: too large"); continue; }
 
             try
             {
                 var fileName = $"{Guid.NewGuid():N}.webp";
                 var filePath = Path.Combine(uploadsPath, fileName);
+                log.AppendLine($"  Saving to: {filePath}");
 
                 using var stream = file.OpenReadStream();
                 using var image = await Image.LoadAsync(stream);
+                log.AppendLine($"  Image loaded: {image.Width}x{image.Height}");
 
                 if (image.Width > MaxWidth)
                     image.Mutate(x => x.Resize(new ResizeOptions
@@ -57,6 +62,7 @@ public class PhotoService : IPhotoService
                     }));
 
                 await image.SaveAsync(filePath, new WebpEncoder { Quality = 82 });
+                log.AppendLine($"  Saved to disk OK");
 
                 var photo = new CarPhoto
                 {
@@ -68,18 +74,27 @@ public class PhotoService : IPhotoService
 
                 _db.CarPhotos.Add(photo);
                 result.Add(photo);
+                log.AppendLine($"  Added to DB context");
             }
-            catch (UnknownImageFormatException)
+            catch (Exception ex)
             {
-                continue;
-            }
-            catch (Exception)
-            {
-                continue;
+                log.AppendLine($"  ERROR: {ex.GetType().Name}: {ex.Message}");
+                log.AppendLine($"  INNER: {ex.InnerException?.Message}");
+                log.AppendLine($"  STACK: {ex.StackTrace}");
             }
         }
 
-        await _db.SaveChangesAsync();
+        try
+        {
+            await _db.SaveChangesAsync();
+            log.AppendLine($"SaveChangesAsync OK, saved {result.Count} photos");
+        }
+        catch (Exception ex)
+        {
+            log.AppendLine($"SaveChangesAsync ERROR: {ex.Message}");
+        }
+
+        await File.AppendAllTextAsync(logPath, log.ToString());
         return result;
     }
 

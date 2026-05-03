@@ -44,11 +44,11 @@ public class AdminCarViewModel
     public bool HasWarranty { get; set; }
     public bool HasExchange { get; set; }
 
-    [Range(1, 3650)]
+    [Range(0, 3650)]  // исправлено с 1 на 0
     public int? WarrantyDays { get; set; }
 
     [MaxLength(500)]
-    public string? HistoryReportUrl { get; set; } // убран [Url]
+    public string? HistoryReportUrl { get; set; }
 
     public List<IFormFile> Photos { get; set; } = new();
     public List<CarPhoto> ExistingPhotos { get; set; } = new();

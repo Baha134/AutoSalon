@@ -56,6 +56,7 @@ public class CarsAdminController : Controller
     {
         ModelState.Remove("Photos");
         ModelState.Remove("ExistingPhotos");
+        ModelState.Remove("WarrantyDays");
 
         if (!ModelState.IsValid)
             return View("~/Areas/Admin/Views/CarsAdmin/Create.cshtml", vm);
@@ -64,11 +65,23 @@ public class CarsAdminController : Controller
         var id = await _cars.CreateAsync(car);
 
         if (vm.Photos != null && vm.Photos.Count > 0)
-            await _photos.SavePhotosAsync(vm.Photos, id);
+        {
+            try
+            {
+                var saved = await _photos.SavePhotosAsync(vm.Photos, id);
+                TempData["Success"] = $"Автомобиль добавлен. Фото: {saved.Count}";
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = $"Авто добавлен, но ошибка фото: {ex.Message}";
+            }
+        }
+        else
+        {
+            TempData["Success"] = "Автомобиль добавлен (без фото)";
+        }
 
         await SaveBadgeAsync(id, vm);
-
-        TempData["Success"] = "Автомобиль добавлен";
         return RedirectToAction("Index");
     }
 
@@ -89,6 +102,7 @@ public class CarsAdminController : Controller
     {
         ModelState.Remove("Photos");
         ModelState.Remove("ExistingPhotos");
+        ModelState.Remove("WarrantyDays");
 
         if (!ModelState.IsValid)
         {
@@ -105,11 +119,23 @@ public class CarsAdminController : Controller
         await _cars.UpdateAsync(car);
 
         if (vm.Photos != null && vm.Photos.Count > 0)
-            await _photos.SavePhotosAsync(vm.Photos, id);
+        {
+            try
+            {
+                var saved = await _photos.SavePhotosAsync(vm.Photos, id);
+                TempData["Success"] = $"Сохранено фото: {saved.Count}";
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = $"Ошибка фото: {ex.Message}";
+            }
+        }
+        else
+        {
+            TempData["Success"] = "Изменения сохранены";
+        }
 
         await SaveBadgeAsync(id, vm);
-
-        TempData["Success"] = "Изменения сохранены";
         return RedirectToAction("Index");
     }
 
@@ -146,8 +172,6 @@ public class CarsAdminController : Controller
         await _photos.ReorderAsync(id, orderedIds);
         return Ok();
     }
-
-    // ─── helpers ────────────────────────────────────────────────────────────
 
     private async Task SaveBadgeAsync(int carId, AdminCarViewModel vm)
     {

@@ -1,6 +1,7 @@
 using AutoSalon.Data;
 using AutoSalon.Middleware;
 using AutoSalon.Services;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,16 @@ using Microsoft.Extensions.Localization;
 using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Лимит загрузки файлов — 100 МБ
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.Limits.MaxRequestBodySize = 100 * 1024 * 1024;
+});
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 100 * 1024 * 1024;
+});
 
 // БД
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -26,14 +37,17 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<AppDbContext>();
 
-// ===== ЛОКАЛИЗАЦИЯ =====
-
-
 // MVC
 builder.Services.AddControllersWithViews()
     .AddViewLocalization()
     .AddDataAnnotationsLocalization();
 builder.Services.AddRazorPages();
+
+// Антифоргери — чтобы AJAX-запросы работали с заголовком RequestVerificationToken
+builder.Services.AddAntiforgery(options =>
+{
+    options.HeaderName = "RequestVerificationToken";
+});
 
 // Кеш
 builder.Services.AddMemoryCache();
@@ -78,7 +92,6 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
         new AcceptLanguageHeaderRequestCultureProvider()
     };
 });
-// =======================
 
 var app = builder.Build();
 

@@ -12,5 +12,6 @@ public interface ILeadService
     Task<int> GetFailedNotifyCountAsync();
     Task<List<Lead>> GetRecentAsync(int count);
     Task UpdateStatusAsync(int id, LeadStatus status);
+    Task UpdateNoteAsync(int id, string? note);
     Task MarkNotifyFailedAsync(int id);
 }

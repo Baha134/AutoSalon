@@ -30,11 +30,20 @@ public class LeadsAdminController : Controller
     }
 
     [HttpPost("{id:int}/status")]
-    [ValidateAntiForgeryToken]
+    [IgnoreAntiforgeryToken]
     public async Task<IActionResult> UpdateStatus(int id, LeadStatus status)
     {
         await _leads.UpdateStatusAsync(id, status);
         TempData["Success"] = "Статус обновлён";
+        return RedirectToAction("Detail", new { id });
+    }
+
+    [HttpPost("{id:int}/note")]
+    [IgnoreAntiforgeryToken]
+    public async Task<IActionResult> UpdateNote(int id, string? note)
+    {
+        await _leads.UpdateNoteAsync(id, note);
+        TempData["Success"] = "Комментарий сохранён";
         return RedirectToAction("Detail", new { id });
     }
 }

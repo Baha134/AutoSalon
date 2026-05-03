@@ -28,7 +28,6 @@ public class LeadService : ILeadService
             .OrderByDescending(l => l.CreatedAt)
             .ToListAsync();
 
-    // Только COUNT — без загрузки всех записей
     public async Task<int> GetCountAsync() =>
         await _db.Leads.CountAsync();
 
@@ -38,7 +37,6 @@ public class LeadService : ILeadService
     public async Task<int> GetFailedNotifyCountAsync() =>
         await _db.Leads.CountAsync(l => l.NotifyFailed);
 
-    // Только последние N заявок с Include
     public async Task<List<Lead>> GetRecentAsync(int count) =>
         await _db.Leads
             .Include(l => l.Car)
@@ -52,6 +50,16 @@ public class LeadService : ILeadService
         if (lead != null)
         {
             lead.Status = status;
+            await _db.SaveChangesAsync();
+        }
+    }
+
+    public async Task UpdateNoteAsync(int id, string? note)
+    {
+        var lead = await _db.Leads.FindAsync(id);
+        if (lead != null)
+        {
+            lead.AdminNote = note;
             await _db.SaveChangesAsync();
         }
     }

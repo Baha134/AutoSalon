@@ -276,4 +276,67 @@
 <data name="Error_Sub" xml:space="preserve"><value>Мүмкін ол жойылған немесе сіз қате сілтемеге өттіңіз.</value></data>
 <data name="Error_Home" xml:space="preserve"><value>Басты бетке</value></data>
 <data name="Error_Catalog" xml:space="preserve"><value>Авто каталогы</value></data>
+<data name="About_Title" xml:space="preserve"><value>Салон туралы</value></data>
+<data name="About_Subtitle" xml:space="preserve"><value>Біз арман автомобилін табуға көмектесеміз — жылдам, адал және қиындықсыз. Кең таңдау, мөлдір бағалар және әр клиентке кәсіби көзқарас.</value></data>
+<data name="About_Stat_Cars" xml:space="preserve"><value>Автомобиль сатылды</value></data>
+<data name="About_Stat_Years" xml:space="preserve"><value>Нарықта</value></data>
+<data name="About_Stat_Clients" xml:space="preserve"><value>Қанағаттанған клиент</value></data>
+<data name="About_Stat_Legal" xml:space="preserve"><value>Заңды мәмілелер</value></data>
+<data name="About_Company_Title" xml:space="preserve"><value>🏢 Компания туралы</value></data>
+<data name="About_Company_Text" xml:space="preserve"><value>— Қазақстандағы заманауи автомобиль сату алаңы. Біз тексерілген сатушылармен жұмыс істейміз және толық қызмет тарихы бар сапалы автомобильдер ұсынамыз.</value></data>
+<data name="About_F1_Title" xml:space="preserve"><value>Ресми кепілдік</value></data>
+<data name="About_F1_Text" xml:space="preserve"><value>Барлық автомобильдер толық тексеруден өтеді және өндіруші кепілдігі бар.</value></data>
+<data name="About_F2_Title" xml:space="preserve"><value>Заңдық тазалық</value></data>
+<data name="About_F2_Text" xml:space="preserve"><value>Әр автомобильді барлық деректер базасы бойынша тексереміз. Жасырын мәселелер жоқ.</value></data>
+<data name="About_F3_Title" xml:space="preserve"><value>0.1%-дан кредит</value></data>
+<data name="About_F3_Text" xml:space="preserve"><value>Жетекші банктермен серіктестік. Салонда 30 минутта мақұлдау.</value></data>
+<data name="About_F4_Title" xml:space="preserve"><value>Трейд-ин</value></data>
+<data name="About_F4_Text" xml:space="preserve"><value>Көлігіңізді жаңасына айырбастаңыз. Бір сапарда бағалау және рәсімдеу.</value></data>
+<data name="About_F5_Title" xml:space="preserve"><value>Авто салыстыру</value></data>
+<data name="About_F5_Text" xml:space="preserve"><value>3 автомобильді негізгі сипаттамалары бойынша бір мезгілде салыстырыңыз.</value></data>
+<data name="About_F6_Title" xml:space="preserve"><value>Үш тіл</value></data>
+<data name="About_F6_Text" xml:space="preserve"><value>Сайт орыс, қазақ және ағылшын тілдерінде қолжетімді.</value></data>
+<data name="About_Phone" xml:space="preserve"><value>Телефон</value></data>
+<data name="About_Email" xml:space="preserve"><value>Email</value></data>
+<data name="About_Address" xml:space="preserve"><value>Мекенжай</value></data>
+<data name="About_Hours" xml:space="preserve"><value>Жұмыс уақыты</value></data>
+<data name="About_Hours_Default" xml:space="preserve"><value>Дс–Жм: 9:00–20:00, Сб–Жк: 10:00–18:00</value></data>
+<data name="About_CTA_Title" xml:space="preserve"><value>Автомобиліңізді табуға дайынсыз ба?</value></data>
+<data name="About_CTA_Text" xml:space="preserve"><value>Каталогты шолып, жүздеген ұсыныстардан таңдаңыз. Мамандарымыз таңдауда көмектеседі.</value></data>
+<data name="About_CTA_Btn" xml:space="preserve"><value>Каталогқа өту →</value></data>
+<data name="Calc_Title" xml:space="preserve"><value>Кредит калькуляторы</value></data>
+<data name="Calc_Subtitle" xml:space="preserve"><value>Ай сайынғы төлемді есептеп, айлар бойынша толық өтеу кестесін қараңыз.</value></data>
+<data name="Calc_Panel_Title" xml:space="preserve"><value>⚙ Кредит параметрлері</value></data>
+<data name="Calc_CarPrice" xml:space="preserve"><value>Автомобиль құны</value></data>
+<data name="Calc_DownPayment" xml:space="preserve"><value>Бастапқы жарна</value></data>
+<data name="Calc_Rate" xml:space="preserve"><value>Жылдық мөлшерлеме</value></data>
+<data name="Calc_Term" xml:space="preserve"><value>Кредит мерзімі</value></data>
+<data name="Calc_Insurance" xml:space="preserve"><value>КАСКО / қосымша қызметтер</value></data>
+<data name="Calc_Insurance_Sub" xml:space="preserve"><value>(кредитке қосылады)</value></data>
+<data name="Calc_Result_Title" xml:space="preserve"><value>Есептеу нәтижесі</value></data>
+<data name="Calc_Monthly" xml:space="preserve"><value>Ай сайынғы төлем</value></data>
+<data name="Calc_Annuity" xml:space="preserve"><value>аннуитеттік</value></data>
+<data name="Calc_LoanAmt" xml:space="preserve"><value>Кредит сомасы</value></data>
+<data name="Calc_Overpay" xml:space="preserve"><value>Артық төлем</value></data>
+<data name="Calc_Total" xml:space="preserve"><value>Барлық төлемдер:</value></data>
+<data name="Calc_Disclaimer" xml:space="preserve"><value>* Есептеу ақпараттық сипатта. Нақты шарттарды банкте нақтылаңыз.</value></data>
+<data name="Calc_Chart_Title" xml:space="preserve"><value>Төлем құрылымы</value></data>
+<data name="Calc_Tab_Chart" xml:space="preserve"><value>График</value></data>
+<data name="Calc_Tab_Table" xml:space="preserve"><value>Кесте</value></data>
+<data name="Calc_Legend_Principal" xml:space="preserve"><value>Негізгі қарыз</value></data>
+<data name="Calc_Legend_Interest" xml:space="preserve"><value>Пайыздар</value></data>
+<data name="Calc_Legend_Balance" xml:space="preserve"><value>Қарыз қалдығы</value></data>
+<data name="Calc_Table_Date" xml:space="preserve"><value>Күні</value></data>
+<data name="Calc_Table_Payment" xml:space="preserve"><value>Төлем</value></data>
+<data name="Calc_Table_Principal" xml:space="preserve"><value>Нег. қарыз</value></data>
+<data name="Calc_Table_Interest" xml:space="preserve"><value>Пайыздар</value></data>
+<data name="Calc_Table_Balance" xml:space="preserve"><value>Қалдық</value></data>
+<data name="Calc_Donut_Title" xml:space="preserve"><value>Қарыз және артық төлем арақатынасы</value></data>
+<data name="Calc_Body_Principal" xml:space="preserve"><value>Кредит денесі</value></data>
+<data name="Calc_Months_Suffix" xml:space="preserve"><value>ай</value></data>
+<data name="About_Stat_Years_Label" xml:space="preserve"><value>Нарықта</value></data>
+<data name="Calc_Title_Part1" xml:space="preserve"><value>Кредит</value></data>
+<data name="Calc_Title_Part2" xml:space="preserve"><value>калькуляторы</value></data>
+<data name="Calc_OfAmount" xml:space="preserve"><value>сомадан</value></data>
+<data name="Calc_Loading" xml:space="preserve"><value>Жүктелуде...</value></data>
 </root>

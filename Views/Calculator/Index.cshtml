@@ -1,8 +1,10 @@
 @using AutoSalon.Models
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<AutoSalon.Resources.SharedResource> L
 @model SalonSettings
 @{
-    ViewData["Title"] = "Кредитный калькулятор";
-    ViewData["Description"] = "Рассчитайте ежемесячный платёж по автокредиту онлайн. График погашения с разбивкой по месяцам.";
+    ViewData["Title"] = L["Calc_Title"].ToString();
+    ViewData["Description"] = L["Calc_Subtitle"].ToString();
     var defaultRate = Model?.CreditRate ?? 18m;
 }
 
@@ -306,8 +308,8 @@
 <!-- HERO -->
 <div class="calc-page-hero">
     <div class="container">
-        <h1>Кредитный <span>калькулятор</span></h1>
-        <p>Рассчитайте ежемесячный платёж и посмотрите полный график погашения по месяцам.</p>
+        <h1>@L["Calc_Title_Part1"] <span>@L["Calc_Title_Part2"]</span></h1>
+        <p>@L["Calc_Subtitle"]</p>
     </div>
 </div>
 
@@ -321,11 +323,11 @@
                 <!-- ===== LEFT: INPUT PANEL ===== -->
                 <div>
                     <div class="calc-panel">
-                        <div class="calc-panel-title">⚙️ Параметры кредита</div>
+                        <div class="calc-panel-title">@L["Calc_Panel_Title"]</div>
 
                         <!-- Price -->
                         <div class="fc-field">
-                            <label class="fc-label">Стоимость автомобиля</label>
+                            <label class="fc-label">@L["Calc_CarPrice"]</label>
                             <div class="fc-input-wrap">
                                 <input type="text" id="fc-price" value="3 000 000" autocomplete="off" />
                                 <span class="fc-input-unit">₸</span>
@@ -338,7 +340,7 @@
 
                         <!-- Down payment -->
                         <div class="fc-field">
-                            <label class="fc-label">Первоначальный взнос</label>
+                            <label class="fc-label">@L["Calc_DownPayment"]</label>
                             <div class="fc-input-wrap">
                                 <input type="text" id="fc-down" value="600 000" autocomplete="off" />
                                 <span class="fc-input-unit">₸</span>
@@ -351,7 +353,7 @@
 
                         <!-- Rate -->
                         <div class="fc-field">
-                            <label class="fc-label">Годовая ставка</label>
+                            <label class="fc-label">@L["Calc_Rate"]</label>
                             <div class="fc-input-wrap">
                                 <input type="number" id="fc-rate" value="@defaultRate" min="1" max="60" step="0.5" />
                                 <span class="fc-input-unit">%</span>
@@ -364,20 +366,20 @@
 
                         <!-- Period -->
                         <div class="fc-field">
-                            <label class="fc-label">Срок кредита</label>
+                            <label class="fc-label">@L["Calc_Term"]</label>
                             <div class="fc-periods">
-                                <button class="fc-period-btn" data-months="12">12 мес</button>
-                                <button class="fc-period-btn" data-months="24">24 мес</button>
-                                <button class="fc-period-btn fc-active" data-months="36">36 мес</button>
-                                <button class="fc-period-btn" data-months="48">48 мес</button>
-                                <button class="fc-period-btn" data-months="60">60 мес</button>
-                                <button class="fc-period-btn" data-months="84">84 мес</button>
+                                <button class="fc-period-btn" data-months="12">12 @L["Calc_Months_Suffix"]</button>
+                                <button class="fc-period-btn" data-months="24">24 @L["Calc_Months_Suffix"]</button>
+                                <button class="fc-period-btn fc-active" data-months="36">36 @L["Calc_Months_Suffix"]</button>
+                                <button class="fc-period-btn" data-months="48">48 @L["Calc_Months_Suffix"]</button>
+                                <button class="fc-period-btn" data-months="60">60 @L["Calc_Months_Suffix"]</button>
+                                <button class="fc-period-btn" data-months="84">84 @L["Calc_Months_Suffix"]</button>
                             </div>
                         </div>
 
                         <!-- Insurance -->
                         <div class="fc-field" style="margin-bottom:0">
-                            <label class="fc-label">КАСКО / доп. услуги <small style="font-weight:400;text-transform:none;letter-spacing:0">(включается в кредит)</small></label>
+                            <label class="fc-label">@L["Calc_Insurance"] <small style="font-weight:400;text-transform:none;letter-spacing:0">@L["Calc_Insurance_Sub"]</small></label>
                             <div class="fc-input-wrap">
                                 <input type="text" id="fc-insurance" value="0" autocomplete="off" />
                                 <span class="fc-input-unit">₸</span>
@@ -390,50 +392,50 @@
                 <div>
                     <!-- Metrics -->
                     <div class="calc-results">
-                        <div class="calc-results-title">Результат расчёта</div>
+                        <div class="calc-results-title">@L["Calc_Result_Title"]</div>
                         <div class="fc-metrics">
                             <div class="fc-metric fc-metric-highlight" style="grid-column: span 1">
-                                <div class="fc-metric-label">Ежемесячный платёж</div>
+                                <div class="fc-metric-label">@L["Calc_Monthly"]</div>
                                 <div class="fc-metric-value" id="fc-monthly">—</div>
-                                <div class="fc-metric-sub">аннуитетный</div>
+                                <div class="fc-metric-sub">@L["Calc_Annuity"]</div>
                             </div>
                             <div class="fc-metric">
-                                <div class="fc-metric-label">Сумма кредита</div>
+                                <div class="fc-metric-label">@L["Calc_LoanAmt"]</div>
                                 <div class="fc-metric-value" id="fc-loan-amt">—</div>
-                                <div class="fc-metric-sub" id="fc-down-pct">взнос —%</div>
+                                <div class="fc-metric-sub" id="fc-down-pct">@L["Calc_DownPayment"] —%</div>
                             </div>
                             <div class="fc-metric">
-                                <div class="fc-metric-label">Переплата</div>
+                                <div class="fc-metric-label">@L["Calc_Overpay"]</div>
                                 <div class="fc-metric-value" id="fc-overpay">—</div>
-                                <div class="fc-metric-sub" id="fc-overpay-pct">— от суммы</div>
+                                <div class="fc-metric-sub" id="fc-overpay-pct">— @L["Calc_OfAmount"]</div>
                             </div>
                         </div>
                         <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--slate-100);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-                            <span style="font-size:13px;color:var(--slate-400);font-weight:500;">Всего выплат:</span>
+                            <span style="font-size:13px;color:var(--slate-400);font-weight:500;">@L["Calc_Total"]</span>
                             <span style="font-size:16px;font-weight:800;color:var(--slate-900)" id="fc-total">—</span>
                         </div>
-                        <p style="font-size:11px;color:var(--slate-400);margin-top:10px;font-style:italic">* Расчёт носит информационный характер. Точные условия уточняйте в банке.</p>
+                        <p style="font-size:11px;color:var(--slate-400);margin-top:10px;font-style:italic">@L["Calc_Disclaimer"]</p>
                     </div>
 
                     <!-- Chart / Table tabs -->
                     <div class="calc-chart-section">
                         <div class="calc-section-header">
-                            <div class="calc-section-title">Структура платежей</div>
+                            <div class="calc-section-title">@L["Calc_Chart_Title"]</div>
                             <div class="fc-tabs">
-                                <button class="fc-tab fc-tab-active" id="fc-tab-chart">График</button>
-                                <button class="fc-tab" id="fc-tab-table">Таблица</button>
+                                <button class="fc-tab fc-tab-active" id="fc-tab-chart">@L["Calc_Tab_Chart"]</button>
+                                <button class="fc-tab" id="fc-tab-table">@L["Calc_Tab_Table"]</button>
                             </div>
                         </div>
 
                         <!-- Chart view -->
                         <div id="fc-view-chart">
                             <div class="fc-legend">
-                                <div class="fc-legend-item"><div class="fc-legend-dot" style="background:#1a5fb4"></div>Основной долг</div>
-                                <div class="fc-legend-item"><div class="fc-legend-dot" style="background:#c0392b"></div>Проценты</div>
-                                <div class="fc-legend-item"><div class="fc-legend-dot" style="background:#27ae60;border-radius:50%"></div>Остаток долга</div>
+                                <div class="fc-legend-item"><div class="fc-legend-dot" style="background:#1a5fb4"></div>@L["Calc_Legend_Principal"]</div>
+                                <div class="fc-legend-item"><div class="fc-legend-dot" style="background:#c0392b"></div>@L["Calc_Legend_Interest"]</div>
+                                <div class="fc-legend-item"><div class="fc-legend-dot" style="background:#27ae60;border-radius:50%"></div>@L["Calc_Legend_Balance"]</div>
                             </div>
                             <div style="position:relative;width:100%;height:280px;">
-                                <canvas id="fc-bar-chart" role="img" aria-label="График платежей по кредиту">Загрузка...</canvas>
+                                <canvas id="fc-bar-chart" role="img" aria-label="@L["Calc_Chart_Title"]">@L["Calc_Loading"]</canvas>
                             </div>
                         </div>
 
@@ -444,15 +446,15 @@
                                     <table class="fc-table">
                                         <thead>
                                             <tr>
-                                                <th>Дата</th>
-                                                <th class="text-end">Платёж</th>
-                                                <th class="text-end">Осн. долг</th>
-                                                <th class="text-end">Проценты</th>
-                                                <th class="text-end">Остаток</th>
+                                                <th>@L["Calc_Table_Date"]</th>
+                                                <th class="text-end">@L["Calc_Table_Payment"]</th>
+                                                <th class="text-end">@L["Calc_Table_Principal"]</th>
+                                                <th class="text-end">@L["Calc_Table_Interest"]</th>
+                                                <th class="text-end">@L["Calc_Table_Balance"]</th>
                                             </tr>
                                         </thead>
                                         <tbody id="fc-sched-body">
-                                            <tr><td colspan="5" class="text-center" style="padding:20px;color:var(--slate-400)">Загрузка...</td></tr>
+                                            <tr><td colspan="5" class="text-center" style="padding:20px;color:var(--slate-400)">@L["Calc_Loading"]</td></tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -462,23 +464,23 @@
 
                     <!-- Donut -->
                     <div class="calc-chart-section">
-                        <div class="calc-section-title" style="margin-bottom:16px">Соотношение долга и переплаты</div>
+                        <div class="calc-section-title" style="margin-bottom:16px">@L["Calc_Donut_Title"]</div>
                         <div class="fc-donut-grid">
                             <div style="position:relative;height:160px;">
-                                <canvas id="fc-donut-chart" role="img" aria-label="Соотношение тела кредита и переплаты">Загрузка...</canvas>
+                                <canvas id="fc-donut-chart" role="img" aria-label="@L["Calc_Donut_Title"]">@L["Calc_Loading"]</canvas>
                             </div>
                             <div>
                                 <div style="display:flex;flex-direction:column;gap:12px;">
                                     <div>
-                                        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--slate-400);font-weight:600;margin-bottom:4px">Тело кредита</div>
+                                        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--slate-400);font-weight:600;margin-bottom:4px">@L["Calc_Body_Principal"]</div>
                                         <div style="font-size:20px;font-weight:800;color:#1a5fb4" id="fc-loan-amt2">—</div>
                                     </div>
                                     <div>
-                                        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--slate-400);font-weight:600;margin-bottom:4px">Переплата</div>
+                                        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--slate-400);font-weight:600;margin-bottom:4px">@L["Calc_Overpay"]</div>
                                         <div style="font-size:20px;font-weight:800;color:#c0392b" id="fc-overpay2">—</div>
                                     </div>
                                     <div>
-                                        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--slate-400);font-weight:600;margin-bottom:4px">Итого выплат</div>
+                                        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--slate-400);font-weight:600;margin-bottom:4px">@L["Calc_Total"]</div>
                                         <div style="font-size:20px;font-weight:800;color:var(--slate-900)" id="fc-total2">—</div>
                                     </div>
                                 </div>
@@ -495,7 +497,6 @@
 @section Scripts {
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
-    // Sync down range label
     var downRange = document.getElementById('fc-down-range');
     var downLabel = document.getElementById('fc-down-pct-label');
     if (downRange && downLabel) {
@@ -510,19 +511,10 @@
             rateLabel2.textContent = parseFloat(rateRange2.value).toFixed(1) + '%';
         });
     }
-
-    // Extra donut metric mirrors
-    var origRenderMetrics = null;
-    document.addEventListener('DOMContentLoaded', function() {
-        // hook into calculator after it initialises
-    });
 </script>
 <script src="~/js/calculator.js" asp-append-version="true"></script>
 <script>
-    // Patch to also update secondary metric displays
     (function() {
-        var origFetch = window.fetch;
-        // Mirror fc-loan-amt -> fc-loan-amt2, etc. after any update
         var observer = new MutationObserver(function() {
             var a = document.getElementById('fc-loan-amt');
             var b = document.getElementById('fc-loan-amt2');

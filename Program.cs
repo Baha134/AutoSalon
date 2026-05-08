@@ -37,6 +37,9 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<AppDbContext>();
 
+// Локализация
+builder.Services.AddLocalization();
+
 // MVC
 builder.Services.AddControllersWithViews()
     .AddViewLocalization()

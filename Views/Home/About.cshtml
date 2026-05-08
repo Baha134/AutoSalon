@@ -1,6 +1,8 @@
 @model AutoSalon.Models.SalonSettings
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<AutoSalon.Resources.SharedResource> L
 @{
-    ViewData["Title"] = "О нас";
+    ViewData["Title"] = L["About_Title"].ToString();
 }
 
 <style>
@@ -149,39 +151,33 @@
 <div class="about-page">
 
     <div class="about-hero">
-        <h1>О салоне <span>@(Model?.SalonName ?? "АвтоСалон")</span></h1>
-        <p>
-            Мы помогаем найти автомобиль мечты — быстро, честно и без лишних хлопот.
-            Широкий выбор, прозрачные цены и профессиональный подход к каждому клиенту.
-        </p>
+        <h1>@L["About_Title"] <span>@(Model?.SalonName ?? "АвтоСалон")</span></h1>
+        <p>@L["About_Subtitle"]</p>
     </div>
 
     <div class="about-stats">
         <div class="stat-card">
             <div class="stat-num">500+</div>
-            <div class="stat-label">Автомобилей продано</div>
+            <div class="stat-label">@L["About_Stat_Cars"]</div>
         </div>
         <div class="stat-card">
-            <div class="stat-num">12 лет</div>
-            <div class="stat-label">На рынке</div>
+            <div class="stat-num">12 @L["About_Stat_Years"]</div>
+            <div class="stat-label">@L["About_Stat_Years_Label"]</div>
         </div>
         <div class="stat-card">
             <div class="stat-num">8 000+</div>
-            <div class="stat-label">Довольных клиентов</div>
+            <div class="stat-label">@L["About_Stat_Clients"]</div>
         </div>
         <div class="stat-card">
             <div class="stat-num">100%</div>
-            <div class="stat-label">Легальных сделок</div>
+            <div class="stat-label">@L["About_Stat_Legal"]</div>
         </div>
     </div>
 
     <div class="about-section">
-        <h2>🏢 О компании</h2>
+        <h2>@L["About_Company_Title"]</h2>
         <p>
-            @(Model?.SalonName ?? "АвтоСалон") — современная площадка по продаже автомобилей в Казахстане.
-            Мы работаем с проверенными продавцами и предлагаем только качественные автомобили
-            с полной историей обслуживания. Наша цель — сделать покупку автомобиля простой,
-            прозрачной и приятной для каждого клиента.
+            @(Model?.SalonName ?? "АвтоСалон") @L["About_Company_Text"]
         </p>
     </div>
 
@@ -189,43 +185,43 @@
         <div class="feature-card">
             <div class="feature-icon">🛡</div>
             <div class="feature-text">
-                <h3>Официальная гарантия</h3>
-                <p>Все автомобили проходят полную проверку и имеют официальную гарантию производителя.</p>
+                <h3>@L["About_F1_Title"]</h3>
+                <p>@L["About_F1_Text"]</p>
             </div>
         </div>
         <div class="feature-card">
             <div class="feature-icon">📄</div>
             <div class="feature-text">
-                <h3>Юридическая чистота</h3>
-                <p>Проверяем каждый автомобиль по всем базам данных. Никаких скрытых проблем.</p>
+                <h3>@L["About_F2_Title"]</h3>
+                <p>@L["About_F2_Text"]</p>
             </div>
         </div>
         <div class="feature-card">
             <div class="feature-icon">💳</div>
             <div class="feature-text">
-                <h3>Кредит от 0.1%</h3>
-                <p>Партнёрство с ведущими банками. Одобрение за 30 минут прямо в салоне.</p>
+                <h3>@L["About_F3_Title"]</h3>
+                <p>@L["About_F3_Text"]</p>
             </div>
         </div>
         <div class="feature-card">
             <div class="feature-icon">🔄</div>
             <div class="feature-text">
-                <h3>Трейд-ин</h3>
-                <p>Обменяйте ваш автомобиль на новый. Оценка и оформление за один визит.</p>
+                <h3>@L["About_F4_Title"]</h3>
+                <p>@L["About_F4_Text"]</p>
             </div>
         </div>
         <div class="feature-card">
             <div class="feature-icon">⚖️</div>
             <div class="feature-text">
-                <h3>Сравнение авто</h3>
-                <p>Сравнивайте до 3 автомобилей одновременно по всем ключевым характеристикам.</p>
+                <h3>@L["About_F5_Title"]</h3>
+                <p>@L["About_F5_Text"]</p>
             </div>
         </div>
         <div class="feature-card">
             <div class="feature-icon">🌐</div>
             <div class="feature-text">
-                <h3>Три языка</h3>
-                <p>Сайт доступен на русском, казахском и английском языках.</p>
+                <h3>@L["About_F6_Title"]</h3>
+                <p>@L["About_F6_Text"]</p>
             </div>
         </div>
     </div>
@@ -237,7 +233,7 @@
             <div class="contact-card">
                 <div class="contact-icon">📞</div>
                 <div>
-                    <div class="contact-label">Телефон</div>
+                    <div class="contact-label">@L["About_Phone"]</div>
                     <div class="contact-value">
                         <a href="tel:@Model.Phone">@Model.Phone</a>
                     </div>
@@ -249,7 +245,7 @@
             <div class="contact-card">
                 <div class="contact-icon">✉️</div>
                 <div>
-                    <div class="contact-label">Email</div>
+                    <div class="contact-label">@L["About_Email"]</div>
                     <div class="contact-value">
                         <a href="mailto:@Model.Email">@Model.Email</a>
                     </div>
@@ -261,7 +257,7 @@
             <div class="contact-card">
                 <div class="contact-icon">📍</div>
                 <div>
-                    <div class="contact-label">Адрес</div>
+                    <div class="contact-label">@L["About_Address"]</div>
                     <div class="contact-value">@Model.Address</div>
                 </div>
             </div>
@@ -271,7 +267,7 @@
             <div class="contact-card">
                 <div class="contact-icon">⏰</div>
                 <div>
-                    <div class="contact-label">Режим работы</div>
+                    <div class="contact-label">@L["About_Hours"]</div>
                     <div class="contact-value">@Model.WorkingHours</div>
                 </div>
             </div>
@@ -281,17 +277,17 @@
             <div class="contact-card">
                 <div class="contact-icon">⏰</div>
                 <div>
-                    <div class="contact-label">Режим работы</div>
-                    <div class="contact-value">Пн–Пт: 9:00–20:00<br>Сб–Вс: 10:00–18:00</div>
+                    <div class="contact-label">@L["About_Hours"]</div>
+                    <div class="contact-value">@L["About_Hours_Default"]</div>
                 </div>
             </div>
         }
     </div>
 
     <div class="about-cta">
-        <h2>Готовы найти свой автомобиль?</h2>
-        <p>Просмотрите каталог и выберите из сотен предложений.<br>Наши специалисты помогут с выбором.</p>
-        <a href="/catalog" class="btn-gold">Перейти в каталог →</a>
+        <h2>@L["About_CTA_Title"]</h2>
+        <p>@L["About_CTA_Text"]</p>
+        <a href="/catalog" class="btn-gold">@L["About_CTA_Btn"]</a>
     </div>
 
 </div>

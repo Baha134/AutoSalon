@@ -276,4 +276,67 @@
 <data name="Error_Sub" xml:space="preserve"><value>It may have been deleted or you followed an incorrect link.</value></data>
 <data name="Error_Home" xml:space="preserve"><value>Go to home</value></data>
 <data name="Error_Catalog" xml:space="preserve"><value>Car catalog</value></data>
+<data name="About_Title" xml:space="preserve"><value>About the salon</value></data>
+<data name="About_Subtitle" xml:space="preserve"><value>We help you find the car of your dreams — quickly, honestly and without hassle. Wide selection, transparent prices and a professional approach to every client.</value></data>
+<data name="About_Stat_Cars" xml:space="preserve"><value>Cars sold</value></data>
+<data name="About_Stat_Years" xml:space="preserve"><value>On the market</value></data>
+<data name="About_Stat_Clients" xml:space="preserve"><value>Happy clients</value></data>
+<data name="About_Stat_Legal" xml:space="preserve"><value>Legal deals</value></data>
+<data name="About_Company_Title" xml:space="preserve"><value>🏢 About the company</value></data>
+<data name="About_Company_Text" xml:space="preserve"><value>— a modern car sales platform in Kazakhstan. We work with verified sellers and offer only quality cars with a full service history.</value></data>
+<data name="About_F1_Title" xml:space="preserve"><value>Official warranty</value></data>
+<data name="About_F1_Text" xml:space="preserve"><value>All cars undergo a full inspection and have an official manufacturer's warranty.</value></data>
+<data name="About_F2_Title" xml:space="preserve"><value>Legal purity</value></data>
+<data name="About_F2_Text" xml:space="preserve"><value>We check every car against all databases. No hidden problems.</value></data>
+<data name="About_F3_Title" xml:space="preserve"><value>Credit from 0.1%</value></data>
+<data name="About_F3_Text" xml:space="preserve"><value>Partnership with leading banks. Approval in 30 minutes right in the showroom.</value></data>
+<data name="About_F4_Title" xml:space="preserve"><value>Trade-in</value></data>
+<data name="About_F4_Text" xml:space="preserve"><value>Exchange your car for a new one. Valuation and processing in one visit.</value></data>
+<data name="About_F5_Title" xml:space="preserve"><value>Car comparison</value></data>
+<data name="About_F5_Text" xml:space="preserve"><value>Compare up to 3 cars simultaneously by all key specifications.</value></data>
+<data name="About_F6_Title" xml:space="preserve"><value>Three languages</value></data>
+<data name="About_F6_Text" xml:space="preserve"><value>The site is available in Russian, Kazakh and English.</value></data>
+<data name="About_Phone" xml:space="preserve"><value>Phone</value></data>
+<data name="About_Email" xml:space="preserve"><value>Email</value></data>
+<data name="About_Address" xml:space="preserve"><value>Address</value></data>
+<data name="About_Hours" xml:space="preserve"><value>Working hours</value></data>
+<data name="About_Hours_Default" xml:space="preserve"><value>Mon–Fri: 9:00–20:00, Sat–Sun: 10:00–18:00</value></data>
+<data name="About_CTA_Title" xml:space="preserve"><value>Ready to find your car?</value></data>
+<data name="About_CTA_Text" xml:space="preserve"><value>Browse the catalog and choose from hundreds of offers. Our specialists will help you choose.</value></data>
+<data name="About_CTA_Btn" xml:space="preserve"><value>Go to catalog →</value></data>
+<data name="Calc_Title" xml:space="preserve"><value>Loan Calculator</value></data>
+<data name="Calc_Subtitle" xml:space="preserve"><value>Calculate your monthly payment and view the full repayment schedule by month.</value></data>
+<data name="Calc_Panel_Title" xml:space="preserve"><value>⚙ Loan parameters</value></data>
+<data name="Calc_CarPrice" xml:space="preserve"><value>Car price</value></data>
+<data name="Calc_DownPayment" xml:space="preserve"><value>Down payment</value></data>
+<data name="Calc_Rate" xml:space="preserve"><value>Annual rate</value></data>
+<data name="Calc_Term" xml:space="preserve"><value>Loan term</value></data>
+<data name="Calc_Insurance" xml:space="preserve"><value>Insurance / add-ons</value></data>
+<data name="Calc_Insurance_Sub" xml:space="preserve"><value>(included in loan)</value></data>
+<data name="Calc_Result_Title" xml:space="preserve"><value>Calculation result</value></data>
+<data name="Calc_Monthly" xml:space="preserve"><value>Monthly payment</value></data>
+<data name="Calc_Annuity" xml:space="preserve"><value>annuity</value></data>
+<data name="Calc_LoanAmt" xml:space="preserve"><value>Loan amount</value></data>
+<data name="Calc_Overpay" xml:space="preserve"><value>Overpayment</value></data>
+<data name="Calc_Total" xml:space="preserve"><value>Total payments:</value></data>
+<data name="Calc_Disclaimer" xml:space="preserve"><value>* This calculation is for informational purposes. Confirm exact terms with your bank.</value></data>
+<data name="Calc_Chart_Title" xml:space="preserve"><value>Payment structure</value></data>
+<data name="Calc_Tab_Chart" xml:space="preserve"><value>Chart</value></data>
+<data name="Calc_Tab_Table" xml:space="preserve"><value>Table</value></data>
+<data name="Calc_Legend_Principal" xml:space="preserve"><value>Principal</value></data>
+<data name="Calc_Legend_Interest" xml:space="preserve"><value>Interest</value></data>
+<data name="Calc_Legend_Balance" xml:space="preserve"><value>Remaining balance</value></data>
+<data name="Calc_Table_Date" xml:space="preserve"><value>Date</value></data>
+<data name="Calc_Table_Payment" xml:space="preserve"><value>Payment</value></data>
+<data name="Calc_Table_Principal" xml:space="preserve"><value>Principal</value></data>
+<data name="Calc_Table_Interest" xml:space="preserve"><value>Interest</value></data>
+<data name="Calc_Table_Balance" xml:space="preserve"><value>Balance</value></data>
+<data name="Calc_Donut_Title" xml:space="preserve"><value>Principal vs overpayment ratio</value></data>
+<data name="Calc_Body_Principal" xml:space="preserve"><value>Loan body</value></data>
+<data name="Calc_Months_Suffix" xml:space="preserve"><value>mo.</value></data>
+<data name="About_Stat_Years_Label" xml:space="preserve"><value>On the market</value></data>
+<data name="Calc_Title_Part1" xml:space="preserve"><value>Loan</value></data>
+<data name="Calc_Title_Part2" xml:space="preserve"><value>Calculator</value></data>
+<data name="Calc_OfAmount" xml:space="preserve"><value>of amount</value></data>
+<data name="Calc_Loading" xml:space="preserve"><value>Loading...</value></data>
 </root>

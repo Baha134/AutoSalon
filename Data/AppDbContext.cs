@@ -30,5 +30,31 @@ public class AppDbContext : IdentityDbContext
         builder.Entity<SalonSettings>()
             .Property(s => s.CreditRate)
             .HasPrecision(5, 2);
+
+        // Индексы для таблицы Cars
+        builder.Entity<Car>()
+            .HasIndex(c => new { c.IsActive, c.Status })
+            .HasDatabaseName("IX_Cars_IsActive_Status");
+
+        builder.Entity<Car>()
+            .HasIndex(c => c.CreatedAt)
+            .HasDatabaseName("IX_Cars_CreatedAt");
+
+        builder.Entity<Car>()
+            .HasIndex(c => c.Brand)
+            .HasDatabaseName("IX_Cars_Brand");
+
+        builder.Entity<Car>()
+            .HasIndex(c => c.Price)
+            .HasDatabaseName("IX_Cars_Price");
+
+        builder.Entity<Car>()
+            .HasIndex(c => c.Year)
+            .HasDatabaseName("IX_Cars_Year");
+
+        builder.Entity<Car>()
+            .HasIndex(c => c.Slug)
+            .IsUnique()
+            .HasDatabaseName("IX_Cars_Slug_Unique");
     }
 }

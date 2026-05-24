@@ -54,11 +54,11 @@ public class CarService : ICarService
 
         if (!string.IsNullOrWhiteSpace(filter.Search) && filter.Search.Length >= 2)
         {
-            var term = filter.Search.Trim().ToLower();
+            var term = $"%{filter.Search.Trim()}%";
             q = q.Where(c =>
-                c.Brand.ToLower().Contains(term) ||
-                c.Model.ToLower().Contains(term) ||
-                (c.Description != null && c.Description.ToLower().Contains(term)));
+                EF.Functions.Like(c.Brand, term) ||
+                EF.Functions.Like(c.Model, term) ||
+                (c.Description != null && EF.Functions.Like(c.Description, term)));
         }
 
         if (filter.Status.HasValue)
@@ -133,16 +133,16 @@ public class CarService : ICarService
     /// </summary>
     public async Task<List<Car>> SearchAsync(string query, int limit = 9)
     {
-        var term = query.Trim().ToLower();
+        var term = $"%{query.Trim()}%";
 
         return await _db.Cars
             .Include(c => c.Photos)
             .Where(c =>
                 c.IsActive &&
                 c.Status == CarStatus.Active &&
-                (c.Brand.ToLower().Contains(term) ||
-                 c.Model.ToLower().Contains(term) ||
-                 (c.Brand + " " + c.Model).ToLower().Contains(term)))
+                (EF.Functions.Like(c.Brand, term) ||
+                 EF.Functions.Like(c.Model, term) ||
+                 EF.Functions.Like(c.Brand + " " + c.Model, term)))
             .OrderByDescending(c => c.CreatedAt)
             .Take(limit)
             .ToListAsync();

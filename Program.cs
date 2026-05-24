@@ -24,7 +24,7 @@ builder.Services.Configure<FormOptions>(options =>
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
-// Identity 
+// Identity
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 {
     options.Lockout.AllowedForNewUsers = true;
@@ -128,10 +128,5 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
-app.MapGet("/debug-resx", (IStringLocalizer<AutoSalon.Resources.SharedResource> loc) =>
-{
-    var val = loc["Nav_Catalog"];
-    return $"Value: {val}, NotFound: {val.ResourceNotFound}, SearchedLocation: {val.SearchedLocation}";
-});
 
 app.Run();

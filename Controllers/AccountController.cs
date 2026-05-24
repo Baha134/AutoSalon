@@ -1,42 +1,18 @@
-using AutoSalon.ViewModels;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoSalon.Controllers;
 
+/// <summary>
+/// Публичная регистрация закрыта (задача 2.3).
+/// Вход только через /Identity/Account/Login (стандартный Identity UI).
+/// </summary>
 public class AccountController : Controller
 {
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly SignInManager<IdentityUser> _signInManager;
-
-    public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
-    {
-        _userManager = userManager;
-        _signInManager = signInManager;
-    }
-
-    // GET /account/register
+    // GET /account/register — закрыто
     [HttpGet]
-    public IActionResult Register() => View();
+    public IActionResult Register() => NotFound();
 
-    // POST /account/register
+    // POST /account/register — закрыто
     [HttpPost, ValidateAntiForgeryToken]
-    public async Task<IActionResult> Register(RegisterViewModel vm)
-    {
-        if (!ModelState.IsValid) return View(vm);
-
-        var user = new IdentityUser { UserName = vm.Email, Email = vm.Email, EmailConfirmed = true };
-        var result = await _userManager.CreateAsync(user, vm.Password);
-
-        if (result.Succeeded)
-        {
-            await _signInManager.SignInAsync(user, isPersistent: false);
-            return RedirectToAction("Index", "Home");
-        }
-
-        foreach (var error in result.Errors)
-            ModelState.AddModelError("", error.Description);
-
-        return View(vm);
-    }
+    public IActionResult RegisterPost() => NotFound();
 }

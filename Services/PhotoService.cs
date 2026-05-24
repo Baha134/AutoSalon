@@ -12,8 +12,11 @@ public class PhotoService : IPhotoService
     private readonly AppDbContext _db;
     private readonly IWebHostEnvironment _env;
     private const int MaxWidth = 1200;
-    private const long MaxFileSize = 10 * 1024 * 1024; // 10 МБ на один файл
-    private const int MaxPhotosPerCar = 20;             // максимум фото на одну машину
+    private const long MaxFileSize = 10 * 1024 * 1024; // 10 МБ
+    private const int MaxPhotosPerCar = 20;
+
+    // Папка вне wwwroot — недоступна напрямую через HTTP
+    private string UploadsRoot => Path.Combine(_env.ContentRootPath, "App_Data", "uploads");
 
     public PhotoService(AppDbContext db, IWebHostEnvironment env)
     {
@@ -21,55 +24,34 @@ public class PhotoService : IPhotoService
         _env = env;
     }
 
-    // Проверка реального типа файла по первым байтам (magic bytes)
     private static bool IsAllowedImage(IFormFile file)
     {
         using var stream = file.OpenReadStream();
         var header = new byte[4];
         if (stream.Read(header, 0, 4) < 4) return false;
 
-        // JPEG: FF D8 FF
-        if (header[0] == 0xFF && header[1] == 0xD8 && header[2] == 0xFF)
-            return true;
-
-        // PNG: 89 50 4E 47
-        if (header[0] == 0x89 && header[1] == 0x50 && header[2] == 0x4E && header[3] == 0x47)
-            return true;
-
-        // WebP: 52 49 46 46 (RIFF)
-        if (header[0] == 0x52 && header[1] == 0x49 && header[2] == 0x46 && header[3] == 0x46)
-            return true;
-
-        // GIF: 47 49 46 38
-        if (header[0] == 0x47 && header[1] == 0x49 && header[2] == 0x46 && header[3] == 0x38)
-            return true;
+        if (header[0] == 0xFF && header[1] == 0xD8 && header[2] == 0xFF) return true; // JPEG
+        if (header[0] == 0x89 && header[1] == 0x50 && header[2] == 0x4E && header[3] == 0x47) return true; // PNG
+        if (header[0] == 0x52 && header[1] == 0x49 && header[2] == 0x46 && header[3] == 0x46) return true; // WebP
+        if (header[0] == 0x47 && header[1] == 0x49 && header[2] == 0x46 && header[3] == 0x38) return true; // GIF
 
         return false;
     }
 
     public async Task<List<CarPhoto>> SavePhotosAsync(IEnumerable<IFormFile> files, int carId)
     {
-        var uploadsPath = Path.Combine(_env.WebRootPath, "uploads", carId.ToString());
+        var uploadsPath = Path.Combine(UploadsRoot, carId.ToString());
         Directory.CreateDirectory(uploadsPath);
 
         var existingCount = await _db.CarPhotos.CountAsync(p => p.CarId == carId);
         var result = new List<CarPhoto>();
         var sortOrder = existingCount;
 
-        var filesList = files.ToList();
-
-        foreach (var file in filesList)
+        foreach (var file in files.ToList())
         {
-            // Пропускаем пустые файлы
             if (file.Length == 0) continue;
-
-            // Проверка размера
             if (file.Length > MaxFileSize) continue;
-
-            // Проверка лимита фото на машину
             if (existingCount + result.Count >= MaxPhotosPerCar) break;
-
-            // Проверка реального типа файла по magic bytes
             if (!IsAllowedImage(file)) continue;
 
             try
@@ -100,9 +82,8 @@ public class PhotoService : IPhotoService
                 _db.CarPhotos.Add(photo);
                 result.Add(photo);
             }
-            catch (Exception)
+            catch
             {
-                // Если файл не является валидным изображением — пропускаем
                 continue;
             }
         }
@@ -116,7 +97,10 @@ public class PhotoService : IPhotoService
         var photo = await _db.CarPhotos.FindAsync(photoId);
         if (photo == null) return;
 
-        var fullPath = Path.Combine(_env.WebRootPath, photo.FilePath.TrimStart('/'));
+        // Удаляем физический файл из новой папки
+        var relativePath = photo.FilePath.TrimStart('/'); // "uploads/5/abc.webp"
+        var fullPath = Path.Combine(UploadsRoot,
+            relativePath.Replace("uploads/", "").Replace("uploads\\", ""));
         if (File.Exists(fullPath)) File.Delete(fullPath);
 
         _db.CarPhotos.Remove(photo);

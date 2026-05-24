@@ -10,117 +10,44 @@
 
     <div class="row g-4">
         <div class="col-lg-8">
-            <div class="card border-0 shadow-sm p-4 mb-4">
-                <h5 class="fw-bold mb-3">Основные данные</h5>
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label">Марка *</label>
-                        <input asp-for="Brand" class="form-control" required />
-                        <span asp-validation-for="Brand" class="text-danger small"></span>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Модель *</label>
-                        <input asp-for="Model" class="form-control" required />
-                        <span asp-validation-for="Model" class="text-danger small"></span>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Год *</label>
-                        <input asp-for="Year" type="number" class="form-control" min="1990" max="@DateTime.Now.Year" required />
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Цена (₸) *</label>
-                        <input asp-for="Price" type="number" class="form-control" min="0" required />
-                        <span asp-validation-for="Price" class="text-danger small"></span>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Пробег (км)</label>
-                        <input asp-for="Mileage" type="number" class="form-control" min="0" />
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Объём (л)</label>
-                        <input asp-for="EngineVolume" type="number" step="0.1" class="form-control" />
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Кузов</label>
-                        <select asp-for="BodyType" class="form-select">
-                            <option value="">—</option>
-                            <option>Седан</option>
-                            <option>Кроссовер</option>
-                            <option>Внедорожник</option>
-                            <option>Хэтчбек</option>
-                            <option>Минивэн</option>
-                            <option>Купе</option>
-                            <option>Пикап</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Коробка</label>
-                        <select asp-for="Transmission" class="form-select">
-                            <option value="">—</option>
-                            <option>Автомат</option>
-                            <option>Механика</option>
-                            <option>Вариатор</option>
-                            <option>Робот</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Привод</label>
-                        <select asp-for="DriveType" class="form-select">
-                            <option value="">—</option>
-                            <option>Передний</option>
-                            <option>Задний</option>
-                            <option>Полный</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Топливо</label>
-                        <select asp-for="FuelType" class="form-select">
-                            <option value="">—</option>
-                            <option>Бензин</option>
-                            <option>Дизель</option>
-                            <option>Гибрид</option>
-                            <option>Электро</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Цвет</label>
-                        <input asp-for="Color" class="form-control" />
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Город</label>
-                        <input asp-for="City" class="form-control" />
-                    </div>
-                    <div class="col-12">
-                        <label class="form-label">Описание</label>
-                        <textarea asp-for="Description" class="form-control" rows="4"></textarea>
-                    </div>
-                </div>
-            </div>
+
+            <partial name="_CarFormFields" model="Model" />
 
             <!-- Существующие фото -->
             @if (Model.ExistingPhotos.Any())
             {
                 <div class="card border-0 shadow-sm p-4 mb-4">
                     <h5 class="fw-bold mb-1">Фотографии</h5>
-                    <p class="text-muted small mb-3">Перетащите для изменения порядка. Первое фото — главное.</p>
+                    <p class="text-muted small mb-3">
+                        Перетащите для изменения порядка. Первое фото — главное.
+                    </p>
                     <div class="photo-grid d-flex flex-wrap gap-2" data-car-id="@Model.Id">
                         @foreach (var photo in Model.ExistingPhotos)
                         {
-                            <div class="photo-item position-relative" data-photo-id="@photo.Id" draggable="true"
-                                 style="width:110px;cursor:grab">
+                            <div class="photo-item position-relative" data-photo-id="@photo.Id"
+                                 draggable="true" style="width:110px;cursor:grab">
                                 <img src="@photo.FilePath"
-                                     style="width:110px;height:80px;object-fit:cover;border-radius:8px;border:@(photo.IsMain ? "2px solid #185FA5" : "2px solid #dee2e6")"
+                                     style="width:110px;height:80px;object-fit:cover;border-radius:8px;
+                                border:@(photo.IsMain ? "2px solid #185FA5" : "2px solid #dee2e6")"
                                      alt="" loading="lazy" />
 
                                 @if (photo.IsMain)
                                 {
-                                    <span style="position:absolute;top:4px;left:4px;background:#185FA5;color:#fff;font-size:9px;padding:2px 6px;border-radius:6px;pointer-events:none">Главное</span>
+                                    <span style="position:absolute;top:4px;left:4px;background:#185FA5;
+                                        color:#fff;font-size:9px;padding:2px 6px;
+                                        border-radius:6px;pointer-events:none">
+                                        Главное
+                                    </span>
                                 }
 
                                 <button type="button"
                                         onclick="delPhoto(@photo.Id, this)"
                                         title="Удалить фото"
-                                        style="position:absolute;top:3px;right:3px;width:22px;height:22px;border-radius:50%;background:rgba(220,53,69,0.85);color:#fff;border:none;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0">
+                                        style="position:absolute;top:3px;right:3px;width:22px;height:22px;
+                                    border-radius:50%;background:rgba(220,53,69,0.85);
+                                    color:#fff;border:none;font-size:13px;line-height:1;
+                                    display:flex;align-items:center;justify-content:center;
+                                    cursor:pointer;padding:0">
                                     ✕
                                 </button>
 
@@ -129,7 +56,10 @@
                                     <button type="button"
                                             onclick="setMain(@photo.Id)"
                                             title="Сделать главным"
-                                            style="position:absolute;bottom:3px;left:3px;right:3px;background:rgba(24,95,165,0.8);color:#fff;border:none;font-size:9px;padding:2px 4px;border-radius:4px;cursor:pointer;text-align:center">
+                                            style="position:absolute;bottom:3px;left:3px;right:3px;
+                                        background:rgba(24,95,165,0.8);color:#fff;border:none;
+                                        font-size:9px;padding:2px 4px;border-radius:4px;
+                                        cursor:pointer;text-align:center">
                                         Сделать главным
                                     </button>
                                 }
@@ -142,58 +72,19 @@
             <!-- Новые фото -->
             <div class="card border-0 shadow-sm p-4">
                 <h5 class="fw-bold mb-2">Добавить фото</h5>
-                <input type="file" name="Photos" class="form-control" multiple accept="image/*" />
+                <input type="file" name="Photos" class="form-control"
+                       multiple accept="image/*" />
             </div>
         </div>
 
-        <!-- Правая колонка -->
         <div class="col-lg-4">
-            <div class="card border-0 shadow-sm p-4 mb-4">
-                <h5 class="fw-bold mb-3">Статус</h5>
-                <div class="mb-3">
-                    <label class="form-label">Статус продажи</label>
-                    <select asp-for="Status" class="form-select">
-                        <option value="0">Активный (продаётся)</option>
-                        <option value="2">Резерв</option>
-                        <option value="1">Продано</option>
-                    </select>
-                </div>
-                <div class="form-check">
-                    <input asp-for="IsActive" class="form-check-input" type="checkbox" />
-                    <label class="form-check-label" asp-for="IsActive">Показывать на сайте</label>
-                </div>
-            </div>
-
-            <div class="card border-0 shadow-sm p-4 mb-4">
-                <h5 class="fw-bold mb-3">Бейджи</h5>
-                <div class="form-check mb-2">
-                    <input asp-for="IsVerified" class="form-check-input" type="checkbox" />
-                    <label class="form-check-label" asp-for="IsVerified">✔ Проверено</label>
-                </div>
-                <div class="form-check mb-2">
-                    <input asp-for="HasWarranty" class="form-check-input" type="checkbox" />
-                    <label class="form-check-label" asp-for="HasWarranty">🛡 Гарантия</label>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label small">Дней гарантии</label>
-                    <input asp-for="WarrantyDays" type="number" class="form-control form-control-sm" />
-                </div>
-                <div class="form-check">
-                    <input asp-for="HasExchange" class="form-check-input" type="checkbox" />
-                    <label class="form-check-label" asp-for="HasExchange">🔄 Обмен</label>
-                </div>
-            </div>
-
-            <div class="card border-0 shadow-sm p-4 mb-4">
-                <h5 class="fw-bold mb-3">📋 История авто</h5>
-                <label class="form-label small">Ссылка на отчёт</label>
-                <input asp-for="HistoryReportUrl" class="form-control" placeholder="https://..." />
-                <span asp-validation-for="HistoryReportUrl" class="text-danger small"></span>
-            </div>
-
-            <div class="d-flex gap-2">
-                <button type="submit" class="btn btn-primary flex-fill">Сохранить</button>
-                <a href="/admin/cars" class="btn btn-outline-secondary">Назад</a>
+            <div class="card border-0 shadow-sm p-4">
+                <button type="submit" class="btn btn-primary w-100 mb-2">
+                    Сохранить
+                </button>
+                <a href="/admin/cars" class="btn btn-outline-secondary w-100">
+                    Назад
+                </a>
             </div>
         </div>
     </div>

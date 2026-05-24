@@ -10,11 +10,13 @@ public class CarService : ICarService
 {
     private readonly AppDbContext _db;
     private readonly IMemoryCache _cache;
+    private readonly IWebHostEnvironment _env;
 
-    public CarService(AppDbContext db, IMemoryCache cache)
+    public CarService(AppDbContext db, IMemoryCache cache, IWebHostEnvironment env)
     {
         _db = db;
         _cache = cache;
+        _env = env;
     }
 
     public async Task<(List<Car> Items, int Total)> GetFilteredAsync(CarFilterViewModel filter)
@@ -128,9 +130,6 @@ public class CarService : ICarService
             .Take(count)
             .ToListAsync();
 
-    /// <summary>
-    /// Быстрый поиск по марке и модели — используется на странице сравнения.
-    /// </summary>
     public async Task<List<Car>> SearchAsync(string query, int limit = 9)
     {
         var term = $"%{query.Trim()}%";
@@ -168,12 +167,21 @@ public class CarService : ICarService
     public async Task DeleteAsync(int id)
     {
         var car = await _db.Cars.FindAsync(id);
-        if (car != null)
+        if (car == null) return;
+
+        // ✅ ЗАДАЧА 2.2: удаляем папку с фото с диска
+        var carFolder = Path.Combine(
+            _env.ContentRootPath, "App_Data", "uploads", id.ToString());
+
+        if (Directory.Exists(carFolder))
         {
-            car.IsActive = false;
-            await _db.SaveChangesAsync();
-            _cache.Remove("brands_list");
+            Directory.Delete(carFolder, recursive: true);
         }
+
+        // Мягкое удаление из БД (IsActive = false)
+        car.IsActive = false;
+        await _db.SaveChangesAsync();
+        _cache.Remove("brands_list");
     }
 
     public async Task IncrementViewAsync(int id)

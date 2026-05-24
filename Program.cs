@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Localization;
 using System.Globalization;
 
@@ -21,9 +22,17 @@ builder.Services.Configure<FormOptions>(options =>
 });
 
 // БД
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+// Читаем connection string: сначала переменная окружения, потом appsettings
+var connectionString =
+    Environment.GetEnvironmentVariable("AUTOSALON_CONNECTION_STRING")
+    ?? builder.Configuration.GetConnectionString("Default")
+    ?? throw new InvalidOperationException(
+        "Connection string не задана. " +
+        "Задай переменную окружения AUTOSALON_CONNECTION_STRING " +
+        "или добавь ConnectionStrings:Default в appsettings.json");
 
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(connectionString));
 // Identity
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 {
@@ -44,9 +53,12 @@ builder.Services.AddLocalization();
 builder.Services.AddControllersWithViews()
     .AddViewLocalization()
     .AddDataAnnotationsLocalization();
-builder.Services.AddRazorPages();
-
-// Антифоргери — чтобы AJAX-запросы работали с заголовком RequestVerificationToken
+builder.Services.AddRazorPages(options =>
+{
+    // Закрываем страницу регистрации — только вход разрешён
+    options.Conventions.AuthorizePage("/Account/Register");
+});
+// Антифоргери
 builder.Services.AddAntiforgery(options =>
 {
     options.HeaderName = "RequestVerificationToken";
@@ -111,7 +123,19 @@ if (!app.Environment.IsDevelopment())
 
 app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
 app.UseHttpsRedirection();
+
+// Статика из wwwroot (css, js, etc.)
 app.UseStaticFiles();
+
+// ✅ ЗАДАЧА 2.1: Фото отдаются из App_Data/uploads — папка вне wwwroot
+var uploadsPhysicalPath = Path.Combine(app.Environment.ContentRootPath, "App_Data", "uploads");
+Directory.CreateDirectory(uploadsPhysicalPath); // создаём при первом запуске
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(uploadsPhysicalPath),
+    RequestPath = "/uploads"
+});
+
 app.UseRequestLocalization();
 app.UseRouting();
 app.UseMiddleware<RateLimitMiddleware>();

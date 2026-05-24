@@ -402,3 +402,6 @@ FodyWeavers.xsd
 
 appsettings.Development.json
 appsettings.Production.json
+
+App_Data/uploads/
+wwwroot/photo_debug.txt

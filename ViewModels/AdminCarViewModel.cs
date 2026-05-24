@@ -26,7 +26,6 @@ public class AdminCarViewModel
     [Range(0, 10_000_000)]
     public int Mileage { get; set; }
 
-    [Range(0, 20)]
     public decimal EngineVolume { get; set; }
 
     [MaxLength(50)] public string BodyType { get; set; } = "";
@@ -44,7 +43,7 @@ public class AdminCarViewModel
     public bool HasWarranty { get; set; }
     public bool HasExchange { get; set; }
 
-    [Range(0, 3650)]  // исправлено с 1 на 0
+    [Range(0, 3650)]
     public int? WarrantyDays { get; set; }
 
     [MaxLength(500)]

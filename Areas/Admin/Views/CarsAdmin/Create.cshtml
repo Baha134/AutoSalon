@@ -4,7 +4,7 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<form method="post" action="/admin/cars/create" enctype="multipart/form-data">
+<form method="post" action="/admin/cars/create" enctype="multipart/form-data" novalidate>
     @Html.AntiForgeryToken()
 
     <div class="row g-4">

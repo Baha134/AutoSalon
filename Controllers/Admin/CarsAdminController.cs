@@ -57,6 +57,7 @@ public class CarsAdminController : Controller
         ModelState.Remove("Photos");
         ModelState.Remove("ExistingPhotos");
         ModelState.Remove("WarrantyDays");
+        ModelState.Remove("EngineVolume");
 
         if (!ModelState.IsValid)
             return View("~/Areas/Admin/Views/CarsAdmin/Create.cshtml", vm);
@@ -103,6 +104,7 @@ public class CarsAdminController : Controller
         ModelState.Remove("Photos");
         ModelState.Remove("ExistingPhotos");
         ModelState.Remove("WarrantyDays");
+        ModelState.Remove("EngineVolume");
 
         if (!ModelState.IsValid)
         {

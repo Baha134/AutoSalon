@@ -38,8 +38,8 @@
 
         <div class="compare-grid" style="border: 1px solid var(--color-border); border-radius: var(--radius-xl); overflow-x: auto;">
             <!-- ШАПКА С МАШИНАМИ -->
-            <div style="display: grid; grid-template-columns: @gridCols; background: var(--color-bg-elevated); border-bottom: 1px solid var(--color-border);">
-                <div style="padding: 20px 16px; font-weight: 700; color: var(--color-accent);">@L["Compare_Spec"]</div>
+            <div style="display: grid; grid-template-columns: @gridCols; background: var(--color-bg-secondary); border-bottom: 1px solid var(--color-border);">
+                <div style="padding: 20px 16px; font-weight: 700; color: var(--color-primary);">@L["Compare_Spec"]</div>
                 @foreach (var car in cars)
                 {
                     <div style="padding: 20px 16px; text-align: center; border-right: 1px solid var(--color-border);">
@@ -54,10 +54,10 @@
                         <div style="font-weight: 700; margin-bottom: 4px;">@car.Brand @car.Model @car.Year</div>
                         <div class="compare-car-price" style="font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; color: var(--color-accent); margin-bottom: 12px;">@car.DisplayPrice</div>
                         <div style="display: flex; flex-direction: column; gap: 8px;">
-                            <a href="/car/@car.Slug" class="btn-card-detail" style="background: var(--color-accent); color: #0A0C12; padding: 8px; border-radius: var(--radius-md); font-weight: 700; text-align: center;">@L["Compare_Details"]</a>
+                            <a href="/car/@car.Slug" class="btn-card-detail" style="background: var(--color-primary); color: white; padding: 8px; border-radius: var(--radius-md); font-weight: 700; text-align: center; text-decoration: none;">@L["Compare_Details"]</a>
                             <form method="post" action="/compare/remove/@car.Id" style="margin: 0;">
                                 @Html.AntiForgeryToken()
-                                <button type="submit" class="btn-remove" style="width: 100%; background: transparent; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 8px; cursor: pointer; transition: var(--transition-fast);">✕ @L["Compare_Remove"]</button>
+                                <button type="submit" class="btn-remove" style="width: 100%; background: transparent; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 8px; cursor: pointer; transition: var(--transition);">✕ @L["Compare_Remove"]</button>
                             </form>
                         </div>
                     </div>
@@ -65,8 +65,8 @@
                 @for (var s = 0; s < slotsNeeded; s++)
                 {
                     <div style="padding: 20px 16px; text-align: center; border-right: 1px solid var(--color-border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;">
-                        <div style="width: 100%; aspect-ratio: 16/9; background: var(--color-bg-secondary); border: 2px dashed var(--color-border); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--color-text-muted);">+</div>
-                        <div style="font-size: 0.85rem; color: var(--color-text-muted);">Добавить авто</div>
+                        <div style="width: 100%; aspect-ratio: 16/9; background: var(--color-bg-secondary); border: 2px dashed var(--color-border); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--color-text-secondary);">+</div>
+                        <div style="font-size: 0.85rem; color: var(--color-text-secondary);">Добавить авто</div>
                     </div>
                 }
             </div>
@@ -76,7 +76,7 @@
                 <div style="padding: 14px 16px; font-weight: 700; background: var(--color-bg-secondary);">@L["Compare_Price"]</div>
                 @foreach (var car in cars)
                 {
-                    <div style="padding: 14px 16px; text-align: center; @(car.Price == minPrice && cars.Count > 1 ? "background: rgba(212,175,55,0.1); color: var(--color-accent); font-weight: 700;" : "")">
+                    <div style="padding: 14px 16px; text-align: center; @(car.Price == minPrice && cars.Count > 1 ? "background: rgba(0,87,184,0.08); color: var(--color-primary); font-weight: 700;" : "")">
                         @car.DisplayPrice @if (car.Price == minPrice && cars.Count > 1) {
                         <span style="margin-left: 6px;">✓</span>
                     }
@@ -84,7 +84,7 @@
             }
             @for (var s = 0; s < slotsNeeded; s++)
             {
-                <div style="padding: 14px 16px; text-align: center; color: var(--color-text-muted);">—</div>
+                <div style="padding: 14px 16px; text-align: center; color: var(--color-text-secondary);">—</div>
             }
         </div>
 
@@ -93,7 +93,7 @@
             <div style="padding: 14px 16px; font-weight: 700; background: var(--color-bg-secondary);">@L["Compare_Year"]</div>
             @foreach (var car in cars)
             {
-                <div style="padding: 14px 16px; text-align: center; @(car.Year == maxYear && cars.Count > 1 ? "background: rgba(212,175,55,0.1); color: var(--color-accent); font-weight: 700;" : "")">
+                <div style="padding: 14px 16px; text-align: center; @(car.Year == maxYear && cars.Count > 1 ? "background: rgba(0,87,184,0.08); color: var(--color-primary); font-weight: 700;" : "")">
                     @car.Year @if (car.Year == maxYear && cars.Count > 1) {
                     <span style="margin-left: 6px;">✓</span>
                 }
@@ -101,7 +101,7 @@
         }
         @for (var s = 0; s < slotsNeeded; s++)
         {
-            <div style="padding: 14px 16px; text-align: center; color: var(--color-text-muted);">—</div>
+            <div style="padding: 14px 16px; text-align: center; color: var(--color-text-secondary);">—</div>
         }
     </div>
 
@@ -110,7 +110,7 @@
         <div style="padding: 14px 16px; font-weight: 700; background: var(--color-bg-secondary);">@L["Compare_Mileage"]</div>
         @foreach (var car in cars)
         {
-            <div style="padding: 14px 16px; text-align: center; @(car.Mileage == minMileage && cars.Count > 1 ? "background: rgba(212,175,55,0.1); color: var(--color-accent); font-weight: 700;" : "")">
+            <div style="padding: 14px 16px; text-align: center; @(car.Mileage == minMileage && cars.Count > 1 ? "background: rgba(0,87,184,0.08); color: var(--color-primary); font-weight: 700;" : "")">
                 @car.DisplayMileage @if (car.Mileage == minMileage && cars.Count > 1) {
                 <span style="margin-left: 6px;">✓</span>
             }
@@ -118,7 +118,7 @@
     }
     @for (var s = 0; s < slotsNeeded; s++)
     {
-        <div style="padding: 14px 16px; text-align: center; color: var(--color-text-muted);">—</div>
+        <div style="padding: 14px 16px; text-align: center; color: var(--color-text-secondary);">—</div>
     }
 </div>
 
@@ -143,13 +143,13 @@
         <div style="padding: 14px 16px; font-weight: 700; background: var(--color-bg-secondary);">@label</div>
         @for (var i = 0; i < cars.Count; i++)
         {
-            <div style="padding: 14px 16px; text-align: center; @(!allSame && cars.Count > 1 ? "background: rgba(212,175,55,0.05);" : "")">
+            <div style="padding: 14px 16px; text-align: center; @(!allSame && cars.Count > 1 ? "background: rgba(0,87,184,0.05);" : "")">
                 @(i < values.Length ? values[i] : "—")
             </div>
         }
         @for (var s = 0; s < slotsNeeded; s++)
         {
-            <div style="padding: 14px 16px; text-align: center; color: var(--color-text-muted);">—</div>
+            <div style="padding: 14px 16px; text-align: center; color: var(--color-text-secondary);">—</div>
         }
     </div>
 }
@@ -157,18 +157,18 @@
 
         @if (cars.Count < 3)
 {
-    <div class="compare-hint" style="background: rgba(212,175,55,0.08); border: 1px solid rgba(212,175,55,0.2); border-radius: var(--radius-md); padding: 16px 20px; margin-top: 28px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+    <div class="compare-hint" style="background: rgba(0,87,184,0.08); border: 1px solid rgba(0,87,184,0.2); border-radius: var(--radius-md); padding: 16px 20px; margin-top: 28px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
         <span>💡</span>
         <span>@string.Format(L["Compare_CanAdd"], 3 - cars.Count) —</span>
-        <a href="/catalog" style="color: var(--color-accent);">@L["Compare_ToCatalog"]</a>
+        <a href="/catalog" style="color: var(--color-primary);">@L["Compare_ToCatalog"]</a>
         <span style="margin-left: auto;">или найди ниже</span>
     </div>
 
     <div class="search-box" style="background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: 24px; margin-top: 24px;">
         <h3 style="font-size: 1rem; margin-bottom: 16px;">🔍 Добавить авто для сравнения</h3>
         <div style="display: flex; gap: 12px;">
-            <input type="text" id="compare-search-input" class="search-input" placeholder="Введи марку или модель — например, Toyota или BMW X5..." autocomplete="off" style="flex: 1; background: var(--color-bg-elevated); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 10px 14px; color: var(--color-text-primary);" />
-            <button class="btn-search" onclick="doSearch()" style="background: var(--color-accent); border: none; border-radius: var(--radius-md); padding: 10px 20px; font-weight: 700; cursor: pointer;">Найти</button>
+            <input type="text" id="compare-search-input" class="search-input" placeholder="Введи марку или модель — например, Toyota или BMW X5..." autocomplete="off" style="flex: 1; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 10px 14px; color: var(--color-text);" />
+            <button class="btn-search" onclick="doSearch()" style="background: var(--color-primary); border: none; border-radius: var(--radius-md); padding: 10px 20px; font-weight: 700; cursor: pointer; color: white;">Найти</button>
         </div>
         <div id="search-results-wrap" style="margin-top: 20px;"></div>
     </div>
@@ -200,32 +200,32 @@
             window.doSearch = function (q) {
                 q = q || input.value.trim();
                 if (q.length < 2) return;
-                wrap.innerHTML = '<div style="color: var(--color-text-muted);">🔎 Ищем...</div>';
+                wrap.innerHTML = '<div style="color: var(--color-text-secondary);">🔎 Ищем...</div>';
                 fetch('/catalog/search-json?q=' + encodeURIComponent(q) + '&limit=9')
                     .then(function (r) { return r.ok ? r.json() : []; })
                     .then(function (cars) {
                         var filtered = cars.filter(function (c) { return !existingIds.includes(c.id); });
                         if (!filtered.length) {
-                            wrap.innerHTML = '<div style="color: var(--color-text-muted);">Ничего не найдено. <a href="/catalog" style="color: var(--color-accent);">Открыть каталог</a></div>';
+                            wrap.innerHTML = '<div style="color: var(--color-text-secondary);">Ничего не найдено. <a href="/catalog" style="color: var(--color-primary);">Открыть каталог</a></div>';
                             return;
                         }
                         var html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;">';
                         filtered.forEach(function (car) {
                             var img = car.photoPath
                                 ? '<img src="' + car.photoPath + '" alt="' + car.name + '" style="width: 100%; height: 100px; object-fit: cover; border-radius: var(--radius-md); margin-bottom: 8px;" loading="lazy" />'
-                                : '<div style="width: 100%; height: 100px; background: var(--color-bg-elevated); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 8px;">🚗</div>';
-                            html += '<div class="search-car-card" onclick="addToCompare(' + car.id + ', this)" style="background: var(--color-bg-elevated); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 12px; cursor: pointer; transition: var(--transition-fast);">'
+                                : '<div style="width: 100%; height: 100px; background: var(--color-bg-secondary); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 8px;">🚗</div>';
+                            html += '<div class="search-car-card" onclick="addToCompare(' + car.id + ', this)" style="background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 12px; cursor: pointer; transition: var(--transition);">'
                                 + img
                                 + '<div style="font-weight: 700;">' + car.name + '</div>'
                                 + '<div style="color: var(--color-accent); font-weight: 700;">' + car.price + '</div>'
-                                + '<div style="font-size: 0.75rem; color: var(--color-text-muted);">' + car.year + ' · ' + car.mileage + '</div>'
+                                + '<div style="font-size: 0.75rem; color: var(--color-text-secondary);">' + car.year + ' · ' + car.mileage + '</div>'
                                 + '</div>';
                         });
                         html += '</div>';
                         wrap.innerHTML = html;
                     })
                     .catch(function () {
-                        wrap.innerHTML = '<div style="color: var(--color-text-muted);">Ошибка поиска. Попробуй ещё раз.</div>';
+                        wrap.innerHTML = '<div style="color: var(--color-text-secondary);">Ошибка поиска. Попробуй ещё раз.</div>';
                     });
             };
 

@@ -48,22 +48,22 @@
         <meta property="og:description" content="@(ViewData["Description"] ?? "Продажа автомобилей с пробегом и новых. Каталог, кредит, обмен.")" />
     }
 
-    <!-- Preconnect + Google Fonts (Inter + Playfair Display) -->
+    <!-- Preconnect + Google Fonts (Inter + Manrope) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
 
-    <!-- Bootstrap 5 (only CSS, we use our own theme) -->
+    <!-- Bootstrap 5 (CSS only, we use custom theme) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-    <!-- Main site CSS (new premium dark theme) -->
+    <!-- Main site CSS (new light premium theme) -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
 
-    <!-- Fixed Navbar (will become solid on scroll via JS) -->
+    <!-- Fixed Navbar with blur effect -->
     <nav class="navbar" id="mainNavbar">
         <div class="container">
             <a class="navbar-brand" href="/">
@@ -75,7 +75,7 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navMenu">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link" href="/catalog">@L["Nav_Catalog"]</a>
                     </li>
@@ -87,7 +87,7 @@
                     </li>
                 </ul>
 
-                <ul class="navbar-nav align-items-center gap-1">
+                <ul class="navbar-nav align-items-center gap-2">
                     <!-- Compare link with counter -->
                     <li class="nav-item">
                         <a class="nav-link d-flex align-items-center gap-1" href="/compare" title="@L["Nav_Compare"]">
@@ -124,7 +124,7 @@
     @if (TempData["LeadSuccess"] != null)
     {
         <div class="container mt-3">
-            <div class="alert alert-success alert-dismissible fade show rounded-3" style="background: rgba(34,197,94,0.1); border-color: rgba(34,197,94,0.3); color: #4ade80;" role="alert">
+            <div class="alert alert-success alert-dismissible fade show rounded-3" role="alert">
                 ✅ @L["Lead_Success"]
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
@@ -135,7 +135,7 @@
         @RenderBody()
     </main>
 
-    <!-- Footer -->
+    <!-- Footer dark blue -->
     <footer class="site-footer">
         <div class="container">
             <div class="row g-4">

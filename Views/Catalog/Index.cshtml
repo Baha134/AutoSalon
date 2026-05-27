@@ -29,7 +29,7 @@
 }
 
 <!-- Хлебные крошки -->
-<div class="container" style="margin-top: 88px; margin-bottom: 0;">
+<div class="container" style="margin-top: 88px;">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Главная</a></li>
@@ -44,7 +44,7 @@
     </nav>
 </div>
 
-<!-- Search bar -->
+<!-- Поисковая строка -->
 <div class="catalog-search-wrap">
     <div class="container">
         <form method="get" action="/catalog" class="catalog-search-inner">
@@ -62,11 +62,10 @@
 
 <div class="container catalog-page">
 
-    <!-- Sidebar (desktop) -->
+    <!-- Sidebar фильтры (десктоп) -->
     <aside class="sidebar">
         <div class="sidebar-title">⚙️ @L["Catalog_Filters"]</div>
         <form method="get" action="/catalog" id="filter-form">
-            <!-- Brand -->
             <div class="filter-group">
                 <label class="filter-label">@L["Catalog_Brand"]</label>
                 <select name="Brand" class="filter-select" onchange="this.form.submit()">
@@ -77,7 +76,6 @@
                     }
                 </select>
             </div>
-            <!-- Price range -->
             <div class="filter-group">
                 <label class="filter-label">@L["Catalog_Price"]</label>
                 <div class="filter-row">
@@ -87,7 +85,6 @@
                            placeholder="@L["Catalog_To"]" class="filter-input" min="0" step="100000" />
                 </div>
             </div>
-            <!-- Year -->
             <div class="filter-group">
                 <label class="filter-label">@L["Catalog_Year"]</label>
                 <div class="filter-row">
@@ -97,205 +94,11 @@
                            placeholder="@L["Catalog_To"]" class="filter-input" min="1990" max="@DateTime.Now.Year" />
                 </div>
             </div>
-            <!-- Body type -->
             <div class="filter-group">
                 <label class="filter-label">@L["Catalog_Body"]</label>
                 <select name="BodyType" class="filter-select">
                     <option value="">@L["Catalog_All"]</option>
-                    @if (Model.BodyTypes != null)
-                    {
-                        foreach (var bt in Model.BodyTypes)
-                        {
-                            <option value="@bt" selected="@(Model.Filter.BodyType == bt ? "selected" : null)">@bt</option>
-                        }
-                    }
-                </select>
-            </div>
-            <!-- Transmission -->
-            <div class="filter-group">
-                <label class="filter-label">@L["Catalog_Transmission"]</label>
-                <select name="Transmission" class="filter-select">
-                    <option value="">@L["Catalog_All"]</option>
-                    <option value="Автомат" selected="@(Model.Filter.Transmission == "Автомат" ? "selected" : null)">Автомат</option>
-                    <option value="Механика" selected="@(Model.Filter.Transmission == "Механика" ? "selected" : null)">Механика</option>
-                    <option value="Вариатор" selected="@(Model.Filter.Transmission == "Вариатор" ? "selected" : null)">Вариатор</option>
-                    <option value="Робот" selected="@(Model.Filter.Transmission == "Робот" ? "selected" : null)">Робот</option>
-                </select>
-            </div>
-            <!-- Fuel -->
-            <div class="filter-group">
-                <label class="filter-label">@L["Catalog_Fuel"]</label>
-                <select name="FuelType" class="filter-select">
-                    <option value="">@L["Catalog_All"]</option>
-                    <option value="Бензин" selected="@(Model.Filter.FuelType == "Бензин" ? "selected" : null)">Бензин</option>
-                    <option value="Дизель" selected="@(Model.Filter.FuelType == "Дизель" ? "selected" : null)">Дизель</option>
-                    <option value="Гибрид" selected="@(Model.Filter.FuelType == "Гибрид" ? "selected" : null)">Гибрид</option>
-                    <option value="Электро" selected="@(Model.Filter.FuelType == "Электро" ? "selected" : null)">Электро</option>
-                </select>
-            </div>
-            <input type="hidden" name="Page" value="1" />
-            <button type="submit" class="filter-apply">@L["Catalog_Apply"]</button>
-            @if (Model.Filter.HasActiveFilters)
-            {
-                <a href="/catalog" class="filter-reset-link">@L["Catalog_ResetFilters"]</a>
-            }
-        </form>
-    </aside>
-
-    <!-- Main content -->
-    <div class="catalog-main">
-        <!-- Кнопка для открытия фильтров на мобилке (drawer) -->
-        <button class="drawer-open-btn" id="drawer-open-btn">⚙️ @L["Catalog_Filters"]</button>
-
-        <div class="catalog-header">
-            <div class="catalog-total">
-                <strong>@Model.TotalCount</strong> авто
-                @if (!string.IsNullOrEmpty(Model.Filter.Search))
-                {
-                    <span>по запросу «@Model.Filter.Search»</span>
-                }
-            </div>
-            <form method="get" action="/catalog" id="sort-form">
-                @if (!string.IsNullOrEmpty(Model.Filter.Brand))
-                {
-                    <input type="hidden" name="Brand" value="@Model.Filter.Brand" />
-                }
-                @if (!string.IsNullOrEmpty(Model.Filter.BodyType))
-                {
-                    <input type="hidden" name="BodyType" value="@Model.Filter.BodyType" />
-                }
-                @if (!string.IsNullOrEmpty(Model.Filter.Transmission))
-                {
-                    <input type="hidden" name="Transmission" value="@Model.Filter.Transmission" />
-                }
-                @if (!string.IsNullOrEmpty(Model.Filter.FuelType))
-                {
-                    <input type="hidden" name="FuelType" value="@Model.Filter.FuelType" />
-                }
-                @if (!string.IsNullOrEmpty(Model.Filter.Search))
-                {
-                    <input type="hidden" name="Search" value="@Model.Filter.Search" />
-                }
-                @if (Model.Filter.PriceMin.HasValue)
-                {
-                    <input type="hidden" name="PriceMin" value="@Model.Filter.PriceMin" />
-                }
-                @if (Model.Filter.PriceMax.HasValue)
-                {
-                    <input type="hidden" name="PriceMax" value="@Model.Filter.PriceMax" />
-                }
-                @if (Model.Filter.YearMin.HasValue)
-                {
-                    <input type="hidden" name="YearMin" value="@Model.Filter.YearMin" />
-                }
-                @if (Model.Filter.YearMax.HasValue)
-                {
-                    <input type="hidden" name="YearMax" value="@Model.Filter.YearMax" />
-                }
-                <select name="Sort" class="sort-select" onchange="document.getElementById('sort-form').submit()">
-                    <option value="new" selected="@(Model.Filter.Sort == "new" ? "selected" : null)">@L["Catalog_Sort_New"]</option>
-                    <option value="price_asc" selected="@(Model.Filter.Sort == "price_asc" ? "selected" : null)">@L["Catalog_Sort_PriceAsc"]</option>
-                    <option value="price_desc" selected="@(Model.Filter.Sort == "price_desc" ? "selected" : null)">@L["Catalog_Sort_PriceDesc"]</option>
-                    <option value="popular" selected="@(Model.Filter.Sort == "popular" ? "selected" : null)">@L["Catalog_Sort_Popular"]</option>
-                </select>
-            </form>
-        </div>
-
-        @if (Model.Cars.Any())
-        {
-            <div class="car-grid">
-                @foreach (var car in Model.Cars)
-                {
-                    <partial name="_CarCard" model="car" />
-                }
-            </div>
-
-            @if (Model.TotalPages > 1)
-            {
-                <nav aria-label="Catalog pagination">
-                    <ul class="pagination">
-                        @if (Model.Filter.Page > 1)
-                        {
-                            <li class="page-item">
-                                <a class="page-link" href="@PageUrl(Model.Filter, Model.Filter.Page - 1)">←</a>
-                            </li>
-                        }
-                        @for (var p = 1; p <= Model.TotalPages; p++)
-                        {
-                            var isActive = p == Model.Filter.Page;
-                            <li class="page-item @(isActive ? "active" : "")">
-                                @if (isActive)
-                                {
-                                    <span class="page-link">@p</span>
-                                }
-                                else
-                                {
-
-                                    <a class="page-link" href="@PageUrl(Model.Filter, p)">@p</a>
-                                }
-                            </li>
-                        }
-                        @if (Model.Filter.Page < Model.TotalPages)
-                        {
-                            <li class="page-item">
-                                <a class="page-link" href="@PageUrl(Model.Filter, Model.Filter.Page + 1)">→</a>
-                            </li>
-                        }
-                    </ul>
-                </nav>
-            }
-        }
-        else
-        {
-            <div class="empty-state">
-                <div class="empty-icon">🚗</div>
-                <h3>@L["Catalog_Empty"]</h3>
-                @if (Model.Filter.HasActiveFilters)
-                {
-                    <p>@L["Catalog_Empty_Filter"]</p>
-                    <a href="/catalog" class="btn-gold" style="display: inline-block; margin-top: 16px;">@L["Catalog_ResetFilters"]</a>
-                }
-                else
-                {
-                    <p>@L["Catalog_Empty_Soon"]</p>
-                }
-            </div>
-        }
-    </div>
-</div>
-
-<!-- Mobile Drawer (filters) – сохранены классы для sticky-cta.js -->
-<div class="filters-drawer" id="filters-drawer">
-    <div class="drawer-backdrop" id="drawer-backdrop"></div>
-    <div class="drawer-panel">
-        <div class="drawer-handle"></div>
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <strong>@L["Catalog_Filters"]</strong>
-            <button type="button" class="drawer-close-btn" id="drawer-close-btn">✕</button>
-        </div>
-        <form method="get" action="/catalog">
-            <div class="filter-group">
-                <label class="filter-label">@L["Catalog_Brand"]</label>
-                <select name="Brand" class="filter-select">
-                    <option value="">@L["Catalog_AllBrands"]</option>
-                    @foreach (var b in Model.Brands)
-                    {
-                        <option value="@b" selected="@(Model.Filter.Brand == b ? "selected" : null)">@b</option>
-                    }
-                </select>
-            </div>
-            <div class="filter-group">
-                <label class="filter-label">@L["Catalog_Price"]</label>
-                <div class="filter-row">
-                    <input type="number" name="PriceMin" value="@Model.Filter.PriceMin" placeholder="@L["Catalog_From"]" class="filter-input" min="0" step="100000" />
-                    <input type="number" name="PriceMax" value="@Model.Filter.PriceMax" placeholder="@L["Catalog_To"]" class="filter-input" min="0" step="100000" />
-                </div>
-            </div>
-            <div class="filter-group">
-                <label class="filter-label">@L["Catalog_Body"]</label>
-                <select name="BodyType" class="filter-select">
-                    <option value="">@L["Catalog_All"]</option>
-                    @foreach (var bt in Model.BodyTypes)
+                    @foreach (var bt in Model.BodyTypes ?? new List<string>())
                     {
                         <option value="@bt" selected="@(Model.Filter.BodyType == bt ? "selected" : null)">@bt</option>
                     }
@@ -325,6 +128,160 @@
             <button type="submit" class="filter-apply">@L["Catalog_Apply"]</button>
             @if (Model.Filter.HasActiveFilters)
             {
+                <a href="/catalog" class="filter-reset-link">@L["Catalog_ResetFilters"]</a>
+            }
+        </form>
+    </aside>
+
+    <!-- Основной контент -->
+    <div class="catalog-main">
+        <button class="drawer-open-btn" id="drawer-open-btn">⚙️ @L["Catalog_Filters"]</button>
+
+        <div class="catalog-header">
+            <div class="catalog-total">
+                <strong>@Model.TotalCount</strong> авто
+                @if (!string.IsNullOrEmpty(Model.Filter.Search))
+                {
+                    <span>по запросу «@Model.Filter.Search»</span>
+                }
+            </div>
+            <form method="get" action="/catalog" id="sort-form">
+                <input type="hidden" name="Brand" value="@Model.Filter.Brand" />
+                <input type="hidden" name="BodyType" value="@Model.Filter.BodyType" />
+                <input type="hidden" name="Transmission" value="@Model.Filter.Transmission" />
+                <input type="hidden" name="FuelType" value="@Model.Filter.FuelType" />
+                <input type="hidden" name="Search" value="@Model.Filter.Search" />
+                <input type="hidden" name="PriceMin" value="@Model.Filter.PriceMin" />
+                <input type="hidden" name="PriceMax" value="@Model.Filter.PriceMax" />
+                <input type="hidden" name="YearMin" value="@Model.Filter.YearMin" />
+                <input type="hidden" name="YearMax" value="@Model.Filter.YearMax" />
+                <select name="Sort" class="sort-select" onchange="this.form.submit()">
+                    <option value="new" selected="@(Model.Filter.Sort == "new")">@L["Catalog_Sort_New"]</option>
+                    <option value="price_asc" selected="@(Model.Filter.Sort == "price_asc")">@L["Catalog_Sort_PriceAsc"]</option>
+                    <option value="price_desc" selected="@(Model.Filter.Sort == "price_desc")">@L["Catalog_Sort_PriceDesc"]</option>
+                    <option value="popular" selected="@(Model.Filter.Sort == "popular")">@L["Catalog_Sort_Popular"]</option>
+                </select>
+            </form>
+        </div>
+
+        @if (Model.Cars != null && Model.Cars.Any())
+        {
+            <div class="car-grid">
+                @foreach (var car in Model.Cars)
+                {
+                    <partial name="_CarCard" model="car" />
+                }
+            </div>
+
+            if (Model.TotalPages > 1)
+            {
+                <nav aria-label="Catalog pagination">
+                    <ul class="pagination">
+                        @if (Model.Filter.Page > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="@PageUrl(Model.Filter, Model.Filter.Page - 1)">←</a>
+                            </li>
+                        }
+                        @for (int p = 1; p <= Model.TotalPages; p++)
+                        {
+                            <li class="page-item @(p == Model.Filter.Page ? "active" : "")">
+                                @if (p == Model.Filter.Page)
+                                {
+                                    <span class="page-link">@p</span>
+                                }
+                                else
+                                {
+                                    <a class="page-link" href="@PageUrl(Model.Filter, p)">@p</a>
+                                }
+                            </li>
+                        }
+                        @if (Model.Filter.Page < Model.TotalPages)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="@PageUrl(Model.Filter, Model.Filter.Page + 1)">→</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            }
+        }
+        else
+        {
+            <div class="empty-state">
+                <div class="empty-icon">🚗</div>
+                <h3>@L["Catalog_Empty"]</h3>
+                @if (Model.Filter.HasActiveFilters)
+                {
+                    <p>@L["Catalog_Empty_Filter"]</p>
+                    <a href="/catalog" class="btn-gold">@L["Catalog_ResetFilters"]</a>
+                }
+                else
+                {
+                    <p>@L["Catalog_Empty_Soon"]</p>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Мобильный drawer фильтров -->
+<div class="filters-drawer" id="filters-drawer">
+    <div class="drawer-backdrop" id="drawer-backdrop"></div>
+    <div class="drawer-panel">
+        <div class="drawer-handle"></div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <strong>@L["Catalog_Filters"]</strong>
+            <button type="button" class="drawer-close-btn" id="drawer-close-btn">✕</button>
+        </div>
+        <form method="get" action="/catalog">
+            <div class="filter-group">
+                <label class="filter-label">@L["Catalog_Brand"]</label>
+                <select name="Brand" class="filter-select">
+                    <option value="">@L["Catalog_AllBrands"]</option>
+                    @foreach (var b in Model.Brands)
+                    {
+                        <option value="@b" selected="@(Model.Filter.Brand == b)">@b</option>
+                    }
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">@L["Catalog_Price"]</label>
+                <div class="filter-row">
+                    <input type="number" name="PriceMin" value="@Model.Filter.PriceMin" placeholder="@L["Catalog_From"]" class="filter-input" />
+                    <input type="number" name="PriceMax" value="@Model.Filter.PriceMax" placeholder="@L["Catalog_To"]" class="filter-input" />
+                </div>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">@L["Catalog_Body"]</label>
+                <select name="BodyType" class="filter-select">
+                    <option value="">@L["Catalog_All"]</option>
+                    @foreach (var bt in Model.BodyTypes ?? new List<string>())
+                    {
+                        <option value="@bt" selected="@(Model.Filter.BodyType == bt)">@bt</option>
+                    }
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">@L["Catalog_Transmission"]</label>
+                <select name="Transmission" class="filter-select">
+                    <option value="">@L["Catalog_All"]</option>
+                    <option value="Автомат" selected="@(Model.Filter.Transmission == "Автомат")">Автомат</option>
+                    <option value="Механика" selected="@(Model.Filter.Transmission == "Механика")">Механика</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">@L["Catalog_Fuel"]</label>
+                <select name="FuelType" class="filter-select">
+                    <option value="">@L["Catalog_All"]</option>
+                    <option value="Бензин" selected="@(Model.Filter.FuelType == "Бензин")">Бензин</option>
+                    <option value="Дизель" selected="@(Model.Filter.FuelType == "Дизель")">Дизель</option>
+                </select>
+            </div>
+            <input type="hidden" name="Page" value="1" />
+            <button type="submit" class="filter-apply">@L["Catalog_Apply"]</button>
+            @if (Model.Filter.HasActiveFilters)
+            {
                 <a href="/catalog" class="filter-reset-link mt-2 d-block text-center">@L["Catalog_Reset"]</a>
             }
         </form>
@@ -333,17 +290,20 @@
 
 @section Scripts {
     <script>
-        // Управление мобильным drawer'ом (сохранены классы .filters-drawer, .drawer-backdrop и т.д.)
         (function() {
-            var openBtn = document.getElementById('drawer-open-btn');
-            var drawer = document.getElementById('filters-drawer');
-            var backdrop = document.getElementById('drawer-backdrop');
-            var closeBtn = document.getElementById('drawer-close-btn');
-
-            function openDrawer() { if (drawer) drawer.classList.add('open'); document.body.style.overflow = 'hidden'; }
-            function closeDrawer() { if (drawer) drawer.classList.remove('open'); document.body.style.overflow = ''; }
-
-            if (openBtn) openBtn.addEventListener('click', openDrawer);
+            const openBtn = document.getElementById('drawer-open-btn');
+            const drawer = document.getElementById('filters-drawer');
+            const backdrop = document.getElementById('drawer-backdrop');
+            const closeBtn = document.getElementById('drawer-close-btn');
+            if (!openBtn || !drawer) return;
+            openBtn.addEventListener('click', () => {
+                drawer.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            });
+            const closeDrawer = () => {
+                drawer.classList.remove('open');
+                document.body.style.overflow = '';
+            };
             if (backdrop) backdrop.addEventListener('click', closeDrawer);
             if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
         })();

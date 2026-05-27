@@ -28,13 +28,13 @@
                                  draggable="true" style="width:110px;cursor:grab">
                                 <img src="@photo.FilePath"
                                      style="width:110px;height:80px;object-fit:cover;border-radius:8px;
-                                border:@(photo.IsMain ? "2px solid #D4AF37" : "2px solid #2a2a2a")"
+                                border:@(photo.IsMain ? "2px solid #0057B8" : "2px solid #E5E8EE")"
                                      alt="" loading="lazy" />
 
                                 @if (photo.IsMain)
                                 {
-                                    <span style="position:absolute;top:4px;left:4px;background:#D4AF37;
-                                        color:#000;font-size:9px;padding:2px 6px;
+                                    <span style="position:absolute;top:4px;left:4px;background:#0057B8;
+                                        color:#fff;font-size:9px;padding:2px 6px;
                                         border-radius:6px;pointer-events:none;font-weight:600;">
                                         Главное
                                     </span>
@@ -57,7 +57,7 @@
                                             onclick="setMain(@photo.Id)"
                                             title="Сделать главным"
                                             style="position:absolute;bottom:3px;left:3px;right:3px;
-                                        background:rgba(212,175,55,0.9);color:#000;border:none;
+                                        background:rgba(0,87,184,0.9);color:#fff;border:none;
                                         font-size:9px;padding:2px 4px;border-radius:4px;
                                         cursor:pointer;text-align:center;font-weight:600;">
                                         Сделать главным

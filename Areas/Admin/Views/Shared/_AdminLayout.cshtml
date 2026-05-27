@@ -6,30 +6,35 @@
     <title>@ViewData["Title"] — Админ | АвтоСалон</title>
     <meta name="robots" content="noindex" />
 
-    <!-- Bootstrap 5 (только CSS, базовая сетка) -->
+    <!-- Bootstrap 5 + Google Fonts + custom admin CSS (light theme) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-
-    <!-- Премиум шрифты -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
 
     <style>
-            /* Админские стили — наследуют премиум-тему, но сохраняют читаемость */
             :root {
-                --admin-bg: #0A0C12;
-                --admin-sidebar-bg: #0D1117;
-                --admin-card-bg: #11151C;
-                --admin-border: rgba(255,255,255,0.08);
-                --admin-text: #FFFFFF;
-                --admin-text-muted: #A0AAB5;
-                --admin-accent: #D4AF37;
-                --admin-accent-hover: #E5C15A;
-                --admin-danger: #EF4444;
-                --admin-success: #22C55E;
+                --admin-primary: #0057B8;
+                --admin-primary-hover: #0046A0;
+                --admin-primary-light: #E8F0FB;
+                --admin-accent: #FF6B00;
+                --admin-bg: #F5F7FA;
+                --admin-sidebar-bg: #FFFFFF;
+                --admin-card-bg: #FFFFFF;
+                --admin-border: #E5E8EE;
+                --admin-text: #1A1D23;
+                --admin-text-muted: #6B7280;
+                --admin-danger: #DC2626;
+                --admin-success: #16A34A;
+                --font-main: 'Inter', sans-serif;
+                --font-display: 'Manrope', sans-serif;
+                --radius-md: 12px;
+                --radius-lg: 16px;
+                --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+                --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
             }
 
             body {
                 background: var(--admin-bg);
-                font-family: 'Inter', sans-serif;
+                font-family: var(--font-main);
                 color: var(--admin-text);
             }
 
@@ -41,19 +46,20 @@
                 min-height: 100vh;
                 position: sticky;
                 top: 0;
+                box-shadow: var(--shadow-sm);
             }
 
                 .admin-sidebar .brand {
                     padding: 24px 20px;
                     font-size: 1.4rem;
                     font-weight: 800;
-                    font-family: 'Playfair Display', serif;
+                    font-family: var(--font-display);
                     border-bottom: 1px solid var(--admin-border);
                     margin-bottom: 16px;
                 }
 
                     .admin-sidebar .brand span {
-                        color: var(--admin-accent);
+                        color: var(--admin-primary);
                     }
 
             .admin-nav .nav-link {
@@ -70,9 +76,9 @@
 
                 .admin-nav .nav-link:hover,
                 .admin-nav .nav-link.active {
-                    background: rgba(212,175,55,0.08);
-                    color: var(--admin-accent);
-                    border-left-color: var(--admin-accent);
+                    background: var(--admin-primary-light);
+                    color: var(--admin-primary);
+                    border-left-color: var(--admin-primary);
                 }
 
             /* Main area */
@@ -108,20 +114,20 @@
             .stat-card {
                 background: var(--admin-card-bg);
                 border: 1px solid var(--admin-border);
-                border-radius: 16px;
+                border-radius: var(--radius-lg);
                 padding: 20px;
                 transition: transform 0.2s, border-color 0.2s;
             }
 
                 .stat-card:hover {
-                    border-color: rgba(212,175,55,0.4);
+                    border-color: var(--admin-primary);
                     transform: translateY(-2px);
                 }
 
                 .stat-card .stat-val {
                     font-size: 2rem;
                     font-weight: 800;
-                    color: var(--admin-accent);
+                    color: var(--admin-primary);
                     line-height: 1;
                 }
 
@@ -137,7 +143,7 @@
             .admin-table {
                 background: var(--admin-card-bg);
                 border: 1px solid var(--admin-border);
-                border-radius: 16px;
+                border-radius: var(--radius-lg);
                 overflow: hidden;
             }
 
@@ -147,13 +153,13 @@
                 }
 
                 .admin-table thead th {
-                    background: rgba(255,255,255,0.03);
+                    background: var(--admin-primary-light);
                     padding: 14px 16px;
                     font-size: 0.7rem;
                     font-weight: 700;
                     text-transform: uppercase;
                     letter-spacing: 0.06em;
-                    color: var(--admin-accent);
+                    color: var(--admin-primary);
                     border-bottom: 1px solid var(--admin-border);
                 }
 
@@ -170,38 +176,38 @@
                 }
 
                 .admin-table tr:hover td {
-                    background: rgba(255,255,255,0.02);
+                    background: rgba(0,87,184,0.02);
                 }
 
             /* Badges */
             .badge-new-lead {
-                background: rgba(34,197,94,0.15);
-                color: #4ade80;
+                background: rgba(22,163,74,0.15);
+                color: var(--admin-success);
                 padding: 4px 10px;
-                border-radius: 20px;
+                border-radius: 30px;
                 font-size: 0.7rem;
                 font-weight: 600;
             }
 
             .badge-fail {
-                background: rgba(239,68,68,0.15);
-                color: #f87171;
+                background: rgba(220,38,38,0.15);
+                color: var(--admin-danger);
                 padding: 4px 10px;
-                border-radius: 20px;
+                border-radius: 30px;
                 font-size: 0.7rem;
                 font-weight: 600;
             }
 
             /* Buttons */
             .btn-primary {
-                background: var(--admin-accent);
+                background: var(--admin-primary);
                 border: none;
-                color: #0A0C12;
+                color: white;
                 font-weight: 600;
             }
 
                 .btn-primary:hover {
-                    background: var(--admin-accent-hover);
+                    background: var(--admin-primary-hover);
                 }
 
             .btn-outline-secondary {
@@ -210,9 +216,9 @@
             }
 
                 .btn-outline-secondary:hover {
-                    background: rgba(255,255,255,0.05);
-                    border-color: var(--admin-accent);
-                    color: var(--admin-accent);
+                    background: var(--admin-primary-light);
+                    border-color: var(--admin-primary);
+                    color: var(--admin-primary);
                 }
 
             .btn-outline-danger {
@@ -221,23 +227,23 @@
             }
 
                 .btn-outline-danger:hover {
-                    background: rgba(239,68,68,0.1);
-                    color: #f87171;
+                    background: rgba(220,38,38,0.1);
+                    color: var(--admin-danger);
                 }
 
-            /* Forms (админские) */
+            /* Forms (admin) */
             .form-control, .form-select {
                 background: var(--admin-card-bg);
                 border: 1px solid var(--admin-border);
                 color: var(--admin-text);
-                border-radius: 10px;
+                border-radius: var(--radius-md);
                 padding: 10px 14px;
                 font-size: 0.85rem;
             }
 
                 .form-control:focus, .form-select:focus {
                     background: var(--admin-card-bg);
-                    border-color: var(--admin-accent);
+                    border-color: var(--admin-primary);
                     box-shadow: none;
                     color: var(--admin-text);
                 }
@@ -245,7 +251,7 @@
             .card {
                 background: var(--admin-card-bg);
                 border: 1px solid var(--admin-border);
-                border-radius: 20px;
+                border-radius: var(--radius-lg);
             }
 
             .text-muted {
@@ -257,20 +263,38 @@
             }
 
             .alert-success {
-                background: rgba(34,197,94,0.1);
-                border-color: rgba(34,197,94,0.3);
-                color: #4ade80;
+                background: rgba(22,163,74,0.1);
+                border-color: rgba(22,163,74,0.3);
+                color: var(--admin-success);
             }
 
             .alert-danger {
-                background: rgba(239,68,68,0.1);
-                border-color: rgba(239,68,68,0.3);
-                color: #f87171;
+                background: rgba(220,38,38,0.1);
+                border-color: rgba(220,38,38,0.3);
+                color: var(--admin-danger);
             }
 
             .alert-dismissible .btn-close {
-                filter: invert(1);
+                filter: invert(0);
+                opacity: 0.6;
             }
+
+            /* Photo grid drag & drop */
+            .photo-grid {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .photo-item {
+                cursor: grab;
+                transition: transform 0.1s;
+            }
+
+                .photo-item.dragging {
+                    opacity: 0.5;
+                    cursor: grabbing;
+                }
     </style>
 </head>
 <body>

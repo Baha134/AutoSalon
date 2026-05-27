@@ -8,11 +8,7 @@
 
 @section Styles {
     <style>
-        /* Дополнительные стили только для главной страницы (если нужны) */
-        .hero-stats .hero-stat-value {
-            font-family: var(--font-display);
-        }
-
+        /* Дополнительные стили только для главной страницы */
         .hero {
             margin-top: 0;
         }
@@ -113,22 +109,22 @@
         <div class="section-title">Почему выбирают нас</div>
     </div>
     <div class="why-grid">
-        <div class="why-card">
+        <div class="why-card fade-up">
             <div class="why-icon">🛡</div>
             <div class="why-title">Официальная гарантия</div>
             <div class="why-sub">Все автомобили проходят полную проверку и имеют официальную гарантию производителя.</div>
         </div>
-        <div class="why-card">
+        <div class="why-card fade-up">
             <div class="why-icon">📄</div>
             <div class="why-title">Юридическая чистота</div>
             <div class="why-sub">Проверяем каждый автомобиль по всем базам данных. Никаких скрытых проблем.</div>
         </div>
-        <div class="why-card">
+        <div class="why-card fade-up">
             <div class="why-icon">💳</div>
             <div class="why-title">Кредит от 0.1%</div>
             <div class="why-sub">Партнёрство с ведущими банками. Одобрение за 30 минут прямо в салоне.</div>
         </div>
-        <div class="why-card">
+        <div class="why-card fade-up">
             <div class="why-icon">🔄</div>
             <div class="why-title">Трейд-ин</div>
             <div class="why-sub">Обменяйте ваш автомобиль на новый. Оценка и оформление за один визит.</div>
@@ -160,27 +156,41 @@
 
 @section Scripts {
     <script>
-        // Анимация счётчиков в hero-статистике
+        // Анимация счётчиков в hero-статистике + IntersectionObserver для fade-up
         (function() {
+            // Счётчики
             const counters = document.querySelectorAll('.hero-stat-value[data-target]');
-            if (!counters.length) return;
-            const observer = new IntersectionObserver((entries) => {
+            if (counters.length) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (!entry.isIntersecting) return;
+                        const el = entry.target;
+                        const target = parseInt(el.dataset.target, 10);
+                        const suffix = el.dataset.suffix || '';
+                        let current = 0;
+                        const step = Math.ceil(target / 60);
+                        const timer = setInterval(() => {
+                            current = Math.min(current + step, target);
+                            el.textContent = current.toLocaleString('ru-RU') + suffix;
+                            if (current >= target) clearInterval(timer);
+                        }, 20);
+                        observer.unobserve(el);
+                    });
+                }, { threshold: 0.5 });
+                counters.forEach(c => observer.observe(c));
+            }
+
+            // Fade-up анимация для элементов с классом .fade-up
+            const fadeElements = document.querySelectorAll('.fade-up');
+            const fadeObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (!entry.isIntersecting) return;
-                    const el = entry.target;
-                    const target = parseInt(el.dataset.target, 10);
-                    const suffix = el.dataset.suffix || '';
-                    let current = 0;
-                    const step = Math.ceil(target / 60);
-                    const timer = setInterval(() => {
-                        current = Math.min(current + step, target);
-                        el.textContent = current.toLocaleString('ru-RU') + suffix;
-                        if (current >= target) clearInterval(timer);
-                    }, 20);
-                    observer.unobserve(el);
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        fadeObserver.unobserve(entry.target);
+                    }
                 });
-            }, { threshold: 0.5 });
-            counters.forEach(c => observer.observe(c));
+            }, { threshold: 0.1 });
+            fadeElements.forEach(el => fadeObserver.observe(el));
         })();
     </script>
 }

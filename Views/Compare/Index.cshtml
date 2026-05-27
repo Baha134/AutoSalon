@@ -7,247 +7,9 @@
     var cars = Model.Cars;
 }
 
-<style>
-    :root {
-        --gold: #F5A623;
-        --gold-dark: #D4861A;
-        --dark: #0d0d0d;
-        --dark2: #141414;
-        --dark3: #1c1c1c;
-        --dark4: #252525;
-        --text: #ffffff;
-        --muted: rgba(255,255,255,0.5);
-        --border: rgba(255,255,255,0.07);
-        --radius: 14px;
-        --green: rgba(34,197,94,0.15);
-        --green-border: rgba(34,197,94,0.4);
-    }
-
-    body { background: var(--dark) !important; color: var(--text) !important; }
-
-    .compare-page { max-width: 1280px; margin: 0 auto; padding: 32px 24px 80px; }
-
-    .page-header {
-        display: flex; align-items: center; justify-content: space-between;
-        margin-bottom: 32px; flex-wrap: wrap; gap: 12px;
-    }
-    .page-title {
-        font-size: 26px; font-weight: 800; color: var(--text);
-    }
-    .btn-clear {
-        background: transparent; border: 1px solid rgba(239,68,68,0.3);
-        color: rgba(239,68,68,0.7); border-radius: 8px;
-        padding: 8px 16px; font-size: 13px; font-weight: 600;
-        cursor: pointer; transition: all .2s;
-    }
-    .btn-clear:hover { border-color: #ef4444; color: #ef4444; }
-
-    .empty-state {
-        text-align: center; padding: 80px 20px;
-        background: var(--dark2); border: 1px solid var(--border);
-        border-radius: var(--radius);
-    }
-    .empty-icon { font-size: 56px; margin-bottom: 20px; }
-    .empty-state h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
-    .empty-state p { color: var(--muted); margin-bottom: 24px; }
-    .btn-gold {
-        background: var(--gold); color: #000;
-        border: none; border-radius: 10px;
-        padding: 12px 28px; font-weight: 700; font-size: 14px;
-        text-decoration: none; display: inline-block;
-        transition: background .2s;
-    }
-    .btn-gold:hover { background: var(--gold-dark); color: #000; }
-
-    .compare-grid {
-        display: grid;
-        gap: 0;
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        overflow: hidden;
-    }
-
-    .cars-header {
-        display: grid;
-        background: var(--dark2);
-        border-bottom: 1px solid var(--border);
-    }
-    .car-col-header {
-        padding: 20px 16px;
-        border-right: 1px solid var(--border);
-        display: flex; flex-direction: column; align-items: center; gap: 10px;
-    }
-    .car-col-header:last-child { border-right: none; }
-    .spec-label-header {
-        padding: 20px 16px;
-        border-right: 1px solid var(--border);
-        display: flex; align-items: center;
-        font-size: 12px; font-weight: 700;
-        letter-spacing: .08em; text-transform: uppercase;
-        color: var(--muted);
-    }
-
-    .car-photo {
-        width: 100%; aspect-ratio: 16/9; object-fit: cover;
-        border-radius: 10px;
-    }
-    .car-no-photo {
-        width: 100%; aspect-ratio: 16/9;
-        background: var(--dark3); border-radius: 10px;
-        display: flex; align-items: center; justify-content: center;
-        color: var(--muted); font-size: 28px;
-    }
-    .car-name {
-        font-size: 14px; font-weight: 700; text-align: center;
-        color: var(--text);
-    }
-    .car-price {
-        font-size: 16px; font-weight: 900;
-        color: var(--gold); text-align: center;
-    }
-    .car-col-btns { display: flex; flex-direction: column; gap: 6px; width: 100%; }
-    .btn-details {
-        background: var(--gold); color: #000;
-        border: none; border-radius: 8px; padding: 8px 12px;
-        font-size: 12px; font-weight: 700; text-align: center;
-        text-decoration: none; display: block;
-        transition: background .2s;
-    }
-    .btn-details:hover { background: var(--gold-dark); color: #000; }
-    .btn-remove {
-        background: transparent; border: 1px solid var(--border);
-        color: var(--muted); border-radius: 8px; padding: 7px 12px;
-        font-size: 12px; font-weight: 600; cursor: pointer;
-        width: 100%; transition: all .2s;
-    }
-    .btn-remove:hover { border-color: rgba(239,68,68,0.4); color: #f87171; }
-
-    .add-car-slot {
-        padding: 20px 16px;
-        border-right: 1px solid var(--border);
-        display: flex; flex-direction: column;
-        align-items: center; justify-content: center;
-        gap: 12px; min-height: 220px;
-    }
-    .add-car-slot:last-child { border-right: none; }
-    .add-placeholder {
-        width: 100%; aspect-ratio: 16/9;
-        background: var(--dark3);
-        border: 2px dashed rgba(255,255,255,0.1);
-        border-radius: 10px;
-        display: flex; align-items: center; justify-content: center;
-        color: var(--muted); font-size: 32px;
-    }
-    .add-car-label {
-        font-size: 12px; color: var(--muted); text-align: center;
-    }
-
-    .compare-row {
-        display: grid;
-        border-bottom: 1px solid var(--border);
-    }
-    .compare-row:last-child { border-bottom: none; }
-    .spec-label {
-        padding: 14px 16px;
-        font-size: 11px; font-weight: 700;
-        letter-spacing: .08em; text-transform: uppercase;
-        color: var(--muted);
-        background: var(--dark2);
-        border-right: 1px solid var(--border);
-        display: flex; align-items: center;
-    }
-    .spec-val {
-        padding: 14px 16px;
-        font-size: 14px; font-weight: 600;
-        text-align: center;
-        border-right: 1px solid var(--border);
-        display: flex; align-items: center; justify-content: center;
-        background: var(--dark);
-        transition: background .2s;
-    }
-    .spec-val:last-child { border-right: none; }
-    .spec-val.best {
-        background: rgba(34,197,94,0.08);
-        color: #4ade80;
-    }
-    .spec-val.diff { background: rgba(245,166,35,0.05); }
-
-    .search-box {
-        background: var(--dark2); border: 1px solid var(--border);
-        border-radius: var(--radius); padding: 20px;
-        margin-top: 24px;
-    }
-    .search-box h3 {
-        font-size: 13px; font-weight: 700;
-        letter-spacing: .08em; text-transform: uppercase;
-        color: var(--gold); margin-bottom: 14px;
-    }
-    .search-input-wrap { display: flex; gap: 10px; }
-    .search-input {
-        flex: 1; background: var(--dark3);
-        border: 1px solid var(--border);
-        color: var(--text); border-radius: 8px;
-        padding: 10px 14px; font-size: 13px; outline: none;
-        transition: border-color .2s;
-    }
-    .search-input::placeholder { color: var(--muted); }
-    .search-input:focus { border-color: rgba(245,166,35,0.4); }
-    .btn-search {
-        background: var(--gold); color: #000;
-        border: none; border-radius: 8px;
-        padding: 10px 20px; font-weight: 700; font-size: 13px;
-        cursor: pointer; transition: background .2s; white-space: nowrap;
-    }
-    .btn-search:hover { background: var(--gold-dark); }
-
-    .search-results {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 12px; margin-top: 16px;
-    }
-    .search-car-card {
-        background: var(--dark3); border: 1px solid var(--border);
-        border-radius: 10px; padding: 12px;
-        cursor: pointer; transition: border-color .2s, transform .15s;
-        text-decoration: none; color: var(--text);
-        display: block;
-    }
-    .search-car-card:hover {
-        border-color: rgba(245,166,35,0.4);
-        transform: translateY(-2px); color: var(--text);
-    }
-    .search-car-card img {
-        width: 100%; height: 100px; object-fit: cover;
-        border-radius: 8px; margin-bottom: 8px;
-    }
-    .search-car-card .s-name { font-size: 13px; font-weight: 700; }
-    .search-car-card .s-price { font-size: 12px; color: var(--gold); margin-top: 2px; }
-    .search-car-card .s-info { font-size: 11px; color: var(--muted); margin-top: 2px; }
-
-    .search-empty { color: var(--muted); font-size: 13px; padding: 12px 0; }
-    .search-loading { color: var(--muted); font-size: 13px; padding: 12px 0; }
-
-    .compare-hint {
-        background: rgba(245,166,35,0.06);
-        border: 1px solid rgba(245,166,35,0.15);
-        border-radius: 10px; padding: 14px 18px;
-        font-size: 13px; color: var(--muted);
-        margin-top: 20px;
-        display: flex; align-items: center; gap: 10px;
-    }
-    .compare-hint a { color: var(--gold); text-decoration: none; font-weight: 600; }
-    .compare-hint a:hover { text-decoration: underline; }
-
-    @@media (max-width: 768px) {
-        .compare-page { padding: 16px 12px 60px; }
-        .page-title { font-size: 20px; }
-    }
-</style>
-
-<div class="compare-page">
-
-    <div class="page-header">
-        <div class="page-title">⚖️ @L["Compare_Title"]</div>
+<div class="container" style="margin-top: 88px; padding-bottom: 60px;">
+    <div class="page-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; flex-wrap: wrap; gap: 16px;">
+        <h1 style="font-family: var(--font-display); font-size: 2rem; margin: 0;">⚖️ @L["Compare_Title"]</h1>
         @if (cars.Any())
         {
             <form method="post" action="/compare/clear">
@@ -259,11 +21,11 @@
 
     @if (!cars.Any())
     {
-        <div class="empty-state">
-            <div class="empty-icon">⚖️</div>
-            <h3>@L["Compare_Empty"]</h3>
-            <p>@L["Compare_Empty_Sub"]</p>
-            <a href="/catalog" class="btn-gold">@L["Compare_ToCatalog"]</a>
+        <div class="empty-state" style="text-align: center; padding: 80px 20px; background: var(--color-bg-secondary); border-radius: var(--radius-xl); border: 1px solid var(--color-border);">
+            <div class="empty-icon" style="font-size: 4rem; margin-bottom: 20px;">⚖️</div>
+            <h3 style="margin-bottom: 12px;">@L["Compare_Empty"]</h3>
+            <p style="color: var(--color-text-secondary); margin-bottom: 28px;">@L["Compare_Empty_Sub"]</p>
+            <a href="/catalog" class="btn-gold" style="display: inline-block;">@L["Compare_ToCatalog"]</a>
         </div>
     }
     else
@@ -274,229 +36,217 @@
         var minMileage = cars.Min(c => c.Mileage);
         var maxYear = cars.Max(c => c.Year);
 
-        <div class="compare-grid" style="--cols: @gridCols">
-
+        <div class="compare-grid" style="border: 1px solid var(--color-border); border-radius: var(--radius-xl); overflow-x: auto;">
             <!-- ШАПКА С МАШИНАМИ -->
-            <div class="cars-header" style="display:grid; grid-template-columns: @gridCols">
-                <div class="spec-label-header">@L["Compare_Spec"]</div>
-
+            <div style="display: grid; grid-template-columns: @gridCols; background: var(--color-bg-elevated); border-bottom: 1px solid var(--color-border);">
+                <div style="padding: 20px 16px; font-weight: 700; color: var(--color-accent);">@L["Compare_Spec"]</div>
                 @foreach (var car in cars)
                 {
-                    <div class="car-col-header">
+                    <div style="padding: 20px 16px; text-align: center; border-right: 1px solid var(--color-border);">
                         @if (car.MainPhoto != null)
                         {
-                            <img src="@car.MainPhoto.FilePath" alt="@car.Brand @car.Model" class="car-photo" loading="lazy" />
+                            <img src="@car.MainPhoto.FilePath" alt="@car.Brand @car.Model" style="width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--radius-md); margin-bottom: 12px;" loading="lazy" />
                         }
                         else
                         {
-                            <div class="car-no-photo">🚗</div>
+                            <div style="width: 100%; aspect-ratio: 16/9; background: var(--color-bg-secondary); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 12px;">🚗</div>
                         }
-                        <div class="car-name">@car.Brand @car.Model @car.Year</div>
-                        <div class="car-price">@car.DisplayPrice</div>
-                        <div class="car-col-btns">
-                            <a href="/car/@car.Slug" class="btn-details">@L["Compare_Details"]</a>
-                            <form method="post" action="/compare/remove/@car.Id" style="margin:0">
+                        <div style="font-weight: 700; margin-bottom: 4px;">@car.Brand @car.Model @car.Year</div>
+                        <div class="compare-car-price" style="font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; color: var(--color-accent); margin-bottom: 12px;">@car.DisplayPrice</div>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <a href="/car/@car.Slug" class="btn-card-detail" style="background: var(--color-accent); color: #0A0C12; padding: 8px; border-radius: var(--radius-md); font-weight: 700; text-align: center;">@L["Compare_Details"]</a>
+                            <form method="post" action="/compare/remove/@car.Id" style="margin: 0;">
                                 @Html.AntiForgeryToken()
-                                <button type="submit" class="btn-remove">✕ @L["Compare_Remove"]</button>
+                                <button type="submit" class="btn-remove" style="width: 100%; background: transparent; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 8px; cursor: pointer; transition: var(--transition-fast);">✕ @L["Compare_Remove"]</button>
                             </form>
                         </div>
                     </div>
                 }
-
                 @for (var s = 0; s < slotsNeeded; s++)
                 {
-                    <div class="add-car-slot">
-                        <div class="add-placeholder">+</div>
-                        <div class="add-car-label">Добавить авто для сравнения</div>
+                    <div style="padding: 20px 16px; text-align: center; border-right: 1px solid var(--color-border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;">
+                        <div style="width: 100%; aspect-ratio: 16/9; background: var(--color-bg-secondary); border: 2px dashed var(--color-border); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--color-text-muted);">+</div>
+                        <div style="font-size: 0.85rem; color: var(--color-text-muted);">Добавить авто</div>
                     </div>
                 }
             </div>
 
-            <!-- ЦЕНА -->
-            <div class="compare-row" style="display:grid; grid-template-columns: @gridCols">
-                <div class="spec-label">@L["Compare_Price"]</div>
+            <!-- Строка Цена -->
+            <div style="display: grid; grid-template-columns: @gridCols; border-bottom: 1px solid var(--color-border);">
+                <div style="padding: 14px 16px; font-weight: 700; background: var(--color-bg-secondary);">@L["Compare_Price"]</div>
                 @foreach (var car in cars)
                 {
-                    <div class="spec-val @(car.Price == minPrice ? "best" : "")">
-                        @car.DisplayPrice
-                        @if (car.Price == minPrice && cars.Count > 1)
-                        {
-                            <span style="margin-left:6px;font-size:10px">✓</span>
-                        }
-                    </div>
-                }
-                @for (var s = 0; s < slotsNeeded; s++)
-                {
-                    <div class="spec-val" style="color:var(--border)">—</div>
-                }
-            </div>
-
-            <!-- ГОД -->
-            <div class="compare-row" style="display:grid; grid-template-columns: @gridCols">
-                <div class="spec-label">@L["Compare_Year"]</div>
-                @foreach (var car in cars)
-                {
-                    <div class="spec-val @(car.Year == maxYear ? "best" : "")">
-                        @car.Year
-                        @if (car.Year == maxYear && cars.Count > 1)
-                        {
-                            <span style="margin-left:6px;font-size:10px">✓</span>
-                        }
-                    </div>
-                }
-                @for (var s = 0; s < slotsNeeded; s++)
-                {
-                    <div class="spec-val" style="color:var(--border)">—</div>
-                }
-            </div>
-
-            <!-- ПРОБЕГ -->
-            <div class="compare-row" style="display:grid; grid-template-columns: @gridCols">
-                <div class="spec-label">@L["Compare_Mileage"]</div>
-                @foreach (var car in cars)
-                {
-                    <div class="spec-val @(car.Mileage == minMileage ? "best" : "")">
-                        @car.DisplayMileage
-                        @if (car.Mileage == minMileage && cars.Count > 1)
-                        {
-                            <span style="margin-left:6px;font-size:10px">✓</span>
-                        }
-                    </div>
-                }
-                @for (var s = 0; s < slotsNeeded; s++)
-                {
-                    <div class="spec-val" style="color:var(--border)">—</div>
-                }
-            </div>
-
-            <!-- ОСТАЛЬНЫЕ СТРОКИ -->
-            @{
-                var plainRows = new[]
-                {
-                    (L["Compare_Engine"].Value,       cars.Select(c => $"{c.EngineVolume} л").ToArray()),
-                    (L["Compare_Fuel"].Value,         cars.Select(c => c.FuelType).ToArray()),
-                    (L["Compare_Transmission"].Value, cars.Select(c => c.Transmission).ToArray()),
-                    (L["Compare_Drive"].Value,        cars.Select(c => c.DriveType).ToArray()),
-                    (L["Compare_Body"].Value,         cars.Select(c => c.BodyType).ToArray()),
-                    (L["Compare_Color"].Value,        cars.Select(c => c.Color).ToArray()),
-                    (L["Compare_City"].Value,         cars.Select(c => c.City).ToArray()),
-                };
-            }
-
-            @foreach (var (label, values) in plainRows)
-            {
-                var allSame = values.Distinct().Count() <= 1;
-                <div class="compare-row" style="display:grid; grid-template-columns: @gridCols">
-                    <div class="spec-label">@label</div>
-                    @for (var i = 0; i < cars.Count; i++)
-                    {
-                        <div class="spec-val @(!allSame && cars.Count > 1 ? "diff" : "")">
-                            @(i < values.Length ? values[i] : "—")
-                        </div>
-                    }
-                    @for (var s = 0; s < slotsNeeded; s++)
-                    {
-                        <div class="spec-val" style="color:var(--border)">—</div>
+                    <div style="padding: 14px 16px; text-align: center; @(car.Price == minPrice && cars.Count > 1 ? "background: rgba(212,175,55,0.1); color: var(--color-accent); font-weight: 700;" : "")">
+                        @car.DisplayPrice @if (car.Price == minPrice && cars.Count > 1) {
+                        <span style="margin-left: 6px;">✓</span>
                     }
                 </div>
             }
-
+            @for (var s = 0; s < slotsNeeded; s++)
+            {
+                <div style="padding: 14px 16px; text-align: center; color: var(--color-text-muted);">—</div>
+            }
         </div>
 
-        @if (cars.Count < 3)
-        {
-            <div class="compare-hint">
-                <span>💡</span>
-                <span>@string.Format(L["Compare_CanAdd"], 3 - cars.Count) — <a href="/catalog">@L["Compare_ToCatalog"]</a> или найди ниже</span>
-            </div>
-
-            <div class="search-box">
-                <h3>🔍 Добавить авто для сравнения</h3>
-                <div class="search-input-wrap">
-                    <input type="text" id="compare-search-input"
-                           class="search-input"
-                           placeholder="Введи марку или модель — например, Toyota или BMW X5..."
-                           autocomplete="off" />
-                    <button class="btn-search" onclick="doSearch()">Найти</button>
-                </div>
-                <div id="search-results-wrap"></div>
+        <!-- Год -->
+        <div style="display: grid; grid-template-columns: @gridCols; border-bottom: 1px solid var(--color-border);">
+            <div style="padding: 14px 16px; font-weight: 700; background: var(--color-bg-secondary);">@L["Compare_Year"]</div>
+            @foreach (var car in cars)
+            {
+                <div style="padding: 14px 16px; text-align: center; @(car.Year == maxYear && cars.Count > 1 ? "background: rgba(212,175,55,0.1); color: var(--color-accent); font-weight: 700;" : "")">
+                    @car.Year @if (car.Year == maxYear && cars.Count > 1) {
+                    <span style="margin-left: 6px;">✓</span>
+                }
             </div>
         }
-    }
+        @for (var s = 0; s < slotsNeeded; s++)
+        {
+            <div style="padding: 14px 16px; text-align: center; color: var(--color-text-muted);">—</div>
+        }
+    </div>
 
+    <!-- Пробег -->
+    <div style="display: grid; grid-template-columns: @gridCols; border-bottom: 1px solid var(--color-border);">
+        <div style="padding: 14px 16px; font-weight: 700; background: var(--color-bg-secondary);">@L["Compare_Mileage"]</div>
+        @foreach (var car in cars)
+        {
+            <div style="padding: 14px 16px; text-align: center; @(car.Mileage == minMileage && cars.Count > 1 ? "background: rgba(212,175,55,0.1); color: var(--color-accent); font-weight: 700;" : "")">
+                @car.DisplayMileage @if (car.Mileage == minMileage && cars.Count > 1) {
+                <span style="margin-left: 6px;">✓</span>
+            }
+        </div>
+    }
+    @for (var s = 0; s < slotsNeeded; s++)
+    {
+        <div style="padding: 14px 16px; text-align: center; color: var(--color-text-muted);">—</div>
+    }
+</div>
+
+<!-- Остальные характеристики -->
+@{
+    var plainRows = new[]
+    {
+                    (L["Compare_Engine"].Value, cars.Select(c => $"{c.EngineVolume} л").ToArray()),
+                    (L["Compare_Fuel"].Value, cars.Select(c => c.FuelType).ToArray()),
+                    (L["Compare_Transmission"].Value, cars.Select(c => c.Transmission).ToArray()),
+                    (L["Compare_Drive"].Value, cars.Select(c => c.DriveType).ToArray()),
+                    (L["Compare_Body"].Value, cars.Select(c => c.BodyType).ToArray()),
+                    (L["Compare_Color"].Value, cars.Select(c => c.Color).ToArray()),
+                    (L["Compare_City"].Value, cars.Select(c => c.City).ToArray()),
+                };
+}
+
+@foreach (var (label, values) in plainRows)
+{
+    var allSame = values.Distinct().Count() <= 1;
+    <div style="display: grid; grid-template-columns: @gridCols; border-bottom: 1px solid var(--color-border);">
+        <div style="padding: 14px 16px; font-weight: 700; background: var(--color-bg-secondary);">@label</div>
+        @for (var i = 0; i < cars.Count; i++)
+        {
+            <div style="padding: 14px 16px; text-align: center; @(!allSame && cars.Count > 1 ? "background: rgba(212,175,55,0.05);" : "")">
+                @(i < values.Length ? values[i] : "—")
+            </div>
+        }
+        @for (var s = 0; s < slotsNeeded; s++)
+        {
+            <div style="padding: 14px 16px; text-align: center; color: var(--color-text-muted);">—</div>
+        }
+    </div>
+}
+</div>
+
+        @if (cars.Count < 3)
+{
+    <div class="compare-hint" style="background: rgba(212,175,55,0.08); border: 1px solid rgba(212,175,55,0.2); border-radius: var(--radius-md); padding: 16px 20px; margin-top: 28px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+        <span>💡</span>
+        <span>@string.Format(L["Compare_CanAdd"], 3 - cars.Count) —</span>
+        <a href="/catalog" style="color: var(--color-accent);">@L["Compare_ToCatalog"]</a>
+        <span style="margin-left: auto;">или найди ниже</span>
+    </div>
+
+    <div class="search-box" style="background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: 24px; margin-top: 24px;">
+        <h3 style="font-size: 1rem; margin-bottom: 16px;">🔍 Добавить авто для сравнения</h3>
+        <div style="display: flex; gap: 12px;">
+            <input type="text" id="compare-search-input" class="search-input" placeholder="Введи марку или модель — например, Toyota или BMW X5..." autocomplete="off" style="flex: 1; background: var(--color-bg-elevated); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 10px 14px; color: var(--color-text-primary);" />
+            <button class="btn-search" onclick="doSearch()" style="background: var(--color-accent); border: none; border-radius: var(--radius-md); padding: 10px 20px; font-weight: 700; cursor: pointer;">Найти</button>
+        </div>
+        <div id="search-results-wrap" style="margin-top: 20px;"></div>
+    </div>
+}
+    }
 </div>
 
 @section Scripts {
-<script>
-(function () {
-    var input = document.getElementById('compare-search-input');
-    var wrap = document.getElementById('search-results-wrap');
-    if (!input) return;
+    <script>
+        (function () {
+            var input = document.getElementById('compare-search-input');
+            var wrap = document.getElementById('search-results-wrap');
+            if (!input) return;
 
-    var existingIds = [@string.Join(",", cars.Select(c => c.Id))];
-    var debounceTimer;
+            var existingIds = [@string.Join(",", cars.Select(c => c.Id))];
+            var debounceTimer;
 
-    input.addEventListener('input', function () {
-        clearTimeout(debounceTimer);
-        var q = this.value.trim();
-        if (q.length < 2) { wrap.innerHTML = ''; return; }
-        debounceTimer = setTimeout(function () { doSearch(q); }, 350);
-    });
-
-    input.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter') { e.preventDefault(); doSearch(input.value.trim()); }
-    });
-
-    window.doSearch = function (q) {
-        q = q || input.value.trim();
-        if (q.length < 2) return;
-        wrap.innerHTML = '<div class="search-loading">🔎 Ищем...</div>';
-        fetch('/catalog/search-json?q=' + encodeURIComponent(q) + '&limit=9')
-            .then(function (r) { return r.ok ? r.json() : []; })
-            .then(function (cars) {
-                var filtered = cars.filter(function (c) { return !existingIds.includes(c.id); });
-                if (!filtered.length) {
-                    wrap.innerHTML = '<div class="search-empty">Ничего не найдено. <a href="/catalog" style="color:var(--gold)">Открыть каталог</a></div>';
-                    return;
-                }
-                var html = '<div class="search-results">';
-                filtered.forEach(function (car) {
-                    var img = car.photoPath
-                        ? '<img src="' + car.photoPath + '" alt="' + car.name + '" loading="lazy" />'
-                        : '<div style="width:100%;height:100px;background:var(--dark2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:8px">🚗</div>';
-                    html += '<div class="search-car-card" onclick="addToCompare(' + car.id + ', this)">'
-                        + img
-                        + '<div class="s-name">' + car.name + '</div>'
-                        + '<div class="s-price">' + car.price + '</div>'
-                        + '<div class="s-info">' + car.year + ' · ' + car.mileage + '</div>'
-                        + '</div>';
-                });
-                html += '</div>';
-                wrap.innerHTML = html;
-            })
-            .catch(function () {
-                wrap.innerHTML = '<div class="search-empty">Ошибка поиска. Попробуй ещё раз.</div>';
+            input.addEventListener('input', function () {
+                clearTimeout(debounceTimer);
+                var q = this.value.trim();
+                if (q.length < 2) { wrap.innerHTML = ''; return; }
+                debounceTimer = setTimeout(function () { doSearch(q); }, 350);
             });
-    };
 
-    window.addToCompare = function (id, card) {
-        var token = document.querySelector('input[name="__RequestVerificationToken"]');
-        card.style.opacity = '0.5';
-        card.style.pointerEvents = 'none';
-        fetch('/compare/add/' + id, {
-            method: 'POST',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'RequestVerificationToken': token ? token.value : ''
-            }
-        })
-        .then(function (r) { return r.json(); })
-        .then(function () { window.location.reload(); })
-        .catch(function () {
-            card.style.opacity = '1';
-            card.style.pointerEvents = '';
-        });
-    };
-})();
-</script>
+            input.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') { e.preventDefault(); doSearch(input.value.trim()); }
+            });
+
+            window.doSearch = function (q) {
+                q = q || input.value.trim();
+                if (q.length < 2) return;
+                wrap.innerHTML = '<div style="color: var(--color-text-muted);">🔎 Ищем...</div>';
+                fetch('/catalog/search-json?q=' + encodeURIComponent(q) + '&limit=9')
+                    .then(function (r) { return r.ok ? r.json() : []; })
+                    .then(function (cars) {
+                        var filtered = cars.filter(function (c) { return !existingIds.includes(c.id); });
+                        if (!filtered.length) {
+                            wrap.innerHTML = '<div style="color: var(--color-text-muted);">Ничего не найдено. <a href="/catalog" style="color: var(--color-accent);">Открыть каталог</a></div>';
+                            return;
+                        }
+                        var html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;">';
+                        filtered.forEach(function (car) {
+                            var img = car.photoPath
+                                ? '<img src="' + car.photoPath + '" alt="' + car.name + '" style="width: 100%; height: 100px; object-fit: cover; border-radius: var(--radius-md); margin-bottom: 8px;" loading="lazy" />'
+                                : '<div style="width: 100%; height: 100px; background: var(--color-bg-elevated); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 8px;">🚗</div>';
+                            html += '<div class="search-car-card" onclick="addToCompare(' + car.id + ', this)" style="background: var(--color-bg-elevated); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 12px; cursor: pointer; transition: var(--transition-fast);">'
+                                + img
+                                + '<div style="font-weight: 700;">' + car.name + '</div>'
+                                + '<div style="color: var(--color-accent); font-weight: 700;">' + car.price + '</div>'
+                                + '<div style="font-size: 0.75rem; color: var(--color-text-muted);">' + car.year + ' · ' + car.mileage + '</div>'
+                                + '</div>';
+                        });
+                        html += '</div>';
+                        wrap.innerHTML = html;
+                    })
+                    .catch(function () {
+                        wrap.innerHTML = '<div style="color: var(--color-text-muted);">Ошибка поиска. Попробуй ещё раз.</div>';
+                    });
+            };
+
+            window.addToCompare = function (id, card) {
+                var token = document.querySelector('input[name="__RequestVerificationToken"]');
+                card.style.opacity = '0.5';
+                card.style.pointerEvents = 'none';
+                fetch('/compare/add/' + id, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'RequestVerificationToken': token ? token.value : ''
+                    }
+                })
+                .then(function (r) { return r.json(); })
+                .then(function () { window.location.reload(); })
+                .catch(function () {
+                    card.style.opacity = '1';
+                    card.style.pointerEvents = '';
+                });
+            };
+        })();
+    </script>
 }

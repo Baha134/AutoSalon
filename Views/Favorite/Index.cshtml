@@ -1,25 +1,25 @@
 @model AutoSalon.ViewModels.FavoriteViewModel
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<AutoSalon.Resources.SharedResource> L
 @{
     ViewData["Title"] = L["Fav_Title"];
 }
 
-<div class="container mt-4">
-    <h1 class="h3 fw-bold mb-4">@L["Fav_Title"]</h1>
+<div class="container" style="margin-top: 88px; padding-bottom: 60px;">
+    <h1 class="fav-page-title" style="font-family: var(--font-display); font-size: 2rem; margin-bottom: 8px;">❤️ @L["Fav_Title"]</h1>
 
     @if (!Model.Cars.Any())
     {
-        <div class="empty-state py-5 text-center">
-            <div class="empty-icon">❤️</div>
-            <h3>@L["Fav_Empty"]</h3>
-            <p>@L["Fav_Empty_Sub"]</p>
-            <a href="/catalog" class="btn btn-primary">@L["Fav_ToCatalog"]</a>
+        <div class="empty-state" style="text-align: center; padding: 80px 20px; background: var(--color-bg-secondary); border-radius: var(--radius-xl); border: 1px solid var(--color-border); margin-top: 32px;">
+            <div class="empty-icon" style="font-size: 4rem; margin-bottom: 20px;">❤️</div>
+            <h3 style="margin-bottom: 12px;">@L["Fav_Empty"]</h3>
+            <p style="color: var(--color-text-secondary); margin-bottom: 28px;">@L["Fav_Empty_Sub"]</p>
+            <a href="/catalog" class="btn-gold" style="display: inline-block;">@L["Fav_ToCatalog"]</a>
         </div>
     }
     else
     {
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <div class="text-muted">@string.Format(L["Fav_Count"], Model.Cars.Count)</div>
-        </div>
+        <div class="fav-page-count" style="color: var(--color-text-secondary); margin-bottom: 24px;">@string.Format(L["Fav_Count"], Model.Cars.Count)</div>
         <div class="car-grid">
             @foreach (var car in Model.Cars)
             {

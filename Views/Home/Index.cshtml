@@ -7,532 +7,180 @@
 }
 
 @section Styles {
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-/* ════════════════════════════════════════
-   HOMEPAGE STYLES (только эта страница)
-════════════════════════════════════════ */
-body.page-home {
-    background: #0d0d0d;
-    color: #fff;
-}
-body.page-home .navbar {
-    position: fixed;
-    top: 0; left: 0; right: 0; z-index: 200;
-    background: rgba(10,10,10,0.7) !important;
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(255,255,255,0.07);
-    transition: background .3s;
-}
-body.page-home .navbar.hp-scrolled {
-    background: rgba(10,10,10,0.97) !important;
-}
-body.page-home main { padding-top: 0 !important; }
+    <style>
+        /* Дополнительные стили только для главной страницы (если нужны) */
+        .hero-stats .hero-stat-value {
+            font-family: var(--font-display);
+        }
 
-/* ── BOOTSTRAP OVERRIDES для главной страницы ── */
-body.page-home, body.page-home * {
-    box-sizing: border-box;
-}
-body.page-home .hp-hero,
-body.page-home .hp-sec,
-body.page-home .hp-cta {
-    color: #fff;
-}
-body.page-home .hp-card,
-body.page-home .hp-card:visited,
-body.page-home .hp-card:hover,
-body.page-home .hp-card:focus {
-    color: #fff !important;
-    text-decoration: none !important;
-}
-body.page-home .hp-brand,
-body.page-home .hp-brand:visited {
-    color: rgba(255,255,255,0.7) !important;
-    text-decoration: none !important;
-}
-body.page-home .hp-brand:hover {
-    color: #F5A623 !important;
-}
-body.page-home .hp-all,
-body.page-home .hp-all:visited,
-body.page-home .hp-all:hover {
-    color: #F5A623 !important;
-    text-decoration: none !important;
-}
-body.page-home .hp-btn,
-body.page-home a.hp-btn {
-    text-decoration: none !important;
-}
-body.page-home a.hp-btn-gold,
-body.page-home a.hp-btn-gold:visited,
-body.page-home a.hp-btn-gold:hover {
-    color: #000 !important;
-}
-body.page-home a.hp-btn-ghost,
-body.page-home a.hp-btn-ghost:visited,
-body.page-home a.hp-btn-ghost:hover {
-    color: #fff !important;
-}
-body.page-home .hp-eyebrow { color: #F5A623 !important; }
-body.page-home .hp-title { color: #fff !important; }
-body.page-home .hp-title span { color: #F5A623 !important; }
-body.page-home .hp-sub { color: rgba(255,255,255,0.55) !important; }
-body.page-home .hp-lbl { color: #F5A623 !important; }
-body.page-home .hp-ttl { color: #fff !important; }
-body.page-home .hp-stat-n { color: #F5A623 !important; }
-body.page-home .hp-stat-l { color: rgba(255,255,255,0.4) !important; }
-body.page-home .hp-card-name { color: #fff !important; }
-body.page-home .hp-card-meta { color: rgba(255,255,255,0.35) !important; }
-body.page-home .hp-card-price { color: #F5A623 !important; }
-body.page-home .hp-card-spec { color: rgba(255,255,255,0.38) !important; }
-body.page-home .hp-card-more { color: rgba(255,255,255,0.3) !important; }
-body.page-home .hp-card:hover .hp-card-more { color: #F5A623 !important; }
-body.page-home .hp-card-ico { color: rgba(255,255,255,0.3) !important; }
-body.page-home .hp-card:hover .hp-card-ico { color: #F5A623 !important; }
-body.page-home .hp-why-ttl { color: #fff !important; }
-body.page-home .hp-why-txt { color: rgba(255,255,255,0.42) !important; }
-body.page-home .hp-cta-ttl { color: #fff !important; }
-body.page-home .hp-cta-sub { color: rgba(255,255,255,0.48) !important; }
-body.page-home .hp-scroll { color: rgba(255,255,255,0.2) !important; }
-body.page-home .hp-chip { color: #000 !important; }
-body.page-home .hp-chip-sold { color: rgba(255,255,255,0.75) !important; }
-
-
-/* ── HERO ── */
-.hp-hero {
-    position: relative; min-height: 100svh;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    text-align: center; padding: 130px 24px 80px;
-    overflow: hidden;
-}
-.hp-hero-bg {
-    position: absolute; inset: 0; z-index: 0;
-    background:
-        linear-gradient(160deg, rgba(245,166,35,0.06) 0%, transparent 40%),
-        linear-gradient(to bottom, rgba(13,13,13,0.1) 0%, rgba(13,13,13,0.55) 50%, #0d0d0d 100%),
-        url('https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1800&q=85') center 40%/cover no-repeat;
-}
-.hp-hero-inner { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; max-width: 880px; }
-
-.hp-eyebrow {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(245,166,35,0.1); border: 1px solid rgba(245,166,35,0.28);
-    border-radius: 50px; padding: 7px 18px;
-    font-size: 11px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase;
-    color: #F5A623; margin-bottom: 28px;
-    animation: hpUp .7s .1s ease both;
-}
-.hp-dot { width: 6px; height: 6px; background: #F5A623; border-radius: 50%; animation: hpPulse 2s infinite; }
-@@keyframes hpPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.5)} }
-
-.hp-title {
-    font-family: 'Unbounded', sans-serif;
-    font-size: clamp(34px, 6.5vw, 82px);
-    font-weight: 900; line-height: 1.05; color: #fff;
-    margin-bottom: 20px;
-    animation: hpUp .7s .22s ease both;
-}
-.hp-title span { color: #F5A623; display: block; }
-
-.hp-sub {
-    max-width: 510px; font-size: 17px; line-height: 1.75;
-    color: rgba(255,255,255,0.55); margin-bottom: 42px;
-    animation: hpUp .7s .37s ease both;
-}
-.hp-actions {
-    display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
-    margin-bottom: 68px;
-    animation: hpUp .7s .52s ease both;
-}
-.hp-btn {
-    font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 15px;
-    padding: 15px 32px; border-radius: 50px; text-decoration: none;
-    display: inline-flex; align-items: center; gap: 8px;
-    transition: all .2s;
-}
-.hp-btn-gold { background: #F5A623; color: #000 !important; }
-.hp-btn-gold:hover { background: #e09520; color: #000 !important; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(245,166,35,0.35); }
-.hp-btn-ghost { background: rgba(255,255,255,0.06); color: #fff !important; border: 1px solid rgba(255,255,255,0.16); }
-.hp-btn-ghost:hover { background: rgba(255,255,255,0.12); color: #fff !important; transform: translateY(-2px); }
-
-.hp-stats {
-    display: grid; grid-template-columns: repeat(4,1fr);
-    width: 100%; max-width: 700px;
-    border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden;
-    background: rgba(255,255,255,0.03); backdrop-filter: blur(12px);
-    animation: hpUp .7s .66s ease both;
-}
-.hp-stat { padding: 24px 12px; text-align: center; border-right: 1px solid rgba(255,255,255,0.07); }
-.hp-stat:last-child { border-right: none; }
-.hp-stat-n {
-    font-family: 'Unbounded', sans-serif; font-size: 26px; font-weight: 900;
-    color: #F5A623; display: block; margin-bottom: 4px;
-}
-.hp-stat-l { font-size: 11px; color: rgba(255,255,255,0.4); line-height: 1.4; }
-
-.hp-scroll {
-    position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
-    z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 6px;
-    font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,0.2);
-    animation: hpUp .7s .9s ease both;
-}
-.hp-scroll-line {
-    width: 1px; height: 34px;
-    background: linear-gradient(to bottom, rgba(245,166,35,0.7), transparent);
-    animation: hpLine 2s 1s infinite;
-}
-@@keyframes hpLine { 0%{transform:scaleY(0);transform-origin:top;opacity:1} 50%{transform:scaleY(1);transform-origin:top} 100%{transform:scaleY(1);transform-origin:bottom;opacity:0} }
-@@keyframes hpUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-
-/* ── SECTIONS ── */
-.hp-sec { padding: 88px 48px; background: #0d0d0d; }
-.hp-sec-alt { background: #111; }
-.hp-lbl {
-    font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
-    color: #F5A623; margin-bottom: 10px;
-    display: flex; align-items: center; gap: 8px;
-}
-.hp-lbl::before { content:''; display:inline-block; width:20px; height:2px; background:#F5A623; border-radius:2px; }
-.hp-ttl {
-    font-family: 'Unbounded', sans-serif;
-    font-size: clamp(20px,3vw,34px); font-weight: 900; color: #fff;
-    margin-bottom: 44px; line-height: 1.18;
-}
-.hp-row { display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:16px; margin-bottom:40px; }
-.hp-row .hp-ttl { margin-bottom: 0; }
-.hp-all { font-size:13px; font-weight:600; color:#F5A623 !important; text-decoration:none !important; display:flex; align-items:center; gap:5px; white-space:nowrap; transition:gap .2s; }
-.hp-all:hover { gap:9px; color:#F5A623 !important; }
-
-/* ── CARDS ── */
-.hp-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(285px,1fr)); gap:18px; }
-.hp-card {
-    background: #161616;
-    border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 16px; overflow: hidden;
-    display: flex; flex-direction: column;
-    text-decoration: none !important; color: #fff !important;
-    transition: transform .3s cubic-bezier(.22,.68,0,1.2), box-shadow .3s, border-color .3s;
-}
-.hp-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 28px 56px rgba(0,0,0,0.65), 0 0 0 1px rgba(245,166,35,0.22);
-    border-color: rgba(245,166,35,0.25);
-    color: #fff !important;
-}
-.hp-card-img { position:relative; aspect-ratio:16/10; overflow:hidden; background:#111; }
-.hp-card-img img { width:100%; height:100%; object-fit:cover; transition:transform .5s cubic-bezier(.22,.68,0,1.1); }
-.hp-card:hover .hp-card-img img { transform:scale(1.07); }
-.hp-no-photo { width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:52px;color:rgba(255,255,255,0.07); }
-.hp-chip {
-    position:absolute; top:12px; left:12px;
-    background:#F5A623; color:#000;
-    font-size:10px; font-weight:800; letter-spacing:.07em; text-transform:uppercase;
-    padding:4px 11px; border-radius:50px;
-}
-.hp-chip-sold {
-    position:absolute; top:12px; left:12px;
-    background:rgba(255,255,255,0.11); color:rgba(255,255,255,0.75);
-    font-size:10px; font-weight:700;
-    padding:4px 11px; border-radius:50px; backdrop-filter:blur(6px);
-}
-.hp-card-body { padding:18px 20px 20px; flex:1; display:flex; flex-direction:column; }
-.hp-card-name { font-family:'Unbounded',sans-serif; font-size:14px; font-weight:800; color:#fff; margin-bottom:2px; }
-.hp-card-meta { font-size:12px; color:rgba(255,255,255,0.35); margin-bottom:12px; }
-.hp-card-price { font-family:'Unbounded',sans-serif; font-size:19px; font-weight:900; color:#F5A623; margin-bottom:14px; }
-.hp-card-specs { display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-bottom:14px; flex:1; }
-.hp-card-spec { font-size:12px; color:rgba(255,255,255,0.38); background:rgba(255,255,255,0.04); border-radius:6px; padding:5px 8px; display:flex; align-items:center; gap:4px; }
-.hp-card-foot { display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:4px; }
-.hp-card-more { font-size:13px; font-weight:600; color:rgba(255,255,255,0.3); transition:color .2s; }
-.hp-card:hover .hp-card-more { color:#F5A623; }
-.hp-card-ico {
-    width:29px; height:29px; border-radius:50%; border:1px solid rgba(255,255,255,0.1);
-    display:flex; align-items:center; justify-content:center; font-size:14px;
-    transition:border-color .2s, background .2s, color .2s; color:rgba(255,255,255,0.3);
-}
-.hp-card:hover .hp-card-ico { border-color:#F5A623; background:rgba(245,166,35,0.1); color:#F5A623; }
-
-.hp-empty { text-align:center; padding:80px 24px; color:rgba(255,255,255,0.25); font-size:15px; }
-.hp-empty span { display:block; font-size:48px; margin-bottom:14px; opacity:.35; }
-.hp-center { text-align:center; margin-top:40px; }
-
-/* ── BRANDS ── */
-.hp-brands { display:flex; flex-wrap:wrap; gap:9px; }
-.hp-brand {
-    background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.09);
-    border-radius:8px; padding:9px 18px;
-    font-size:13px; font-weight:600; text-decoration:none !important; color:rgba(255,255,255,0.7) !important;
-    transition:all .2s;
-}
-.hp-brand:hover { border-color:#F5A623; color:#F5A623 !important; background:rgba(245,166,35,0.06); transform:translateY(-2px); }
-
-/* ── WHY ── */
-.hp-why { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
-@@media(min-width:900px){ .hp-why{ grid-template-columns:repeat(4,1fr); } }
-.hp-why-card {
-    background:#161616; border:1px solid rgba(255,255,255,0.07); border-radius:16px; padding:26px 22px;
-    transition:border-color .25s, transform .25s; position:relative; overflow:hidden;
-}
-.hp-why-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:linear-gradient(90deg,#F5A623,#D4861A); transform:scaleX(0); transform-origin:left; transition:transform .35s cubic-bezier(.22,.68,0,1.1); }
-.hp-why-card:hover { border-color:rgba(245,166,35,0.22); transform:translateY(-5px); }
-.hp-why-card:hover::after { transform:scaleX(1); }
-.hp-why-ico { width:46px;height:46px; background:rgba(245,166,35,0.1); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:21px; margin-bottom:16px; }
-.hp-why-ttl { font-family:'Unbounded',sans-serif; font-size:13px; font-weight:800; color:#fff; margin-bottom:8px; line-height:1.4; }
-.hp-why-txt { font-size:12px; color:rgba(255,255,255,0.42); line-height:1.65; }
-
-/* ── CTA ── */
-.hp-cta {
-    padding:96px 48px; text-align:center;
-    background:radial-gradient(ellipse 900px 500px at 50% 50%, rgba(245,166,35,0.08) 0%, transparent 70%), #0a0a0a;
-}
-.hp-cta-lbl { font-size:11px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:#F5A623; margin-bottom:14px; }
-.hp-cta-ttl { font-family:'Unbounded',sans-serif; font-size:clamp(22px,4vw,42px); font-weight:900; color:#fff; margin-bottom:14px; line-height:1.1; }
-.hp-cta-sub { font-size:17px; color:rgba(255,255,255,0.48); max-width:460px; margin:0 auto 38px; line-height:1.7; }
-.hp-cta-btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
-
-/* ── RESPONSIVE ── */
-@@media(max-width:768px){
-    .hp-sec { padding:60px 20px; }
-    .hp-cta { padding:68px 20px; }
-    .hp-stats { grid-template-columns:repeat(2,1fr); }
-    .hp-stat { border-right:none !important; border-bottom:1px solid rgba(255,255,255,0.07); }
-    .hp-stat:nth-child(odd){ border-right:1px solid rgba(255,255,255,0.07) !important; }
-    .hp-stat:nth-last-child(-n+2){ border-bottom:none; }
-    .hp-scroll { display:none; }
-    .hp-why { grid-template-columns:1fr 1fr; }
-}
-@@media(max-width:480px){
-    .hp-hero { padding:108px 16px 56px; }
-    .hp-actions { flex-direction:column; align-items:stretch; }
-    .hp-btn { justify-content:center; }
-    .hp-why { grid-template-columns:1fr; }
-}
-</style>
+        .hero {
+            margin-top: 0;
+        }
+    </style>
 }
 
-<script>document.body.classList.add('page-home');</script>
-
-<!-- ════════════ HERO ════════════ -->
-<section class="hp-hero">
-    <div class="hp-hero-bg"></div>
-    <div class="hp-hero-inner">
-
-        <div class="hp-eyebrow">
-            <span class="hp-dot"></span>
-            Премиальный автосалон
+<!-- HERO SECTION -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-eyebrow">
+            <span>✨</span> Премиальный автосалон
         </div>
-
-        <h1 class="hp-title">
-            Найдите автомобиль
+        <h1 class="hero-title">
+            Найдите автомобиль<br>
             <span>вашей мечты</span>
         </h1>
-
-        <p class="hp-sub">
+        <p class="hero-sub">
             Более @Model.TotalCars автомобилей в наличии. Официальная гарантия,
             юридическая чистота, выгодные условия трейд-ин и кредита.
         </p>
-
-        <div class="hp-actions">
-            <a href="/catalog" class="hp-btn hp-btn-gold">
-                Смотреть каталог
-                <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-            </a>
-            <a href="/about" class="hp-btn hp-btn-ghost">О салоне</a>
+        <div class="hero-actions">
+            <a href="/catalog" class="btn-gold">Смотреть каталог →</a>
+            <a href="/about" class="btn-outline">О салоне</a>
         </div>
 
-        <div class="hp-stats">
-            <div class="hp-stat">
-                <span class="hp-stat-n" data-target="@Model.TotalCars" data-suffix="+">0</span>
-                <span class="hp-stat-l">Авто в наличии</span>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="hero-stat-value" data-target="@Model.TotalCars" data-suffix="+">0</div>
+                <div class="hero-stat-label">Авто в наличии</div>
             </div>
-            <div class="hp-stat">
-                <span class="hp-stat-n" data-target="12" data-suffix=" лет">0</span>
-                <span class="hp-stat-l">На рынке</span>
+            <div class="hero-stat">
+                <div class="hero-stat-value" data-target="12" data-suffix=" лет">0</div>
+                <div class="hero-stat-label">На рынке</div>
             </div>
-            <div class="hp-stat">
-                <span class="hp-stat-n" data-target="8000" data-suffix="+">0</span>
-                <span class="hp-stat-l">Клиентов</span>
+            <div class="hero-stat">
+                <div class="hero-stat-value" data-target="8000" data-suffix="+">0</div>
+                <div class="hero-stat-label">Клиентов</div>
             </div>
-            <div class="hp-stat">
-                <span class="hp-stat-n" data-target="100" data-suffix="%">0</span>
-                <span class="hp-stat-l">Легальных сделок</span>
+            <div class="hero-stat">
+                <div class="hero-stat-value" data-target="100" data-suffix="%">0</div>
+                <div class="hero-stat-label">Легальных сделок</div>
             </div>
         </div>
-    </div>
-
-    <div class="hp-scroll">
-        <div class="hp-scroll-line"></div>
-        Scroll
     </div>
 </section>
 
-<!-- ════════════ FEATURED CARS ════════════ -->
-<section class="hp-sec">
-    <div class="hp-row">
+<!-- FEATURED CARS SECTION -->
+<section class="container" style="padding: 60px 0;">
+    <div class="section-header">
         <div>
-            <div class="hp-lbl">В наличии</div>
-            <h2 class="hp-ttl">Популярные модели</h2>
+            <div class="section-title">Популярные модели</div>
         </div>
-        <a href="/catalog" class="hp-all">Все автомобили →</a>
+        <a href="/catalog" class="section-link">Все автомобили →</a>
     </div>
 
     @if (Model.FeaturedCars.Any())
     {
-        <div class="hp-grid">
+        <div class="car-grid">
             @foreach (var car in Model.FeaturedCars)
             {
-                <a href="/car/@car.Slug" class="hp-card">
-                    <div class="hp-card-img">
-                        @if (car.MainPhoto != null)
-                        {
-                            <img src="@car.MainPhoto.FilePath" alt="@car.Brand @car.Model @car.Year" loading="lazy" />
-                        }
-                        else
-                        {
-                            <div class="hp-no-photo">🚗</div>
-                        }
-
-                        @if (car.Status == AutoSalon.Models.CarStatus.Sold)
-                        {
-                            <span class="hp-chip-sold">Продан</span>
-                        }
-                        else if (car.Badge != null && car.Badge.IsVerified)
-                        {
-                            <span class="hp-chip">✔ Проверен</span>
-                        }
-                        else if (car.Badge != null && car.Badge.HasWarranty)
-                        {
-                            <span class="hp-chip">🛡 Гарантия</span>
-                        }
-                        else if (car.Badge != null && car.Badge.HasExchange)
-                        {
-                            <span class="hp-chip">🔄 Обмен</span>
-                        }
-                        else if (car.Mileage == 0)
-                        {
-                            <span class="hp-chip">Новый</span>
-                        }
-                        else
-                        {
-                            <span class="hp-chip">В наличии</span>
-                        }
-                    </div>
-                    <div class="hp-card-body">
-                        <div class="hp-card-name">@car.Brand @car.Model</div>
-                        <div class="hp-card-meta">@car.Year г. · @car.City</div>
-                        <div class="hp-card-price">@car.DisplayPrice</div>
-                        <div class="hp-card-specs">
-                            <div class="hp-card-spec">⏱ @car.DisplayMileage</div>
-                            <div class="hp-card-spec">⚙️ @car.FuelType</div>
-                            <div class="hp-card-spec">🔄 @car.Transmission</div>
-                            <div class="hp-card-spec">📦 @car.BodyType</div>
-                        </div>
-                        <div class="hp-card-foot">
-                            <span class="hp-card-more">Подробнее</span>
-                            <span class="hp-card-ico">→</span>
-                        </div>
-                    </div>
-                </a>
+                <partial name="_CarCard" model="car" />
             }
         </div>
-        <div class="hp-center">
-            <a href="/catalog" class="hp-btn hp-btn-gold">Смотреть все автомобили →</a>
+        <div class="text-center mt-5">
+            <a href="/catalog" class="btn-gold">Смотреть все автомобили →</a>
         </div>
     }
     else
     {
-        <div class="hp-empty">
-            <span>🚗</span>
-            Автомобили появятся совсем скоро
+        <div class="empty-state">
+            <div class="empty-icon">🚗</div>
+            <h3>@L["Home_NoCars"]</h3>
         </div>
     }
 </section>
 
-<!-- ════════════ BRANDS ════════════ -->
+<!-- BRANDS SECTION -->
 @if (Model.TopBrands.Any())
 {
-    <section class="hp-sec hp-sec-alt">
-        <div class="hp-lbl">Каталог</div>
-        <h2 class="hp-ttl">Марки в наличии</h2>
-        <div class="hp-brands">
-            @foreach (var brand in Model.TopBrands)
-            {
-                <a href="/catalog?brand=@Uri.EscapeDataString(brand)" class="hp-brand">@brand</a>
-            }
+    <section style="background: var(--color-bg-secondary); padding: 60px 0;">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-title">Марки в наличии</div>
+            </div>
+            <div class="brand-grid">
+                @foreach (var brand in Model.TopBrands.Take(12))
+                {
+                    <a href="/catalog?Brand=@Uri.EscapeDataString(brand)" class="brand-chip">@brand</a>
+                }
+            </div>
         </div>
     </section>
 }
 
-<!-- ════════════ WHY US ════════════ -->
-<section class="hp-sec">
-    <div class="hp-lbl">Наши преимущества</div>
-    <h2 class="hp-ttl">Почему выбирают нас</h2>
-    <div class="hp-why">
-        <div class="hp-why-card">
-            <div class="hp-why-ico">🛡</div>
-            <div class="hp-why-ttl">Официальная гарантия</div>
-            <div class="hp-why-txt">Все автомобили проходят полную проверку и имеют официальную гарантию производителя.</div>
+<!-- WHY US SECTION -->
+<section class="container" style="padding: 60px 0;">
+    <div class="section-header">
+        <div class="section-title">Почему выбирают нас</div>
+    </div>
+    <div class="why-grid">
+        <div class="why-card">
+            <div class="why-icon">🛡</div>
+            <div class="why-title">Официальная гарантия</div>
+            <div class="why-sub">Все автомобили проходят полную проверку и имеют официальную гарантию производителя.</div>
         </div>
-        <div class="hp-why-card">
-            <div class="hp-why-ico">📄</div>
-            <div class="hp-why-ttl">Юридическая чистота</div>
-            <div class="hp-why-txt">Проверяем каждый автомобиль по всем базам данных. Никаких скрытых проблем.</div>
+        <div class="why-card">
+            <div class="why-icon">📄</div>
+            <div class="why-title">Юридическая чистота</div>
+            <div class="why-sub">Проверяем каждый автомобиль по всем базам данных. Никаких скрытых проблем.</div>
         </div>
-        <div class="hp-why-card">
-            <div class="hp-why-ico">💳</div>
-            <div class="hp-why-ttl">Кредит от 0.1%</div>
-            <div class="hp-why-txt">Партнёрство с ведущими банками. Одобрение за 30 минут прямо в салоне.</div>
+        <div class="why-card">
+            <div class="why-icon">💳</div>
+            <div class="why-title">Кредит от 0.1%</div>
+            <div class="why-sub">Партнёрство с ведущими банками. Одобрение за 30 минут прямо в салоне.</div>
         </div>
-        <div class="hp-why-card">
-            <div class="hp-why-ico">🔄</div>
-            <div class="hp-why-ttl">Трейд-ин</div>
-            <div class="hp-why-txt">Обменяйте ваш автомобиль на новый. Оценка и оформление за один визит.</div>
+        <div class="why-card">
+            <div class="why-icon">🔄</div>
+            <div class="why-title">Трейд-ин</div>
+            <div class="why-sub">Обменяйте ваш автомобиль на новый. Оценка и оформление за один визит.</div>
         </div>
     </div>
 </section>
 
-<!-- ════════════ CTA ════════════ -->
-<section class="hp-cta">
-    <div class="hp-cta-lbl">Готовы начать?</div>
-    <h2 class="hp-cta-ttl">Найдём автомобиль<br>специально для вас</h2>
-    <p class="hp-cta-sub">Наши специалисты помогут подобрать идеальный вариант под ваш бюджет и предпочтения.</p>
-    <div class="hp-cta-btns">
-        <a href="/catalog" class="hp-btn hp-btn-gold">Смотреть каталог →</a>
-        <a href="/about" class="hp-btn hp-btn-ghost">Связаться с нами</a>
+<!-- CTA SECTION with Lead Form (critical: class lead-form, id lead-anchor) -->
+<section class="container" style="padding: 0 0 60px;">
+    <div class="cta-section" id="lead-anchor">
+        <h2 class="cta-title">Готовы найти свой автомобиль?</h2>
+        <p class="cta-text">Наши специалисты помогут подобрать идеальный вариант под ваш бюджет и предпочтения.</p>
+
+        <form method="post" action="/leads" class="lead-form" style="max-width: 480px; margin: 0 auto;">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="CarId" value="" />
+            <input type="hidden" name="LeadType" value="Call" />
+            <!-- Honeypot поле (обязательно) -->
+            <input type="text" name="Website" style="display:none" tabindex="-1" autocomplete="off" />
+
+            <input type="text" name="Name" class="form-control mb-2" placeholder="@L["Home_Form_Name"]" required maxlength="100" />
+            <input type="tel" name="Phone" class="form-control mb-2" placeholder="@L["Home_Form_Phone"]" required maxlength="20" />
+            <textarea name="Message" class="form-control mb-3" rows="2" placeholder="@L["Home_Form_Message"]"></textarea>
+            <button type="submit" class="btn-submit">@L["Home_Form_Submit"]</button>
+            <p class="small text-muted mt-2">@L["Home_Form_Agree"]</p>
+        </form>
     </div>
 </section>
 
 @section Scripts {
-<script>
-// Navbar scroll effect
-(function () {
-    var nav = document.querySelector('.navbar');
-    if (!nav) return;
-    function check() { nav.classList.toggle('hp-scrolled', window.scrollY > 50); }
-    window.addEventListener('scroll', check, { passive: true });
-    check();
-})();
-
-// Animated counters
-(function () {
-    var els = document.querySelectorAll('.hp-stat-n[data-target]');
-    var obs = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-            if (!e.isIntersecting) return;
-            var el = e.target;
-            var target = +el.dataset.target;
-            var suffix = el.dataset.suffix || '';
-            var step = Math.max(1, Math.ceil(target / 70));
-            var cur = 0;
-            var t = setInterval(function () {
-                cur = Math.min(cur + step, target);
-                el.textContent = cur.toLocaleString('ru') + suffix;
-                if (cur >= target) clearInterval(t);
-            }, 16);
-            obs.unobserve(el);
-        });
-    }, { threshold: 0.4 });
-    els.forEach(function (el) { obs.observe(el); });
-})();
-</script>
+    <script>
+        // Анимация счётчиков в hero-статистике
+        (function() {
+            const counters = document.querySelectorAll('.hero-stat-value[data-target]');
+            if (!counters.length) return;
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    const el = entry.target;
+                    const target = parseInt(el.dataset.target, 10);
+                    const suffix = el.dataset.suffix || '';
+                    let current = 0;
+                    const step = Math.ceil(target / 60);
+                    const timer = setInterval(() => {
+                        current = Math.min(current + step, target);
+                        el.textContent = current.toLocaleString('ru-RU') + suffix;
+                        if (current >= target) clearInterval(timer);
+                    }, 20);
+                    observer.unobserve(el);
+                });
+            }, { threshold: 0.5 });
+            counters.forEach(c => observer.observe(c));
+        })();
+    </script>
 }

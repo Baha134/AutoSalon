@@ -6,62 +6,79 @@
     var isSold = Model.Status == AutoSalon.Models.CarStatus.Sold;
     var isReserved = Model.Status == AutoSalon.Models.CarStatus.Reserved;
     var mainPhoto = Model.MainPhoto;
+    var hasBadge = Model.Badge != null;
 }
 
 <div class="car-card">
-    <a href="/car/@Model.Slug" class="car-card-img-link">
-        <div class="car-card-img">
+    <div class="car-card-img">
+        <a href="/car/@Model.Slug" class="car-card-img-link">
             @if (mainPhoto != null)
             {
                 <img src="@mainPhoto.FilePath" alt="@Model.Brand @Model.Model @Model.Year" loading="lazy" />
             }
             else
             {
-                <div class="no-photo">🚗 @L["Card_NoPhoto"]</div>
+                <div class="no-photo">🚗</div>
             }
+        </a>
 
-            @if (isSold)
-            {
-                <div class="status-badge status-sold">@L["Card_Sold"]</div>
-            }
-            else if (isReserved)
-            {
-                <div class="status-badge status-reserved">@L["Card_Reserved"]</div>
-            }
+        <!-- Status badge -->
+        @if (isSold)
+        {
+            <div class="status-badge status-sold">@L["Card_Sold"]</div>
+        }
+        else if (isReserved)
+        {
+            <div class="status-badge status-reserved">@L["Card_Reserved"]</div>
+        }
+        else if (hasBadge && Model.Badge!.IsVerified)
+        {
+            <div class="status-badge status-active">✔ @L["Card_Verified"]</div>
+        }
+        else if (hasBadge && Model.Badge!.HasWarranty)
+        {
+            <div class="status-badge status-active">🛡 @L["Card_Warranty"]</div>
+        }
+        else if (hasBadge && Model.Badge!.HasExchange)
+        {
+            <div class="status-badge status-active">🔄 @L["Card_Exchange"]</div>
+        }
 
-            @* ИСПРАВЛЕНО: заменён onclick="toggleFav(...)" на class="btn-favorite"
-               Теперь favorite.js подхватывает кнопку через делегирование на document *@
-            @if (!isSold)
-            {
-                <button class="fav-btn btn-favorite"
-                        data-id="@Model.Id"
-                        data-is-fav="0"
-                        title="@L["Detail_Favorite"]">
-                    <span class="fav-icon">♡</span>
-                </button>
-            }
+        <!-- Favorite button (critical for favorite.js) -->
+        <button class="fav-btn btn-favorite"
+                data-id="@Model.Id"
+                data-is-fav="0"
+                title="@L["Detail_Favorite"]">
+            <span class="fav-icon">♡</span>
+        </button>
 
-            @* ИСПРАВЛЕНО: заменён onclick="toggleCompare(...)" на class="btn-compare"
-               Теперь compare.js подхватывает кнопку через делегирование на document *@
-            @if (!isSold)
-            {
-                <button class="compare-btn btn-compare"
-                        data-id="@Model.Id"
-                        data-in-compare="0"
-                        title="@L["Card_Compare"]">
-                    ⚖ @L["Card_Compare"]
-                </button>
-            }
-        </div>
-    </a>
+        <!-- Compare button (critical for compare.js) -->
+        <button class="compare-btn btn-compare"
+                data-id="@Model.Id"
+                data-in-compare="0"
+                title="@L["Card_Compare"]">
+            ⚖ @L["Card_Compare"]
+        </button>
+    </div>
 
     <div class="car-card-body">
-        @if (Model.Badge != null)
+        <a href="/car/@Model.Slug" class="car-card-title">@Model.Brand @Model.Model @Model.Year</a>
+        <div class="car-card-price">@Model.DisplayPrice</div>
+
+        <div class="car-card-specs">
+            <span>⏱ @Model.DisplayMileage</span>
+            <span>⚙️ @Model.FuelType</span>
+            <span>🔄 @Model.Transmission</span>
+            <span>📦 @Model.BodyType</span>
+        </div>
+
+        <!-- Badges row (if needed) -->
+        @if (hasBadge && (Model.Badge!.IsVerified || Model.Badge!.HasWarranty || Model.Badge!.HasExchange))
         {
             <div class="car-badges">
                 @if (Model.Badge.IsVerified)
                 {
-                    <span class="car-badge badge-verified">✓ @L["Card_Verified"]</span>
+                    <span class="car-badge badge-verified">✔ @L["Card_Verified"]</span>
                 }
                 @if (Model.Badge.HasWarranty)
                 {
@@ -74,32 +91,10 @@
             </div>
         }
 
-        <a href="/car/@Model.Slug" class="car-card-title">
-            @Model.Brand @Model.Model
-        </a>
-
-        <div class="car-card-price">
+        <div class="car-card-footer">
             @if (isSold)
             {
-                <span style="text-decoration:line-through; opacity:.5">@Model.DisplayPrice</span>
-            }
-            else
-            {
-                @Model.DisplayPrice
-            }
-        </div>
-
-        <div class="car-card-specs">
-            <span>@Model.Year г.</span>
-            <span>@Model.DisplayMileage</span>
-            <span>@Model.EngineVolume л</span>
-            <span>@Model.Transmission</span>
-        </div>
-
-        <div class="car-card-footer">
-            @if (!isSold && !isReserved)
-            {
-                <a href="/car/@Model.Slug" class="btn-card-detail">@L["Card_Details"] →</a>
+                <span class="btn-card-sold">@L["Card_Sold"]</span>
             }
             else if (isReserved)
             {
@@ -107,7 +102,7 @@
             }
             else
             {
-                <span class="btn-card-sold">@L["Card_Sold"]</span>
+                <a href="/car/@Model.Slug" class="btn-card-detail">@L["Card_Details"] →</a>
             }
         </div>
     </div>

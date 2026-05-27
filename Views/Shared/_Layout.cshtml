@@ -10,7 +10,7 @@
 <html lang="@currentCulture">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] — @L["Site_Name"]</title>
     <meta name="description" content="@(ViewData["Description"] ?? "Продажа автомобилей с пробегом и новых. Каталог, кредит, обмен.")" />
     @if (ViewData["NoIndex"] != null)
@@ -18,7 +18,7 @@
         <meta name="robots" content="noindex" />
     }
 
-    <!-- Open Graph -->
+    <!-- Open Graph / Social -->
     <meta property="og:site_name" content="@L["Site_Name"]" />
     <meta property="og:locale" content="ru_RU" />
     <meta property="og:url" content="https://@Context.Request.Host@Context.Request.Path" />
@@ -48,33 +48,34 @@
         <meta property="og:description" content="@(ViewData["Description"] ?? "Продажа автомобилей с пробегом и новых. Каталог, кредит, обмен.")" />
     }
 
-    <!-- Google Fonts: Outfit -->
+    <!-- Preconnect + Google Fonts (Inter + Playfair Display) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-          rel="stylesheet" crossorigin="anonymous" />
+    <!-- Bootstrap 5 (only CSS, we use our own theme) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
+    <!-- Main site CSS (new premium dark theme) -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
 
-    <!-- ═══════════════ NAVBAR ═══════════════ -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <!-- Fixed Navbar (will become solid on scroll via JS) -->
+    <nav class="navbar" id="mainNavbar">
         <div class="container">
             <a class="navbar-brand" href="/">
                 @L["Site_Brand_1"]<span>@L["Site_Brand_2"]</span>
             </a>
 
-            <button class="navbar-toggler border-0" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#navMenu"
-                    style="color:rgba(255,255,255,.7);">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navMenu">
-                <ul class="navbar-nav me-auto">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link" href="/catalog">@L["Nav_Catalog"]</a>
                     </li>
@@ -87,18 +88,21 @@
                 </ul>
 
                 <ul class="navbar-nav align-items-center gap-1">
+                    <!-- Compare link with counter -->
                     <li class="nav-item">
                         <a class="nav-link d-flex align-items-center gap-1" href="/compare" title="@L["Nav_Compare"]">
-                            <span style="font-size:16px;">⚖️</span>
+                            <span style="font-size: 1.2rem;">⚖️</span>
                             <span class="navbar-compare-count" id="compare-count" style="display:none">0</span>
                         </a>
                     </li>
+                    <!-- Favorites link with counter -->
                     <li class="nav-item">
                         <a class="nav-link d-flex align-items-center gap-1" href="/favorites" title="@L["Nav_Favorites"]">
-                            <span style="font-size:16px;">❤️</span>
+                            <span style="font-size: 1.2rem;">❤️</span>
                             <span class="navbar-fav-count" id="fav-count" style="display:none">0</span>
                         </a>
                     </li>
+                    <!-- Language switcher -->
                     <li class="nav-item ms-2">
                         <div class="d-flex gap-1 align-items-center">
                             <a href="/language/set?culture=ru&returnUrl=@Uri.EscapeDataString(returnUrl)"
@@ -109,19 +113,20 @@
                                class="lang-btn @(currentCulture == "en" ? "active" : "")">EN</a>
                         </div>
                     </li>
+                    <!-- Login partial -->
                     <partial name="_LoginPartial" />
                 </ul>
             </div>
         </div>
     </nav>
 
+    <!-- Global success message for leads (non-AJAX fallback) -->
     @if (TempData["LeadSuccess"] != null)
     {
         <div class="container mt-3">
-            <div class="alert alert-success alert-dismissible fade show rounded-3 border-0"
-                 style="background:#DCFCE7;color:#15803D;font-weight:600;" role="alert">
+            <div class="alert alert-success alert-dismissible fade show rounded-3" style="background: rgba(34,197,94,0.1); border-color: rgba(34,197,94,0.3); color: #4ade80;" role="alert">
                 ✅ @L["Lead_Success"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         </div>
     }
@@ -130,7 +135,7 @@
         @RenderBody()
     </main>
 
-    <!-- ═══════════════ FOOTER ═══════════════ -->
+    <!-- Footer -->
     <footer class="site-footer">
         <div class="container">
             <div class="row g-4">
@@ -162,7 +167,6 @@
                     </ul>
                 </div>
             </div>
-
             <div class="footer-bottom">
                 <span>© @DateTime.Now.Year @L["Site_Name"]. Все права защищены.</span>
                 <span>Казахстан · Кредит · Трейд-ин · Гарантия</span>
@@ -170,11 +174,28 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-            crossorigin="anonymous"></script>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="~/js/favorite.js" asp-append-version="true"></script>
     <script src="~/js/compare.js" asp-append-version="true"></script>
     <script src="~/js/sticky-cta.js" asp-append-version="true"></script>
+    <script src="~/js/gallery.js" asp-append-version="true"></script>
+
+    <!-- Navbar scroll effect -->
+    <script>
+        (function() {
+        const navbar = document.getElementById('mainNavbar');
+        if (!navbar) return;
+        window.addEventListener('scroll', function() {
+        if (window.scrollY > 50) {
+        navbar.classList.add('navbar-scrolled');
+        } else {
+        navbar.classList.remove('navbar-scrolled');
+        }
+        });
+        })();
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

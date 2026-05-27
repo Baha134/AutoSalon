@@ -1,0 +1,141 @@
+@model AutoSalon.Models.Lead
+@{
+    ViewData["Title"] = "Заявка #" + Model.Id;
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm p-4">
+            <h5 class="fw-bold mb-3">📋 Данные заявки #@Model.Id</h5>
+            <table class="table table-sm">
+                <tr><th style="width:140px">Имя</th><td class="fw-semibold">@Model.Name</td></tr>
+                <tr><th>Телефон</th><td><a href="tel:@Model.Phone">@Model.Phone</a></td></tr>
+                @if (!string.IsNullOrEmpty(Model.Email))
+                {
+                    <tr><th>Email</th><td><a href="mailto:@Model.Email">@Model.Email</a></td></tr>
+                }
+                <tr>
+                    <th>Тип</th>
+                    <td>
+                        @switch (Model.LeadType)
+                        {
+                            case AutoSalon.Models.LeadType.Call:
+                                <span>📞 Звонок</span>
+                                break;
+                            case AutoSalon.Models.LeadType.WhatsApp:
+                                <span>💬 WhatsApp</span>
+                                break;
+                            case AutoSalon.Models.LeadType.Credit:
+                                <span>🏦 Кредит</span>
+                                break;
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <th>Автомобиль</th>
+                    <td>
+                        @if (Model.Car != null)
+                        {
+                            <a href="/car/@Model.Car.Slug" target="_blank">@Model.Car.Brand @Model.Car.Model @Model.Car.Year</a>
+                        }
+                        else
+                        {
+                            <span class="text-muted">Не указан</span>
+                        }
+                    </td>
+                </tr>
+                <tr><th>Сообщение</th><td>@(Model.Message ?? "—")</td></tr>
+                <tr><th>IP</th><td class="text-muted small">@Model.IP</td></tr>
+                <tr><th>Дата</th><td>@Model.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</td></tr>
+                <tr>
+                    <th>Статус</th>
+                    <td>
+                        @if (Model.Status == AutoSalon.Models.LeadStatus.New)
+                        {
+                            <span class="badge badge-new-lead">🆕 Новая</span>
+                        }
+                        else if (Model.Status == AutoSalon.Models.LeadStatus.InProgress)
+                        {
+                            <span class="badge bg-warning text-dark">⏳ В работе</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">✅ Закрыта</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <th>Уведомление</th>
+                    <td>
+                        @if (Model.NotifyFailed)
+                        {
+                            <span class="badge badge-fail">⚠️ Не отправлено</span>
+                        }
+                        else
+                        {
+                            <span class="badge" style="background:rgba(34,197,94,0.15);color:#4ade80">✅ Доставлено</span>
+                        }
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <!-- Изменить статус -->
+        <div class="card border-0 shadow-sm p-4 mb-3">
+            <h5 class="fw-bold mb-3">🔄 Статус заявки</h5>
+            <form method="post" action="/admin/leads/@Model.Id/status">
+                <div class="d-flex gap-2">
+                    <select name="status" class="form-select">
+                        @if (Model.Status == AutoSalon.Models.LeadStatus.New)
+                        {
+                            <option value="0" selected>🆕 Новая</option>
+                            <option value="1">⏳ В работе</option>
+                            <option value="2">✅ Закрыта</option>
+                        }
+                        else if (Model.Status == AutoSalon.Models.LeadStatus.InProgress)
+                        {
+                            <option value="0">🆕 Новая</option>
+                            <option value="1" selected>⏳ В работе</option>
+                            <option value="2">✅ Закрыта</option>
+                        }
+                        else
+                        {
+                            <option value="0">🆕 Новая</option>
+                            <option value="1">⏳ В работе</option>
+                            <option value="2" selected>✅ Закрыта</option>
+                        }
+                    </select>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Комментарий менеджера -->
+        <div class="card border-0 shadow-sm p-4 mb-3">
+            <h5 class="fw-bold mb-3">📝 Комментарий менеджера</h5>
+            <form method="post" action="/admin/leads/@Model.Id/note">
+                <textarea name="note" class="form-control mb-2" rows="4" placeholder="Заметки по заявке...">@Model.AdminNote</textarea>
+                <button type="submit" class="btn btn-outline-primary w-100">💾 Сохранить комментарий</button>
+            </form>
+        </div>
+
+        <!-- Действия -->
+        <div class="card border-0 shadow-sm p-4">
+            <h5 class="fw-bold mb-3">⚡ Действия</h5>
+            <a href="tel:@Model.Phone" class="btn btn-success w-100 mb-2">📞 Позвонить клиенту</a>
+            @if (!string.IsNullOrEmpty(Model.Phone))
+            {
+                var whatsapp = Model.Phone.Replace("+", "").Replace(" ", "").Replace("-", "");
+                <a href="https://wa.me/@whatsapp" target="_blank" class="btn btn-outline-success w-100 mb-2">💬 WhatsApp</a>
+            }
+            @if (Model.Car != null)
+            {
+                <a href="/car/@Model.Car.Slug" target="_blank" class="btn btn-outline-primary w-100 mb-2">🔗 Открыть авто</a>
+            }
+            <a href="/admin/leads" class="btn btn-outline-secondary w-100">← К списку</a>
+        </div>
+    </div>
+</div>

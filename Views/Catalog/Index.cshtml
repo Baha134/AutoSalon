@@ -28,417 +28,12 @@
     ViewData["Description"] = L["Catalog_Title"] + ". " + Model.TotalCount + " авто.";
 }
 
-<style>
-    :root {
-        --gold: #F5A623;
-        --gold-dark: #D4861A;
-        --dark: #0d0d0d;
-        --dark2: #141414;
-        --dark3: #1c1c1c;
-        --dark4: #222222;
-        --text: #ffffff;
-        --muted: rgba(255,255,255,0.5);
-        --border: rgba(255,255,255,0.07);
-        --radius: 14px;
-    }
-
-    body { background: var(--dark) !important; color: var(--text) !important; }
-
-    /* ── BREADCRUMB ── */
-    .catalog-breadcrumb {
-        max-width: 1280px;
-        margin: 0 auto;
-        padding: 16px 32px 0;
-    }
-    .breadcrumb { background: none; padding: 0; margin: 0; }
-    .breadcrumb-item a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 13px; transition: color .2s; }
-    .breadcrumb-item a:hover { color: #F5A623; }
-    .breadcrumb-item.active { color: rgba(255,255,255,0.4); font-size: 13px; }
-    .breadcrumb-item + .breadcrumb-item::before { color: rgba(255,255,255,0.2); }
-
-    /* ── SEARCH BAR ── */
-    .catalog-search-wrap {
-        background: var(--dark2);
-        border-bottom: 1px solid var(--border);
-        padding: 20px 0;
-    }
-    .catalog-search-inner {
-        max-width: 1280px;
-        margin: 0 auto;
-        padding: 0 32px;
-        display: flex;
-        gap: 12px;
-        align-items: center;
-    }
-    .catalog-search-input {
-        flex: 1;
-        background: var(--dark3) !important;
-        border: 1px solid var(--border) !important;
-        color: var(--text) !important;
-        border-radius: 50px !important;
-        padding: 12px 22px !important;
-        font-size: 14px;
-        outline: none;
-        transition: border-color .2s;
-    }
-    .catalog-search-input::placeholder { color: var(--muted); }
-    .catalog-search-input:focus { border-color: rgba(245,166,35,0.5) !important; box-shadow: none !important; }
-    .catalog-search-btn {
-        background: var(--gold);
-        color: #000;
-        border: none;
-        border-radius: 50px;
-        padding: 12px 28px;
-        font-weight: 700;
-        font-size: 14px;
-        cursor: pointer;
-        transition: background .2s;
-        white-space: nowrap;
-    }
-    .catalog-search-btn:hover { background: var(--gold-dark); }
-    .catalog-reset-btn {
-        background: transparent;
-        border: 1px solid var(--border);
-        color: var(--muted);
-        border-radius: 50px;
-        padding: 12px 20px;
-        font-size: 14px;
-        text-decoration: none;
-        transition: border-color .2s, color .2s;
-        white-space: nowrap;
-    }
-    .catalog-reset-btn:hover { border-color: rgba(255,255,255,0.3); color: var(--text); }
-
-    /* ── LAYOUT ── */
-    .catalog-page {
-        max-width: 1280px;
-        margin: 0 auto;
-        padding: 32px 32px 80px;
-        display: grid;
-        grid-template-columns: 260px 1fr;
-        gap: 32px;
-        align-items: start;
-    }
-
-    /* ── SIDEBAR ── */
-    .sidebar {
-        background: var(--dark2);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        padding: 24px;
-        position: sticky;
-        top: 90px;
-    }
-    .sidebar-title {
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: .12em;
-        text-transform: uppercase;
-        color: var(--gold);
-        margin-bottom: 20px;
-    }
-    .filter-group { margin-bottom: 20px; }
-    .filter-label {
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: .1em;
-        text-transform: uppercase;
-        color: var(--muted);
-        margin-bottom: 8px;
-    }
-    .filter-select, .filter-input {
-        width: 100%;
-        background: var(--dark3) !important;
-        border: 1px solid var(--border) !important;
-        color: var(--text) !important;
-        border-radius: 8px;
-        padding: 9px 12px;
-        font-size: 13px;
-        outline: none;
-        transition: border-color .2s;
-        appearance: none;
-        -webkit-appearance: none;
-    }
-    .filter-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.4)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center !important; padding-right: 32px !important; }
-    .filter-select:focus, .filter-input:focus { border-color: rgba(245,166,35,0.4) !important; box-shadow: none !important; }
-    .filter-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .filter-apply {
-        width: 100%;
-        background: var(--gold);
-        color: #000;
-        border: none;
-        border-radius: 8px;
-        padding: 11px;
-        font-weight: 700;
-        font-size: 13px;
-        cursor: pointer;
-        margin-top: 4px;
-        transition: background .2s;
-    }
-    .filter-apply:hover { background: var(--gold-dark); }
-    .filter-reset-link {
-        display: block;
-        text-align: center;
-        margin-top: 10px;
-        font-size: 12px;
-        color: var(--muted);
-        text-decoration: none;
-        transition: color .2s;
-    }
-    .filter-reset-link:hover { color: var(--text); }
-
-    /* ── CATALOG MAIN ── */
-    .catalog-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 24px;
-    }
-    .catalog-total {
-        font-size: 14px;
-        color: var(--muted);
-    }
-    .catalog-total strong { color: var(--text); font-size: 18px; margin-right: 6px; }
-    .sort-select {
-        background: var(--dark2) !important;
-        border: 1px solid var(--border) !important;
-        color: var(--text) !important;
-        border-radius: 8px;
-        padding: 8px 32px 8px 14px;
-        font-size: 13px;
-        outline: none;
-        appearance: none;
-        -webkit-appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.4)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 10px center !important;
-        cursor: pointer;
-    }
-
-    /* ── CAR GRID ── */
-    .car-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 20px;
-    }
-
-    /* ── CAR CARD ── */
-    .car-card {
-        background: var(--dark2);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        overflow: hidden;
-        transition: transform .25s, box-shadow .25s, border-color .25s;
-        display: flex;
-        flex-direction: column;
-    }
-    .car-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        border-color: rgba(245,166,35,0.25);
-    }
-    .car-card-img-link { display: block; }
-    .car-card-img {
-        position: relative;
-        aspect-ratio: 16/10;
-        overflow: hidden;
-        background: var(--dark3);
-    }
-    .car-card-img img {
-        width: 100%; height: 100%;
-        object-fit: cover;
-        transition: transform .4s ease;
-    }
-    .car-card:hover .car-card-img img { transform: scale(1.04); }
-    .no-photo {
-        width: 100%; height: 100%;
-        display: flex; align-items: center; justify-content: center;
-        color: var(--muted); font-size: 13px;
-    }
-    .status-badge {
-        position: absolute; top: 12px; left: 12px;
-        padding: 4px 12px; border-radius: 50px;
-        font-size: 11px; font-weight: 700; letter-spacing: .05em;
-    }
-    .status-sold { background: rgba(239,68,68,0.9); color: #fff; }
-    .status-reserved { background: rgba(245,158,11,0.9); color: #000; }
-    .fav-btn {
-        position: absolute; top: 10px; right: 10px;
-        width: 34px; height: 34px;
-        background: rgba(0,0,0,0.5); backdrop-filter: blur(6px);
-        border: 1px solid rgba(255,255,255,0.15);
-        border-radius: 50%; color: #fff; font-size: 16px;
-        display: flex; align-items: center; justify-content: center;
-        cursor: pointer; transition: background .2s, border-color .2s;
-    }
-    .fav-btn:hover { background: rgba(245,166,35,0.3); border-color: var(--gold); }
-    .compare-btn {
-        position: absolute; bottom: 10px; right: 10px;
-        background: rgba(0,0,0,0.55); backdrop-filter: blur(6px);
-        border: 1px solid rgba(255,255,255,0.15);
-        color: rgba(255,255,255,0.8); font-size: 11px; font-weight: 600;
-        padding: 5px 12px; border-radius: 50px;
-        cursor: pointer; transition: background .2s;
-    }
-    .compare-btn:hover { background: rgba(245,166,35,0.25); border-color: rgba(245,166,35,0.4); color: #fff; }
-
-    .car-card-body { padding: 16px; flex: 1; display: flex; flex-direction: column; }
-    .car-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
-    .car-badge {
-        font-size: 10px; font-weight: 700; letter-spacing: .06em;
-        padding: 3px 9px; border-radius: 50px;
-    }
-    .badge-verified { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
-    .badge-warranty { background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); }
-    .badge-exchange { background: rgba(168,85,247,0.15); color: #c084fc; border: 1px solid rgba(168,85,247,0.3); }
-
-    .car-card-title {
-        font-size: 16px; font-weight: 700;
-        color: var(--text) !important;
-        text-decoration: none !important;
-        margin-bottom: 6px;
-        line-height: 1.3;
-        transition: color .2s;
-    }
-    .car-card-title:hover { color: var(--gold) !important; }
-    .car-card-price {
-        font-size: 20px; font-weight: 800;
-        color: var(--gold); margin-bottom: 10px;
-    }
-    .car-card-specs {
-        display: flex; flex-wrap: wrap; gap: 6px;
-        margin-bottom: 14px; flex: 1;
-    }
-    .car-card-specs span {
-        font-size: 11px; color: var(--muted);
-        background: var(--dark3);
-        border: 1px solid var(--border);
-        border-radius: 6px; padding: 3px 9px;
-    }
-    .car-card-footer { margin-top: auto; }
-    .btn-card-detail {
-        display: block; width: 100%;
-        background: rgba(245,166,35,0.1);
-        border: 1px solid rgba(245,166,35,0.3);
-        color: var(--gold);
-        text-align: center; text-decoration: none;
-        border-radius: 8px; padding: 10px;
-        font-size: 13px; font-weight: 700;
-        transition: background .2s, border-color .2s;
-    }
-    .btn-card-detail:hover { background: var(--gold); color: #000; border-color: var(--gold); }
-    .btn-card-reserved {
-        display: block; width: 100%;
-        background: transparent;
-        border: 1px solid rgba(245,158,11,0.4);
-        color: #fbbf24;
-        text-align: center; text-decoration: none;
-        border-radius: 8px; padding: 10px;
-        font-size: 13px; font-weight: 700;
-    }
-    .btn-card-sold {
-        display: block; width: 100%;
-        background: transparent;
-        border: 1px solid var(--border);
-        color: var(--muted);
-        text-align: center;
-        border-radius: 8px; padding: 10px;
-        font-size: 13px; font-weight: 600;
-        pointer-events: none;
-    }
-
-    /* ── PAGINATION ── */
-    .pagination { gap: 6px; }
-    .page-link {
-        background: var(--dark2) !important;
-        border: 1px solid var(--border) !important;
-        color: var(--muted) !important;
-        border-radius: 8px !important;
-        padding: 8px 14px !important;
-        transition: border-color .2s, color .2s !important;
-    }
-    .page-link:hover { border-color: rgba(245,166,35,0.4) !important; color: var(--gold) !important; }
-    .page-item.active .page-link {
-        background: var(--gold) !important;
-        border-color: var(--gold) !important;
-        color: #000 !important;
-        font-weight: 700 !important;
-    }
-
-    /* ── EMPTY STATE ── */
-    .empty-state {
-        text-align: center; padding: 80px 24px;
-        color: var(--muted);
-    }
-    .empty-state .empty-icon { font-size: 64px; margin-bottom: 20px; }
-    .empty-state h3 { color: var(--text); margin-bottom: 10px; }
-
-    /* ── MOBILE DRAWER BTN ── */
-    .drawer-open-btn {
-        background: var(--dark2);
-        border: 1px solid var(--border);
-        color: var(--text);
-        border-radius: 8px;
-        padding: 10px 20px;
-        font-size: 14px;
-        width: 100%;
-        cursor: pointer;
-        margin-bottom: 16px;
-        display: none;
-    }
-
-    /* ── MOBILE DRAWER ── */
-    .filters-drawer { display: none; }
-    .filters-drawer.open { display: block; }
-    .drawer-backdrop {
-        position: fixed; inset: 0;
-        background: rgba(0,0,0,0.7);
-        z-index: 200;
-    }
-    .drawer-panel {
-        position: fixed; bottom: 0; left: 0; right: 0;
-        background: var(--dark2);
-        border-top: 1px solid var(--border);
-        border-radius: 20px 20px 0 0;
-        z-index: 201;
-        padding: 20px 24px 40px;
-        max-height: 85vh;
-        overflow-y: auto;
-    }
-    .drawer-handle {
-        width: 40px; height: 4px;
-        background: var(--border);
-        border-radius: 2px;
-        margin: 0 auto 16px;
-    }
-    .drawer-close-btn {
-        background: var(--dark3);
-        border: 1px solid var(--border);
-        color: var(--muted);
-        border-radius: 6px;
-        padding: 4px 10px;
-        cursor: pointer;
-    }
-
-    @@media (max-width: 991px) {
-        .catalog-page { grid-template-columns: 1fr; }
-        .sidebar { display: none; }
-        .drawer-open-btn { display: block; }
-        .filters-drawer { display: block; visibility: hidden; pointer-events: none; }
-        .filters-drawer.open { visibility: visible; pointer-events: auto; }
-    }
-    @@media (max-width: 600px) {
-        .catalog-page { padding: 16px 16px 60px; }
-        .catalog-search-inner { padding: 0 16px; }
-        .car-grid { grid-template-columns: 1fr; }
-        .catalog-breadcrumb { padding: 12px 16px 0; }
-    }
-</style>
-
 <!-- Хлебные крошки -->
-<div class="catalog-breadcrumb">
+<div class="container" style="margin-top: 88px; margin-bottom: 0;">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Главная</a></li>
-            <li class="breadcrumb-item active">
+            <li class="breadcrumb-item active" aria-current="page">
                 @L["Catalog_Title"]
                 @if (!string.IsNullOrEmpty(Model.Filter.Brand))
                 {
@@ -451,26 +46,29 @@
 
 <!-- Search bar -->
 <div class="catalog-search-wrap">
-    <form method="get" action="/catalog" class="catalog-search-inner">
-        <input type="text" name="Search" value="@Model.Filter.Search"
-               class="catalog-search-input" placeholder="@L["Catalog_Search_Placeholder"]"
-               autocomplete="off" maxlength="100" />
-        <button type="submit" class="catalog-search-btn">@L["Catalog_Search_Button"]</button>
-        @if (Model.Filter.HasActiveFilters)
-        {
-            <a href="/catalog" class="catalog-reset-btn">@L["Catalog_Reset"]</a>
-        }
-    </form>
+    <div class="container">
+        <form method="get" action="/catalog" class="catalog-search-inner">
+            <input type="text" name="Search" value="@Model.Filter.Search"
+                   class="catalog-search-input" placeholder="@L["Catalog_Search_Placeholder"]"
+                   autocomplete="off" maxlength="100" />
+            <button type="submit" class="catalog-search-btn">@L["Catalog_Search_Button"]</button>
+            @if (Model.Filter.HasActiveFilters)
+            {
+                <a href="/catalog" class="catalog-reset-btn">@L["Catalog_Reset"]</a>
+            }
+        </form>
+    </div>
 </div>
 
-<div class="catalog-page">
+<div class="container catalog-page">
 
-    <!-- Sidebar -->
-    <aside class="sidebar d-none d-lg-block">
-        <div class="sidebar-title">@L["Catalog_Filters"]</div>
-        <form method="get" action="/catalog">
+    <!-- Sidebar (desktop) -->
+    <aside class="sidebar">
+        <div class="sidebar-title">⚙️ @L["Catalog_Filters"]</div>
+        <form method="get" action="/catalog" id="filter-form">
+            <!-- Brand -->
             <div class="filter-group">
-                <div class="filter-label">@L["Catalog_Brand"]</div>
+                <label class="filter-label">@L["Catalog_Brand"]</label>
                 <select name="Brand" class="filter-select" onchange="this.form.submit()">
                     <option value="">@L["Catalog_AllBrands"]</option>
                     @foreach (var b in Model.Brands)
@@ -479,17 +77,19 @@
                     }
                 </select>
             </div>
+            <!-- Price range -->
             <div class="filter-group">
-                <div class="filter-label">@L["Catalog_Price"]</div>
+                <label class="filter-label">@L["Catalog_Price"]</label>
                 <div class="filter-row">
                     <input type="number" name="PriceMin" value="@Model.Filter.PriceMin"
-                           placeholder="@L["Catalog_From"]" class="filter-input" min="0" />
+                           placeholder="@L["Catalog_From"]" class="filter-input" min="0" step="100000" />
                     <input type="number" name="PriceMax" value="@Model.Filter.PriceMax"
-                           placeholder="@L["Catalog_To"]" class="filter-input" min="0" />
+                           placeholder="@L["Catalog_To"]" class="filter-input" min="0" step="100000" />
                 </div>
             </div>
+            <!-- Year -->
             <div class="filter-group">
-                <div class="filter-label">@L["Catalog_Year"]</div>
+                <label class="filter-label">@L["Catalog_Year"]</label>
                 <div class="filter-row">
                     <input type="number" name="YearMin" value="@Model.Filter.YearMin"
                            placeholder="@L["Catalog_From"]" class="filter-input" min="1990" max="@DateTime.Now.Year" />
@@ -497,8 +97,9 @@
                            placeholder="@L["Catalog_To"]" class="filter-input" min="1990" max="@DateTime.Now.Year" />
                 </div>
             </div>
+            <!-- Body type -->
             <div class="filter-group">
-                <div class="filter-label">@L["Catalog_Body"]</div>
+                <label class="filter-label">@L["Catalog_Body"]</label>
                 <select name="BodyType" class="filter-select">
                     <option value="">@L["Catalog_All"]</option>
                     @if (Model.BodyTypes != null)
@@ -510,8 +111,9 @@
                     }
                 </select>
             </div>
+            <!-- Transmission -->
             <div class="filter-group">
-                <div class="filter-label">@L["Catalog_Transmission"]</div>
+                <label class="filter-label">@L["Catalog_Transmission"]</label>
                 <select name="Transmission" class="filter-select">
                     <option value="">@L["Catalog_All"]</option>
                     <option value="Автомат" selected="@(Model.Filter.Transmission == "Автомат" ? "selected" : null)">Автомат</option>
@@ -520,8 +122,9 @@
                     <option value="Робот" selected="@(Model.Filter.Transmission == "Робот" ? "selected" : null)">Робот</option>
                 </select>
             </div>
+            <!-- Fuel -->
             <div class="filter-group">
-                <div class="filter-label">@L["Catalog_Fuel"]</div>
+                <label class="filter-label">@L["Catalog_Fuel"]</label>
                 <select name="FuelType" class="filter-select">
                     <option value="">@L["Catalog_All"]</option>
                     <option value="Бензин" selected="@(Model.Filter.FuelType == "Бензин" ? "selected" : null)">Бензин</option>
@@ -539,9 +142,10 @@
         </form>
     </aside>
 
-    <!-- Main -->
+    <!-- Main content -->
     <div class="catalog-main">
-        <button class="drawer-open-btn d-lg-none" id="drawer-open-btn">⚙ @L["Catalog_Filters"]</button>
+        <!-- Кнопка для открытия фильтров на мобилке (drawer) -->
+        <button class="drawer-open-btn" id="drawer-open-btn">⚙️ @L["Catalog_Filters"]</button>
 
         <div class="catalog-header">
             <div class="catalog-total">
@@ -552,15 +156,42 @@
                 }
             </div>
             <form method="get" action="/catalog" id="sort-form">
-                @if (!string.IsNullOrEmpty(Model.Filter.Brand)) { <input type="hidden" name="Brand" value="@Model.Filter.Brand" /> }
-                @if (!string.IsNullOrEmpty(Model.Filter.BodyType)) { <input type="hidden" name="BodyType" value="@Model.Filter.BodyType" /> }
-                @if (!string.IsNullOrEmpty(Model.Filter.Transmission)) { <input type="hidden" name="Transmission" value="@Model.Filter.Transmission" /> }
-                @if (!string.IsNullOrEmpty(Model.Filter.FuelType)) { <input type="hidden" name="FuelType" value="@Model.Filter.FuelType" /> }
-                @if (!string.IsNullOrEmpty(Model.Filter.Search)) { <input type="hidden" name="Search" value="@Model.Filter.Search" /> }
-                @if (Model.Filter.PriceMin.HasValue) { <input type="hidden" name="PriceMin" value="@Model.Filter.PriceMin" /> }
-                @if (Model.Filter.PriceMax.HasValue) { <input type="hidden" name="PriceMax" value="@Model.Filter.PriceMax" /> }
-                @if (Model.Filter.YearMin.HasValue) { <input type="hidden" name="YearMin" value="@Model.Filter.YearMin" /> }
-                @if (Model.Filter.YearMax.HasValue) { <input type="hidden" name="YearMax" value="@Model.Filter.YearMax" /> }
+                @if (!string.IsNullOrEmpty(Model.Filter.Brand))
+                {
+                    <input type="hidden" name="Brand" value="@Model.Filter.Brand" />
+                }
+                @if (!string.IsNullOrEmpty(Model.Filter.BodyType))
+                {
+                    <input type="hidden" name="BodyType" value="@Model.Filter.BodyType" />
+                }
+                @if (!string.IsNullOrEmpty(Model.Filter.Transmission))
+                {
+                    <input type="hidden" name="Transmission" value="@Model.Filter.Transmission" />
+                }
+                @if (!string.IsNullOrEmpty(Model.Filter.FuelType))
+                {
+                    <input type="hidden" name="FuelType" value="@Model.Filter.FuelType" />
+                }
+                @if (!string.IsNullOrEmpty(Model.Filter.Search))
+                {
+                    <input type="hidden" name="Search" value="@Model.Filter.Search" />
+                }
+                @if (Model.Filter.PriceMin.HasValue)
+                {
+                    <input type="hidden" name="PriceMin" value="@Model.Filter.PriceMin" />
+                }
+                @if (Model.Filter.PriceMax.HasValue)
+                {
+                    <input type="hidden" name="PriceMax" value="@Model.Filter.PriceMax" />
+                }
+                @if (Model.Filter.YearMin.HasValue)
+                {
+                    <input type="hidden" name="YearMin" value="@Model.Filter.YearMin" />
+                }
+                @if (Model.Filter.YearMax.HasValue)
+                {
+                    <input type="hidden" name="YearMax" value="@Model.Filter.YearMax" />
+                }
                 <select name="Sort" class="sort-select" onchange="document.getElementById('sort-form').submit()">
                     <option value="new" selected="@(Model.Filter.Sort == "new" ? "selected" : null)">@L["Catalog_Sort_New"]</option>
                     <option value="price_asc" selected="@(Model.Filter.Sort == "price_asc" ? "selected" : null)">@L["Catalog_Sort_PriceAsc"]</option>
@@ -572,7 +203,7 @@
 
         @if (Model.Cars.Any())
         {
-            <div class="car-grid" id="catalog-grid">
+            <div class="car-grid">
                 @foreach (var car in Model.Cars)
                 {
                     <partial name="_CarCard" model="car" />
@@ -581,8 +212,8 @@
 
             @if (Model.TotalPages > 1)
             {
-                <nav class="mt-4" aria-label="Страницы каталога">
-                    <ul class="pagination justify-content-center flex-wrap">
+                <nav aria-label="Catalog pagination">
+                    <ul class="pagination">
                         @if (Model.Filter.Page > 1)
                         {
                             <li class="page-item">
@@ -593,8 +224,15 @@
                         {
                             var isActive = p == Model.Filter.Page;
                             <li class="page-item @(isActive ? "active" : "")">
-                                @if (isActive) { <span class="page-link">@p</span> }
-                                else { <a class="page-link" href="@PageUrl(Model.Filter, p)">@p</a> }
+                                @if (isActive)
+                                {
+                                    <span class="page-link">@p</span>
+                                }
+                                else
+                                {
+
+                                    <a class="page-link" href="@PageUrl(Model.Filter, p)">@p</a>
+                                }
                             </li>
                         }
                         @if (Model.Filter.Page < Model.TotalPages)
@@ -615,15 +253,18 @@
                 @if (Model.Filter.HasActiveFilters)
                 {
                     <p>@L["Catalog_Empty_Filter"]</p>
-                    <a href="/catalog" class="btn btn-primary mt-2">@L["Catalog_ResetFilters"]</a>
+                    <a href="/catalog" class="btn-gold" style="display: inline-block; margin-top: 16px;">@L["Catalog_ResetFilters"]</a>
                 }
-                else { <p>@L["Catalog_Empty_Soon"]</p> }
+                else
+                {
+                    <p>@L["Catalog_Empty_Soon"]</p>
+                }
             </div>
         }
     </div>
 </div>
 
-<!-- Mobile Drawer -->
+<!-- Mobile Drawer (filters) – сохранены классы для sticky-cta.js -->
 <div class="filters-drawer" id="filters-drawer">
     <div class="drawer-backdrop" id="drawer-backdrop"></div>
     <div class="drawer-panel">
@@ -634,7 +275,7 @@
         </div>
         <form method="get" action="/catalog">
             <div class="filter-group">
-                <div class="filter-label">@L["Catalog_Brand"]</div>
+                <label class="filter-label">@L["Catalog_Brand"]</label>
                 <select name="Brand" class="filter-select">
                     <option value="">@L["Catalog_AllBrands"]</option>
                     @foreach (var b in Model.Brands)
@@ -644,27 +285,24 @@
                 </select>
             </div>
             <div class="filter-group">
-                <div class="filter-label">@L["Catalog_Price"]</div>
+                <label class="filter-label">@L["Catalog_Price"]</label>
                 <div class="filter-row">
-                    <input type="number" name="PriceMin" value="@Model.Filter.PriceMin" placeholder="@L["Catalog_From"]" class="filter-input" min="0" />
-                    <input type="number" name="PriceMax" value="@Model.Filter.PriceMax" placeholder="@L["Catalog_To"]" class="filter-input" min="0" />
+                    <input type="number" name="PriceMin" value="@Model.Filter.PriceMin" placeholder="@L["Catalog_From"]" class="filter-input" min="0" step="100000" />
+                    <input type="number" name="PriceMax" value="@Model.Filter.PriceMax" placeholder="@L["Catalog_To"]" class="filter-input" min="0" step="100000" />
                 </div>
             </div>
             <div class="filter-group">
-                <div class="filter-label">@L["Catalog_Body"]</div>
+                <label class="filter-label">@L["Catalog_Body"]</label>
                 <select name="BodyType" class="filter-select">
                     <option value="">@L["Catalog_All"]</option>
-                    <option value="Седан" selected="@(Model.Filter.BodyType == "Седан" ? "selected" : null)">Седан</option>
-                    <option value="Кроссовер" selected="@(Model.Filter.BodyType == "Кроссовер" ? "selected" : null)">Кроссовер</option>
-                    <option value="Внедорожник" selected="@(Model.Filter.BodyType == "Внедорожник" ? "selected" : null)">Внедорожник</option>
-                    <option value="Хэтчбек" selected="@(Model.Filter.BodyType == "Хэтчбек" ? "selected" : null)">Хэтчбек</option>
-                    <option value="Минивэн" selected="@(Model.Filter.BodyType == "Минивэн" ? "selected" : null)">Минивэн</option>
-                    <option value="Купе" selected="@(Model.Filter.BodyType == "Купе" ? "selected" : null)">Купе</option>
-                    <option value="Пикап" selected="@(Model.Filter.BodyType == "Пикап" ? "selected" : null)">Пикап</option>
+                    @foreach (var bt in Model.BodyTypes)
+                    {
+                        <option value="@bt" selected="@(Model.Filter.BodyType == bt ? "selected" : null)">@bt</option>
+                    }
                 </select>
             </div>
             <div class="filter-group">
-                <div class="filter-label">@L["Catalog_Transmission"]</div>
+                <label class="filter-label">@L["Catalog_Transmission"]</label>
                 <select name="Transmission" class="filter-select">
                     <option value="">@L["Catalog_All"]</option>
                     <option value="Автомат" selected="@(Model.Filter.Transmission == "Автомат" ? "selected" : null)">Автомат</option>
@@ -673,28 +311,41 @@
                     <option value="Робот" selected="@(Model.Filter.Transmission == "Робот" ? "selected" : null)">Робот</option>
                 </select>
             </div>
+            <div class="filter-group">
+                <label class="filter-label">@L["Catalog_Fuel"]</label>
+                <select name="FuelType" class="filter-select">
+                    <option value="">@L["Catalog_All"]</option>
+                    <option value="Бензин" selected="@(Model.Filter.FuelType == "Бензин" ? "selected" : null)">Бензин</option>
+                    <option value="Дизель" selected="@(Model.Filter.FuelType == "Дизель" ? "selected" : null)">Дизель</option>
+                    <option value="Гибрид" selected="@(Model.Filter.FuelType == "Гибрид" ? "selected" : null)">Гибрид</option>
+                    <option value="Электро" selected="@(Model.Filter.FuelType == "Электро" ? "selected" : null)">Электро</option>
+                </select>
+            </div>
             <input type="hidden" name="Page" value="1" />
             <button type="submit" class="filter-apply">@L["Catalog_Apply"]</button>
             @if (Model.Filter.HasActiveFilters)
             {
-                <a href="/catalog" class="filter-reset-link mt-2">@L["Catalog_Reset"]</a>
+                <a href="/catalog" class="filter-reset-link mt-2 d-block text-center">@L["Catalog_Reset"]</a>
             }
         </form>
     </div>
 </div>
 
 @section Scripts {
-<script>
-    (function () {
-        var openBtn = document.getElementById('drawer-open-btn');
-        var closeBtn = document.getElementById('drawer-close-btn');
-        var backdrop = document.getElementById('drawer-backdrop');
-        var drawer = document.getElementById('filters-drawer');
-        function open() { drawer.classList.add('open'); document.body.style.overflow = 'hidden'; }
-        function close() { drawer.classList.remove('open'); document.body.style.overflow = ''; }
-        if (openBtn) openBtn.addEventListener('click', open);
-        if (closeBtn) closeBtn.addEventListener('click', close);
-        if (backdrop) backdrop.addEventListener('click', close);
-    })();
-</script>
+    <script>
+        // Управление мобильным drawer'ом (сохранены классы .filters-drawer, .drawer-backdrop и т.д.)
+        (function() {
+            var openBtn = document.getElementById('drawer-open-btn');
+            var drawer = document.getElementById('filters-drawer');
+            var backdrop = document.getElementById('drawer-backdrop');
+            var closeBtn = document.getElementById('drawer-close-btn');
+
+            function openDrawer() { if (drawer) drawer.classList.add('open'); document.body.style.overflow = 'hidden'; }
+            function closeDrawer() { if (drawer) drawer.classList.remove('open'); document.body.style.overflow = ''; }
+
+            if (openBtn) openBtn.addEventListener('click', openDrawer);
+            if (backdrop) backdrop.addEventListener('click', closeDrawer);
+            if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+        })();
+    </script>
 }
